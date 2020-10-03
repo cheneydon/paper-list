@@ -5,10 +5,10 @@ Record the papers I have read so far.
 
 
 ## Pretrained Language Models & Transformers
-1. (Transformer) Attention Is All You Need, NeurIPS 2017. [[Paper](https://arxiv.org/pdf/1706.03762.pdf)] [[Notes](https://cheneydonc.cn/Transformer.html)]
-2. (ELMo) Deep Contextualized Word Representations, NAACL 2018. [[Paper](https://arxiv.org/pdf/1802.05365.pdf)] [[Notes](https://cheneydonc.cn/A-Review-of-Pretraining-General-Language-Representations.html)]
-3. (GPT) Improving Language Understanding by Generative Pre-Training, OpenAI Tech Report 2018. [[Paper](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)] [[Notes](https://cheneydonc.cn/A-Review-of-Pretraining-General-Language-Representations.html)]
-4. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding, NAACL 2019. [[Paper](https://arxiv.org/pdf/1810.04805.pdf)] [[Notes](https://cheneydonc.cn/A-Review-of-Pretraining-General-Language-Representations.html)]
+1. (Transformer) Attention Is All You Need, NeurIPS 2017. [[Paper](https://arxiv.org/pdf/1706.03762.pdf)]
+2. (ELMo) Deep Contextualized Word Representations, NAACL 2018. [[Paper](https://arxiv.org/pdf/1802.05365.pdf)]
+3. (GPT) Improving Language Understanding by Generative Pre-Training, OpenAI Tech Report 2018. [[Paper](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)]
+4. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding, NAACL 2019. [[Paper](https://arxiv.org/pdf/1810.04805.pdf)]
 5. RoBERTa: A Robustly Optimized BERT Pretraining Approach, arXiv 2019. [[Paper](https://arxiv.org/pdf/1907.11692.pdf)]
 6. Context-Aware Representations for Knowledge Base Relation Extraction, EMNLP 2017. [[Paper](https://www.aclweb.org/anthology/D17-1188.pdf)]  
 7. Language Models as Knowledge Bases?, EMNLP 2019. [[Paper](https://arxiv.org/pdf/1909.01066.pdf)]
@@ -63,20 +63,20 @@ Record the papers I have read so far.
 56. AMBERT: A Pre-trained Language Model with Multi-Grained Tokenization, arXiv 2020. [[Paper](https://arxiv.org/pdf/2008.11869.pdf)]
 
 
-## AutoML & Dynamic Network & Self-Supervised Learning
+## AutoML & Dynamic Networks & Self-Supervised Learning
 1. AutoML: A Survey of the State-of-the-Art, arXiv 2019. [[Paper](https://arxiv.org/pdf/1908.00709.pdf)]
-2. (ENAS) Efficient Neural Architecture Search via Parameter Sharing, ICML 2018. [[Paper](https://arxiv.org/pdf/1802.03268.pdf)] [[Notes](https://cheneydonc.cn/ENAS.html)]
+2. (ENAS) Efficient Neural Architecture Search via Parameter Sharing, ICML 2018. [[Paper](https://arxiv.org/pdf/1802.03268.pdf)]
 3. (NASNet) Learning Transferable Architectures for Scalable Image Recognition, CVPR 2018. [[Paper](https://arxiv.org/pdf/1707.07012.pdf)]
-4. DARTS: Differentiable Architecture Search, ICLR 2019. [[Paper](https://arxiv.org/pdf/1806.09055.pdf)] [[Notes](https://cheneydonc.cn/DARTS.html)]
-5. FBNet: Hardware-Aware Efficient ConvNet Design, CVPR 2019. [[Paper](https://arxiv.org/pdf/1812.03443.pdf)] [[Notes](https://cheneydonc.cn/FBNet.html)]
+4. DARTS: Differentiable Architecture Search, ICLR 2019. [[Paper](https://arxiv.org/pdf/1806.09055.pdf)]
+5. FBNet: Hardware-Aware Efficient ConvNet Design, CVPR 2019. [[Paper](https://arxiv.org/pdf/1812.03443.pdf)]
 6. SNAS: Stochastic Neural Architecture Search, ICLR 2019. [[Paper](https://arxiv.org/pdf/1812.09926.pdf)]
-7. (GeNet) Genetic CNN, ICCV 2017. [[Paper](https://arxiv.org/pdf/1703.01513.pdf)] [[Notes](https://cheneydonc.cn/GeNet.html)]
+7. (GeNet) Genetic CNN, ICCV 2017. [[Paper](https://arxiv.org/pdf/1703.01513.pdf)]
 8. (AmoebaNet) Regularized Evolution for Image Classifier Architecture Search, AAAI 2019. [[Paper](https://arxiv.org/pdf/1802.01548.pdf)]
-9. (PNAS) Progressive Neural Architecture Search, ECCV 2018. [[Paper](https://arxiv.org/pdf/1712.00559.pdf)] [[Notes](https://cheneydonc.cn/PNAS.html)]
+9. (PNAS) Progressive Neural Architecture Search, ECCV 2018. [[Paper](https://arxiv.org/pdf/1712.00559.pdf)]
 10. ProxylessNAS: Direct Neural Architecture Search on Target Task and Hardware, ICLR 2019. [[Paper](https://arxiv.org/pdf/1812.00332.pdf)]
 11. (One-Shot) Understanding and Simplifying One-Shot Architecture Search, ICML 2018. [[Paper](http://proceedings.mlr.press/v80/bender18a/bender18a.pdf)]
-12. (SPOS) Single Path One-Shot Neural Architecture Search with Uniform Sampling, arXiv 2019. [[Paper](https://arXiv.org/pdf/1904.00420.pdf)] [[Notes](https://cheneydonc.cn/Single-Path-One-Shot.html)]
-13. (NAO) Neural Architecture Optimization, NeurIPS 2018. [[Paper](https://arxiv.org/pdf/1808.07233.pdf)] [[Notes](https://cheneydonc.cn/NAO.html)]
+12. (SPOS) Single Path One-Shot Neural Architecture Search with Uniform Sampling, arXiv 2019. [[Paper](https://arXiv.org/pdf/1904.00420.pdf)]
+13. (NAO) Neural Architecture Optimization, NeurIPS 2018. [[Paper](https://arxiv.org/pdf/1808.07233.pdf)]
 14. EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks, ICML 2019. [[Paper](https://arxiv.org/pdf/1905.11946.pdf)]
 15. (PC-NAS) Improving One-Shot NAS by Suppressing the Posterior Fading, arXiv 2019. [[Paper](https://openreview.net/pdf?id=HJgJNCEKPr)]
 16. FairNAS: Rethinking Evaluation Fairness of Weight Sharing Neural Architecture Search, arXiv 2019. [[Paper](https://arxiv.org/pdf/1907.01845.pdf)]
