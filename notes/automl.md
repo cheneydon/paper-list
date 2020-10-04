@@ -87,19 +87,13 @@ $$
 
 $$
 \begin{array}{cl}
-&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_wL
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_{w} L_{train}
 \end{array}
 $$
 
 $$
 \begin{array}{cl}
-&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_w\ L
-\end{array}
-$$
-
-$$
-\begin{array}{cl}
-&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_w L
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_{w} L_{train}(w, \alpha)
 \end{array}
 $$
 
