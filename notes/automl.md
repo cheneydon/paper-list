@@ -85,6 +85,24 @@ $$
 \end{array}
 $$
 
+$$
+\begin{array}{cl}
+f
+\end{array}
+$$
+
+$$
+\begin{array}{cl}
+&\min_{\alpha}
+\end{array}
+$$
+
+$$
+\begin{array}{cl}
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)}
+\end{array}
+$$
+
 The iterative optimization procedure is outlined as below:
 
 ![](./images/automl/darts_optimization.jpg)
