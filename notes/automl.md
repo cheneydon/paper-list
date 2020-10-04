@@ -53,12 +53,12 @@ The controller architecture and prediction process for each node are shown below
 
 As for the training progress, there are two sets of learnable parameters: 1) the parameters of the controller LSTM, $\theta$, and 2) the parameters of the child models, $w$. **The first phase** trains $w$, we fix the controller's policy and perform stochastic gradient descent (SGD) on $w$ to minimize the expected loss function (cross-entropy loss). **The second phase** trains $\theta$, we fix $w$ and update the policy parameters $\theta$ to maximize the expected reward. The reward is computed on the validation set, and the reward function is the accuracy on a minibatch of validation images. These two phases alternated during the training progress.
 
----
-
 *Ref.*   
 *1. [Learning Transferable Architectures for Scalable Image Recognition, CVPR2018. (NASNet)](https://arxiv.org/pdf/1707.07012.pdf)*  
 *2. [An Introduction to different Types of Convolutions in Deep Learning.](https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d)*
 
+
+---
 
 
 # DARTS
@@ -116,11 +116,11 @@ $$
 
 In the experiment, the architecture $\alpha$ is optimized by Adam, and the weights $w$ are optimized by SGD.
 
----
-
 *Ref.*  
 *1. [https://github.com/quark0/darts.](https://github.com/quark0/darts)*
 
+
+---
 
 
 # FBNet
@@ -186,12 +186,12 @@ Some of the searched architectures are shown below:
 
 ![](./images/automl/fbnet_searched_architectures.jpg)
 
----
-
 *Ref:*  
 *1. [https://www.zhihu.com/question/62631725.](https://www.zhihu.com/question/62631725)*  
 *2. [https://github.com/JunrQ/NAS/tree/master/fbnet-pytorch.](https://github.com/JunrQ/NAS/tree/master/fbnet-pytorch)*
 
+
+---
 
 
 # GENet
@@ -299,12 +299,13 @@ for i in range(NUM_GEN):
     population.update_fitness(model.eval())
 
 ```
----
 
 *Ref:*  
 *1. [https://github.com/aqibsaeed/Genetic-CNN.](https://github.com/aqibsaeed/Genetic-CNN)*  
 *2. [https://github.com/DEAP.](https://github.com/DEAP/)*  
 
+
+---
 
 
 # PNAS
@@ -386,12 +387,12 @@ class Controller(tf.keras.Model):
         return inputs, operators
 ```
 
----
-
 *Ref.*  
 *1. [https://github.com/titu1994/progressive-neural-architecture-search.](https://github.com/titu1994/progressive-neural-architecture-search)*  
 *2. [https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/keras/layers/Embedding.](https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/keras/layers/Embedding)*
 
+
+---
 
 
 # SPOS
@@ -429,11 +430,11 @@ During the evolutionary search, each sampled architecture inherits its weights d
 
 Finally, the model with the highest accuracy architecture is retrained and evaluated to get its final performance.
 
----
-
 *Ref.*  
 *1. [https://zhuanlan.zhihu.com/p/72736786.](https://zhuanlan.zhihu.com/p/72736786)*  
 
+
+---
 
 
 # NAO
@@ -528,8 +529,6 @@ h^{\prime}_t = h_t + \eta \frac{\partial f}{\partial h_t}, \ h^{\prime} = \{ h^{
 $$
 
 where $\eta$ is the step size, and $f$ is a linear function that maps from the depth of encoder hidden states to 1 followed by a sigmoid function in MLP. Then the optimized hidden states are sent into the decoder to recover the optimized architectures. These new architectures can be part of the input for the next training step.
-
----
 
 *Ref.*  
 *1. [https://www.jianshu.com/p/043083d114d4.](https://www.jianshu.com/p/043083d114d4)*  

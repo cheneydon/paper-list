@@ -58,11 +58,12 @@ where $pos$ is the position and $i$ is the dimension.
 ## Decoder Side
 After finishing the encoding phase, we begin the decoding phase. The predicted output in each decoder time step is fed to the bottom decoder in the next time step. The above process repeat until a special predicted symbol is reached indicating the decoder has completed its output. 
 
----
 *Ref.*  
 *1. [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)*  
 *2. [The Annotated Transformer - Harvardnlp](http://nlp.seas.harvard.edu/2018/04/03/attention.html)*
 
+
+---
 
 
 # Pretrained Language Models
@@ -132,7 +133,10 @@ Traditionally, there are mainly two parts in a supervised end task model: the in
 
 To add ELMo to the supervised model, we first **freeze** the weights of the biLM, then concatenate the ELMo vector $\text{ELMo}\_{k}^{\text{task}}$ with $x_k$ as $[x_k; \text{ELMo}\_{k}^{\text {task}}]$ and pass it into the task RNN. We can also include ELMo at the output of the task RNN by replacing $h_k$ with $[h_k; \text{ELMo}\_{k}^{\text {task}}]$. 
 
+
 ---
+
+
 ## Unsupervised Fine-tuning Approaches
 ### 3. GPT
 GPT (Generative Pre-Training) was proposed in: [Improving Language Understanding by Generative Pre-Training](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf), a technical report of OpenAI in 2018.
@@ -208,9 +212,6 @@ For some downstream tasks such as Question Answering (QA) and Natural Language I
 The input can be formed as sentence pairs for each different downstream task, specifically: a) sentence pairs in paraphrasing task, b) hypothesis-premise pairs in entailment task, c) question-passage pairs in question answering task, and d) a degenerate text-$\emptyset$ pair in text classification or sequence tagging. The handling of output for different tasks can be seen below.
 
 ![](./images/plm/bert_fine-tuning.jpg)
-
-
----
 
 *Ref:*  
 *1. [Wang Zhe - https://zhuanlan.zhihu.com/p/53194407](https://zhuanlan.zhihu.com/p/53194407)*  
