@@ -81,7 +81,7 @@ The goal for optimization is to jointly learn the architecture $\alpha$, and the
 
 $$
 \min_{\alpha}{L_{val}(w^{*}(\alpha), \alpha)} \\\
-\text{ s. t. } w^{*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
+\text{ s. t. } w^{*}(\alpha)=\text{argmin}_w L_{train}(w, \alpha)
 $$
 
 The iterative optimization procedure is outlined as below:
@@ -172,16 +172,14 @@ where $m_{l, i}$ is a random variable in {0, 1} and is evaluated to 1 if block $
 
 Since the sampling operation is not differentiable, FBNet uses a reparameterization trick, gumbel-max, to make this process differentiable. Then $m_{l, i}$ can be expressed by:
 
-$$
-m_{l, i} = \left\{\begin{array}{l} {1, i = \operatorname{argmax}_l(\log(p_l) + g_l)} \\\ {0, \text{otherwise}}\end{array}\right.
-$$
+![](https://latex.codecogs.com/svg.latex?\\m_{l,%20i}%20=%20\left\{\begin{array}{l}%20{1,%20i%20=%20\text{argmax}_l(\log(p_l)%20+%20g_l)}%20\\\%20{0,%20\text{otherwise}}\end{array}\right.)
 
 The cumulative distribution function of gumbel distribution is $F(x; \mu) = e^{-e^{-(x-\mu)}}$, and when $\mu = 0$, it is regarded as standard gumbel distribution. Therefore, $g_l$ above can be expressed by $g_l = -\log(-\log(u_i)), u_i \sim \text{Uniform}(0, 1)$, called the gumbel noise.
 
 However, the argmax function is not differentiable, so we use softmax function to replace it. And $m_{l, i}$ can be finally formulated as:
 
 $$
-m_{l, i} = \operatorname{softmax}_l(\log(p_{l, i}) + g_{l, i}) = \frac{exp[(\log(p_{l, i}) + g_{l, i}) / \tau]}{\sum_i exp[(\log(p_{l, i}) + g_{l, i}) / \tau]} = \frac{exp[(\theta_{l, i} + g_{l, i}) / \tau]}{\sum_i exp[(\theta_{l, i} + g_{l, i}) / \tau]}
+m_{l, i} = \text{softmax}_l(\log(p_{l, i}) + g_{l, i}) = \frac{exp[(\log(p_{l, i}) + g_{l, i}) / \tau]}{\sum_i exp[(\log(p_{l, i}) + g_{l, i}) / \tau]} = \frac{exp[(\theta_{l, i} + g_{l, i}) / \tau]}{\sum_i exp[(\theta_{l, i} + g_{l, i}) / \tau]}
 $$
 
 where $\tau$ is the temperature parameter. The smaller the $\tau$ is, the more closer $m_{l, i}$ is to the one-hot vector, i.e. the discrete categorical sampling distribution. And as $\tau$ becomes larger, $m_{l, i}$ becomes a continuous random variable. In the experiment, FBNet uses a large initial temperature of 5.0 to make the model easier to converge, and then exponentially anneal it by $exp(-0.045) \approx 0.956$ every epoch.

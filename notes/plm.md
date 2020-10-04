@@ -104,9 +104,7 @@ The ELMo word representations are functions of the entire input sentences, which
 #### Pre-training
 A biLM combines both a forward and backward LM. The training process jointly maximizes the log likelihood target formula of the forward and backward directions as:
 
-$$
-\begin{aligned} \sum_{k=1}^{N} &\left(\log p\left(t_{k} | t_{1}, \ldots, t_{k-1} ; \Theta_{x}, \vec{\Theta}_{L S T M}, \Theta_{s}\right)\right. \\\ +&\left.\log p\left(t_{k} | t_{k+1}, \ldots, t_{N} ; \Theta_{x}, \overleftarrow{\Theta}_{L S T M}, \Theta_{s}\right)\right) \end{aligned}
-$$
+![](https://latex.codecogs.com/svg.latex?\\\begin{aligned}%20\sum_{k=1}^{N}%20&\left(\log%20p\left(t_{k}%20|%20t_{1},%20\ldots,%20t_{k-1}%20;%20\Theta_{x},%20\vec{\Theta}_{L%20S%20T%20M},%20\Theta_{s}\right)\right.%20\\\%20+&\left.\log%20p\left(t_{k}%20|%20t_{k+1},%20\ldots,%20t_{N}%20;%20\Theta_{x},%20\overleftarrow{\Theta}_{L%20S%20T%20M},%20\Theta_{s}\right)\right)%20\end{aligned})
 
 The log likelihood $p(\cdot;\cdot)$ above can be formulated as:
 
@@ -121,14 +119,15 @@ From the target formula, we can see that the input character vectors $\Theta_{x}
 Intrinsic evaluations have shown that the higher-level LSTM states capture context-dependent aspects of word meaning (e.g., they can be used without modification to perform well on supervised word sense disambiguation tasks), while lower-level LSTM states model aspects of syntax (e.g., they can be used to do part-of-speech tagging). Therefore, we can learn a linear combination of the internal states for each end task, allowing the model selects the type of semi-supervision that are most useful. It can be formulated as:
 
 $$
-\operatorname{ELMo}_{k}^{\text {task }}=E\left(R_{k} ; \Theta^{\text {task }}\right)=\gamma^{\text {task }} \sum_{j=0}^{L} s_{j}^{\text {task }} \mathbf{h}_{k, j}^{L M}
+\text{ELMo}_{k}^{\text {task }}=E\left(R_{k} ; \Theta^{\text {task }}\right)=\gamma^{\text {task }} \sum_{j=0}^{L} s_{j}^{\text {task }} \mathbf{h}_{k, j}^{L M}
 $$
+
 where $s^{task}$ are softmax-normalized weights (sum to 1), $\gamma^{task}$ is a scatter parameter allowing the task model to scale the entire ELMo vector, and $\mathbf{h}_{k, j}^{LM}$ corresponds to the character convolution states, the first and second layer states of biLMs for $j=0, 1, 2$ respectively.  
 
 #### Combine ELMo with Downstream Tasks
 Traditionally, there are mainly two parts in a supervised end task model: the input tokens are first encoded into context-independent token representations $x_k$ using pre-trained word or character-based embeddings, then the model forms a context-sensitive representation $h_k$ based on the embeddings, typically using bidirectional RNNs, CNNs, or feed forward networks. 
 
-To add ELMo to the supervised model, we first **freeze** the weights of the biLM, then concatenate the ELMo vector $\operatorname{ELMo}_{k}^{\text {task }}$ with $x_k$ as $[x_k; \operatorname{ELMo}_{k}^{\text {task }}]$ and pass it into the task RNN. We can also include ELMo at the output of the task RNN by replacing $h_k$ with $[h_k; \operatorname{ELMo}_{k}^{\text {task }}]$. 
+To add ELMo to the supervised model, we first **freeze** the weights of the biLM, then concatenate the ELMo vector $\text{ELMo}_{k}^{\text {task }}$ with $x_k$ as $[x_k; \text{ELMo}_{k}^{\text {task }}]$ and pass it into the task RNN. We can also include ELMo at the output of the task RNN by replacing $h_k$ with $[h_k; \text{ELMo}_{k}^{\text {task }}]$. 
 
 ---
 ## Unsupervised Fine-tuning Approaches
@@ -203,7 +202,7 @@ Inspired by the *Cloze* task in literature, BERT simply masks some percentage of
 For some downstream tasks such as Question Answering (QA) and Natural Language Inference (NLI), it is important to learn the *relationship* between two sentences, which is not directly captured by language modeling. Therefore, a **binarized** next sentence prediction task is additionally pre-trained using the classification token $\text{[CLS]}$. Specifically, when choosing the sentences A and B for each pre-training example, 50% of the time B is the actual next sentence that follows A (labeled as *IsNext*), and 50% of the time it is a random sentence from the corpus (labeled as *NotNext*).
 
 #### Combine BERT with Downstream Tasks
-The input can be formed as sentence pairs for each different downstream task, specifically: a) sentence pairs in paraphrasing task, b) hypothesis-premise pairs in entailment task, c) question-passage pairs in question answering task, and d) a degenerate text-$\varnothing$ pair in text classification or sequence tagging. The handling of output for different tasks can be seen below.
+The input can be formed as sentence pairs for each different downstream task, specifically: a) sentence pairs in paraphrasing task, b) hypothesis-premise pairs in entailment task, c) question-passage pairs in question answering task, and d) a degenerate text-$\emptyset$ pair in text classification or sequence tagging. The handling of output for different tasks can be seen below.
 
 ![](./images/plm/bert_fine-tuning.jpg)
 
