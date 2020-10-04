@@ -51,8 +51,7 @@ One detail need to mention is that each sub-layer in encoder and decoder has a r
 To give the model a sense of the order of the words, we add positional encoding vectors to the word embeddings, the values of which are calculated by:
 
 $$
-PE_{(pos, 2i)} = sin(pos/10000^{2i/d_{model}}) \\\
-PE_{(pos, 2i + 1)} = cos(pos/10000^{2i/d_{model}})
+PE_{(pos, 2i)} = sin(pos/10000^{2i/d_{model}}) \\\ PE_{(pos, 2i + 1)} = cos(pos/10000^{2i/d_{model}})
 $$
 where $pos$ is the position and $i$ is the dimension.
 
@@ -104,7 +103,11 @@ The ELMo word representations are functions of the entire input sentences, which
 #### Pre-training
 A biLM combines both a forward and backward LM. The training process jointly maximizes the log likelihood target formula of the forward and backward directions as:
 
-![](https://latex.codecogs.com/svg.latex?\\\begin{aligned}%20\sum_{k=1}^{N}%20&\left(\log%20p\left(t_{k}%20|%20t_{1},%20\ldots,%20t_{k-1}%20;%20\Theta_{x},%20\vec{\Theta}_{L%20S%20T%20M},%20\Theta_{s}\right)\right.%20\\\%20+&\left.\log%20p\left(t_{k}%20|%20t_{k+1},%20\ldots,%20t_{N}%20;%20\Theta_{x},%20\overleftarrow{\Theta}_{L%20S%20T%20M},%20\Theta_{s}\right)\right)%20\end{aligned})
+$$
+\begin{aligned}
+\sum_{k=1}^{N} &\left(\log p\left(t_{k} | t_{1}, \ldots, t_{k-1} ; \Theta_{x}, \vec{\Theta}_{LSTM}, \Theta_{s}\right)\right. \\\ +&\left.\log p\left(t_{k} | t_{k+1}, \ldots, t_{N} ; \Theta_{x}, \overleftarrow{\Theta}_{LSTM}, \Theta_{s}\right)\right)
+\end{aligned}
+$$
 
 The log likelihood $p(\cdot;\cdot)$ above can be formulated as:
 
