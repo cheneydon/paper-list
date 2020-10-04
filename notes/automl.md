@@ -87,19 +87,19 @@ $$
 
 $$
 \begin{array}{cl}
-f
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. }
 \end{array}
 $$
 
 $$
 \begin{array}{cl}
-&\min_{\alpha}
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=
 \end{array}
 $$
 
 $$
 \begin{array}{cl}
-&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)}
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}
 \end{array}
 $$
 
