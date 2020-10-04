@@ -105,7 +105,7 @@ A biLM combines both a forward and backward LM. The training process jointly max
 
 $$
 \begin{aligned}
-\sum_{k=1}^{N} &\left(\log p\left(t_{k} | t_{1}, \ldots, t_{k-1} ; \Theta_{x}, \vec{\Theta}_{LSTM}, \Theta_{s}\right)\right. \\\ +&\left.\log p\left(t_{k} | t_{k+1}, \ldots, t_{N} ; \Theta_{x}, \overleftarrow{\Theta}_{LSTM}, \Theta_{s}\right)\right)
+\sum_{k=1}^{N} &\left(\log p\left(t_{k} | t_{1}, \ldots, t_{k-1} ; \Theta_{x}, \vec{\Theta}\_{LSTM}, \Theta_{s}\right)\right. \\\ +&\left.\log p\left(t_{k} | t_{k+1}, \ldots, t_{N} ; \Theta_{x}, \overleftarrow{\Theta}\_{LSTM}, \Theta_{s}\right)\right)
 \end{aligned}
 $$
 
@@ -122,7 +122,7 @@ From the target formula, we can see that the input character vectors $\Theta_{x}
 Intrinsic evaluations have shown that the higher-level LSTM states capture context-dependent aspects of word meaning (e.g., they can be used without modification to perform well on supervised word sense disambiguation tasks), while lower-level LSTM states model aspects of syntax (e.g., they can be used to do part-of-speech tagging). Therefore, we can learn a linear combination of the internal states for each end task, allowing the model selects the type of semi-supervision that are most useful. It can be formulated as:
 
 $$
-\text{ELMo}_{k}^{\text {task }}=E\left(R_{k} ; \Theta^{\text {task }}\right)=\gamma^{\text {task }} \sum_{j=0}^{L} s_{j}^{\text {task }} \mathbf{h}_{k, j}^{L M}
+\text{ELMo}\_{k}^{\text {task }}=E\left(R_{k} ; \Theta^{\text {task }}\right)=\gamma^{\text {task}} \sum_{j=0}^{L} s_{j}^{\text {task}} \mathbf{h}_{k, j}^{L M}
 $$
 
 where $s^{task}$ are softmax-normalized weights (sum to 1), $\gamma^{task}$ is a scatter parameter allowing the task model to scale the entire ELMo vector, and $\mathbf{h}_{k, j}^{LM}$ corresponds to the character convolution states, the first and second layer states of biLMs for $j=0, 1, 2$ respectively.  
@@ -130,7 +130,7 @@ where $s^{task}$ are softmax-normalized weights (sum to 1), $\gamma^{task}$ is a
 #### Combine ELMo with Downstream Tasks
 Traditionally, there are mainly two parts in a supervised end task model: the input tokens are first encoded into context-independent token representations $x_k$ using pre-trained word or character-based embeddings, then the model forms a context-sensitive representation $h_k$ based on the embeddings, typically using bidirectional RNNs, CNNs, or feed forward networks. 
 
-To add ELMo to the supervised model, we first **freeze** the weights of the biLM, then concatenate the ELMo vector $\text{ELMo}_{k}^{\text {task }}$ with $x_k$ as $[x_k; \text{ELMo}_{k}^{\text {task }}]$ and pass it into the task RNN. We can also include ELMo at the output of the task RNN by replacing $h_k$ with $[h_k; \text{ELMo}_{k}^{\text {task }}]$. 
+To add ELMo to the supervised model, we first **freeze** the weights of the biLM, then concatenate the ELMo vector $\text{ELMo}\_{k}^{\text{task}}$ with $x_k$ as $[x_k; \text{ELMo}\_{k}^{\text {task}}]$ and pass it into the task RNN. We can also include ELMo at the output of the task RNN by replacing $h_k$ with $[h_k; \text{ELMo}\_{k}^{\text {task}}]$. 
 
 ---
 ## Unsupervised Fine-tuning Approaches
