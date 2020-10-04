@@ -81,8 +81,7 @@ The goal for optimization is to jointly learn the architecture $\alpha$, and the
 
 $$
 \begin{array}{cl}
-&\operatorname{min}_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\
-&\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
+&\min_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\ &\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
 \end{array}
 $$
 
@@ -95,11 +94,7 @@ Let $w^{\prime} = w-\xi \nabla_{w} L_{train}(w, \alpha)$, then
 
 $$
 \begin{array}{cl}
-&\nabla_{\alpha}L_{val}(w-\xi \nabla_{w}L_{train}(w, \alpha), \alpha) \\\ \\\
-&=\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) \\\ \\\
-& = \frac{\partial L_{val}(w^{\prime}, \alpha)}{\partial w^{\prime}} \cdot \frac{dw^{\prime}}{d\alpha}+\frac{\partial L_{val}(w^{\prime}, \alpha)}{\partial \alpha} \cdot \frac{d\alpha}{d\alpha} \\\ \\\ 
-&=\nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha) \cdot \frac{d(w-\xi \nabla_{w}L_{train}(w, \alpha))}{d\alpha} + \nabla_{\alpha}L_{val}(w^{\prime}, \alpha) \\\ \\\
-&= \nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \nabla_{\alpha, w}^2 L_{train}(w, \alpha) \nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha)
+&\nabla_{\alpha}L_{val}(w-\xi \nabla_{w}L_{train}(w, \alpha), \alpha) \\\ \\\ &=\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) \\\ \\\ & = \frac{\partial L_{val}(w^{\prime}, \alpha)}{\partial w^{\prime}} \cdot \frac{dw^{\prime}}{d\alpha}+\frac{\partial L_{val}(w^{\prime}, \alpha)}{\partial \alpha} \cdot \frac{d\alpha}{d\alpha} \\\ \\\ &=\nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha) \cdot \frac{d(w-\xi \nabla_{w}L_{train}(w, \alpha))}{d\alpha} + \nabla_{\alpha}L_{val}(w^{\prime}, \alpha) \\\ \\\ &= \nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \nabla_{\alpha, w}^2 L_{train}(w, \alpha) \nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha)
 \end{array}
 $$
 
@@ -107,9 +102,7 @@ The expression above contains an expensive matrix-vector product in its second t
 
 $$
 \begin{array}{cl}
-&\nabla_{\alpha, w}^{2} L_{train}(w, \alpha) \nabla_{w^{\prime}} L_{val}(w^{\prime}, \alpha) \\\ \\\
-&\approx \frac{\nabla_{\alpha} L_{train}(w^+, \alpha) - \nabla_{\alpha} L_{train}(w^-, \alpha)}{2 (w^+ - w^-)} \nabla_{w^{\prime}} L_{val}(w^{\prime}, \alpha) \\\ \\\
-&= \frac{\nabla_{\alpha} L_{train}(w^{+}, \alpha)-\nabla_{\alpha} L_{train}(w^{-}, \alpha)}{2 \epsilon}
+&\nabla_{\alpha, w}^{2} L_{train}(w, \alpha) \nabla_{w^{\prime}} L_{val}(w^{\prime}, \alpha) \\\ \\\ &\approx \frac{\nabla_{\alpha} L_{train}(w^+, \alpha) - \nabla_{\alpha} L_{train}(w^-, \alpha)}{2 (w^+ - w^-)} \nabla_{w^{\prime}} L_{val}(w^{\prime}, \alpha) \\\ \\\ &= \frac{\nabla_{\alpha} L_{train}(w^{+}, \alpha)-\nabla_{\alpha} L_{train}(w^{-}, \alpha)}{2 \epsilon}
 \end{array}
 $$
 
@@ -117,9 +110,7 @@ Finally, the architecture $\alpha$ can be updated by:
 
 $$
 \begin{array}{cl}
-\alpha &= \alpha - \xi \nabla_{\alpha}L_{val}(w-\xi \nabla_{w}L_{train}(w, \alpha), \alpha) \\\ \\\ 
-&=\alpha - \xi  [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \nabla_{\alpha, w}^2 L_{train}(w, \alpha) \nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha)] \\\ \\\ 
-&\approx \alpha - \xi [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \frac{\nabla_{\alpha} L_{train}(w^{+}, \alpha)\nabla_{\alpha} L_{train}(w^{-}, \alpha)}{2 \epsilon}]
+\alpha &= \alpha - \xi \nabla_{\alpha}L_{val}(w-\xi \nabla_{w}L_{train}(w, \alpha), \alpha) \\\ \\\  &=\alpha - \xi  [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \nabla_{\alpha, w}^2 L_{train}(w, \alpha) \nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha)] \\\ \\\  &\approx \alpha - \xi [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \frac{\nabla_{\alpha} L_{train}(w^{+}, \alpha)\nabla_{\alpha} L_{train}(w^{-}, \alpha)}{2 \epsilon}]
 \end{array}
 $$
 
