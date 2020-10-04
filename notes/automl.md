@@ -80,8 +80,10 @@ The output of a node is the sum of all its edge outputs, each edge output is the
 The goal for optimization is to jointly learn the architecture $\alpha$, and the weights $w$. This implies a bilevel optimization problem, which can be expressed as:
 
 $$
-\min_{\alpha}{L_{val}(w^{*}(\alpha), \alpha)} \\\
-\text{ s. t. } w^{*}(\alpha)=\text{argmin}_w L_{train}(w, \alpha)
+\begin{array}{cl}
+&\operatorname{min}_{\alpha}{L_{val}(w^{*}(\alpha), \alpha)} \\\
+&\text{ s. t. } w^{*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
+\end{array}
 $$
 
 The iterative optimization procedure is outlined as below:
@@ -172,7 +174,7 @@ where $m_{l, i}$ is a random variable in {0, 1} and is evaluated to 1 if block $
 
 Since the sampling operation is not differentiable, FBNet uses a reparameterization trick, gumbel-max, to make this process differentiable. Then $m_{l, i}$ can be expressed by:
 
-![](https://latex.codecogs.com/svg.latex?\\m_{l,%20i}%20=%20\left\{\begin{array}{l}%20{1,%20i%20=%20\text{argmax}_l(\log(p_l)%20+%20g_l)}%20\\\%20{0,%20\text{otherwise}}\end{array}\right.)
+![](https://latex.codecogs.com/gif.latex?\\m_{l,%20i}%20=%20\left\{\begin{array}{l}%20{1,%20i%20=%20\text{argmax}_l(\log(p_l)%20+%20g_l)}%20\\\%20{0,%20\text{otherwise}}\end{array}\right.)
 
 The cumulative distribution function of gumbel distribution is $F(x; \mu) = e^{-e^{-(x-\mu)}}$, and when $\mu = 0$, it is regarded as standard gumbel distribution. Therefore, $g_l$ above can be expressed by $g_l = -\log(-\log(u_i)), u_i \sim \text{Uniform}(0, 1)$, called the gumbel noise.
 
