@@ -166,7 +166,10 @@ where $m_{l, i}$ is a random variable in {0, 1} and is evaluated to 1 if block $
 Since the sampling operation is not differentiable, FBNet uses a reparameterization trick, gumbel-max, to make this process differentiable. Then $m_{l, i}$ can be expressed by:
 
 $$
-m_{l, i} = \left\{\begin{array}{l} {1, i = \operatorname{argmax}\_l(\log(p_l) + g_l)} \\\ {0, \text{otherwise}}\end{array}\right.
+m_{l, i} = \left\lbrace
+\begin{array}{l} {1, i = \operatorname{argmax}\_l(\log(p_l) + g_l)} \\\ {0, \text{otherwise}}
+\end{array}
+\right.
 $$
 
 The cumulative distribution function of gumbel distribution is $F(x; \mu) = e^{-e^{-(x-\mu)}}$, and when $\mu = 0$, it is regarded as standard gumbel distribution. Therefore, $g_l$ above can be expressed by $g_l = -\log(-\log(u_i)), u_i \sim \text{Uniform}(0, 1)$, called the gumbel noise.

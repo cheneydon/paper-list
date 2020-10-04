@@ -122,7 +122,7 @@ From the target formula, we can see that the input character vectors $\Theta_{x}
 Intrinsic evaluations have shown that the higher-level LSTM states capture context-dependent aspects of word meaning (e.g., they can be used without modification to perform well on supervised word sense disambiguation tasks), while lower-level LSTM states model aspects of syntax (e.g., they can be used to do part-of-speech tagging). Therefore, we can learn a linear combination of the internal states for each end task, allowing the model selects the type of semi-supervision that are most useful. It can be formulated as:
 
 $$
-\text{ELMo}\_{k}^{\text {task }}=E\left(R_{k} ; \Theta^{\text {task }}\right)=\gamma^{\text {task}} \sum_{j=0}^{L} s_{j}^{\text {task}} \mathbf{h}_{k, j}^{L M}
+\text{ELMo}\_{k}^{\text {task}}=E\left(R_{k} ; \Theta^{\text{task}}\right)=\gamma^{\text{task}} \sum_{j=0}^{L} s_{j}^{\text{task}} \mathbf{h}_{k, j}^{LM}
 $$
 
 where $s^{task}$ are softmax-normalized weights (sum to 1), $\gamma^{task}$ is a scatter parameter allowing the task model to scale the entire ELMo vector, and $\mathbf{h}_{k, j}^{LM}$ corresponds to the character convolution states, the first and second layer states of biLMs for $j=0, 1, 2$ respectively.  
