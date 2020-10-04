@@ -34,7 +34,7 @@ $$
 ### $\circ$ Multi-Head Attention
 To improve the performance, we can linearly project the queries, keys and values *h* times with different, learned linear projections from $d_k$, $d_k$ and $d_v$ to $d_k / h$, $d_k / h$ and $d_v / h$. On each of these projected versions of queries, keys and values, we then perform the attention function in parallel, and the results are finally concatenated and once again projected to dimension $d_v$. Details are shown below.
 
-![](multi_head_attention.jpg)
+![](./images/plm/transformer_multi_head_attention.jpg)
 
 Note that the self-attention layers in the decoder are slightly different with that in the encoder. In the decoder, the self-attention layer is only allowed to attend to earlier positions in the output sequence. This is done by masking future positions (setting them to -inf) before the softmax step in the self-attention calculation. So the self-attention in decoder is called *Masked Multi-Head Attention* in the paper.
 
@@ -51,7 +51,7 @@ One detail need to mention is that each sub-layer in encoder and decoder has a r
 To give the model a sense of the order of the words, we add positional encoding vectors to the word embeddings, the values of which are calculated by:
 
 $$
-PE_{(pos, 2i)} = sin(pos/10000^{2i/d_{model}}) \\
+PE_{(pos, 2i)} = sin(pos/10000^{2i/d_{model}}) \\\
 PE_{(pos, 2i + 1)} = cos(pos/10000^{2i/d_{model}})
 $$
 where $pos$ is the position and $i$ is the dimension.
@@ -105,7 +105,7 @@ The ELMo word representations are functions of the entire input sentences, which
 A biLM combines both a forward and backward LM. The training process jointly maximizes the log likelihood target formula of the forward and backward directions as:
 
 $$
-\begin{aligned} \sum_{k=1}^{N} &\left(\log p\left(t_{k} | t_{1}, \ldots, t_{k-1} ; \Theta_{x}, \vec{\Theta}_{L S T M}, \Theta_{s}\right)\right.\\+&\left.\log p\left(t_{k} | t_{k+1}, \ldots, t_{N} ; \Theta_{x}, \overleftarrow{\Theta}_{L S T M}, \Theta_{s}\right)\right) \end{aligned}
+\begin{aligned} \sum_{k=1}^{N} &\left(\log p\left(t_{k} | t_{1}, \ldots, t_{k-1} ; \Theta_{x}, \vec{\Theta}_{L S T M}, \Theta_{s}\right)\right. \\\ +&\left.\log p\left(t_{k} | t_{k+1}, \ldots, t_{N} ; \Theta_{x}, \overleftarrow{\Theta}_{L S T M}, \Theta_{s}\right)\right) \end{aligned}
 $$
 
 The log likelihood $p(\cdot;\cdot)$ above can be formulated as:
