@@ -79,7 +79,10 @@ The output of a node is the sum of all its edge outputs, each edge output is the
 ## 3. Optimization
 The goal for optimization is to jointly learn the architecture $\alpha$, and the weights $w$. This implies a bilevel optimization problem, which can be expressed as:
 
-![](http://latex.codecogs.com/gif.latex?\\\min_{\alpha}{L_{val}(w^{*}(\alpha),\alpha)} \\ \qquad \qquad \qquad\ \text{ s. t. } w^{*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha))
+$$
+\min _{\alpha}  {L_{val}(w^{*}(\alpha), \alpha)} \\
+\qquad \qquad \qquad \ \text{ s. t. } w^{*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
+$$
 
 The iterative optimization procedure is outlined as below:
 
