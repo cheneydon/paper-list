@@ -115,8 +115,8 @@ Finally, the architecture $\alpha$ can be updated by:
 
 $$
 \begin{array}{cl}
-\alpha &= \alpha - \xi \nabla_{\alpha}L_{val}(w-\xi \nabla_{w}L_{train}(w, \alpha), \alpha) \\ \\ 
-&=\alpha - \xi  [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \nabla_{\alpha, w}^2 L_{train}(w, \alpha) \nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha)] \\ \\ 
+\alpha &= \alpha - \xi \nabla_{\alpha}L_{val}(w-\xi \nabla_{w}L_{train}(w, \alpha), \alpha) \\\ \\\ 
+&=\alpha - \xi  [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \nabla_{\alpha, w}^2 L_{train}(w, \alpha) \nabla_{w^{\prime}}L_{val}(w^{\prime}, \alpha)] \\\ \\\ 
 &\approx \alpha - \xi [\nabla_{\alpha}L_{val}(w^{\prime}, \alpha) - \xi \frac{\nabla_{\alpha} L_{train}(w^{+}, \alpha)\nabla_{\alpha} L_{train}(w^{-}, \alpha)}{2 \epsilon}]
 \end{array}
 $$
