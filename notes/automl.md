@@ -82,7 +82,7 @@ The goal for optimization is to jointly learn the architecture $\alpha$, and the
 $$
 \begin{array}{cl}
 &\operatorname{min}_{\alpha}{L_{val}(w^{\*}(\alpha), \alpha)} \\\
-&\text{ s. t. } w^{*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
+&\text{ s. t. } w^{\*}(\alpha)=\operatorname{argmin}_w L_{train}(w, \alpha)
 \end{array}
 $$
 
