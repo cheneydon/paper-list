@@ -35,9 +35,9 @@ $$
 \{p_1, ..., p_m\} = \text{Bi-LSTM}(\{\widetilde{p}_1, ..., \widetilde{p}_m\})
 $$
 
-其中每个单词的特征$\widetilde{p}\_i$由4部分组成：词嵌入(word embeddings)、完全匹配(exact match)、单词特征(token features)和对齐问题嵌入(aligned question embedding)，具体如下：  
+其中每个单词的特征$\widetilde{p}\_i$由4部分组成：词嵌入(word embeddings)、完全匹配(exact match)、单词特征(token features)、以及对齐问题嵌入(aligned question embedding)，具体如下：  
 (1) **词嵌入**：采用维度为300的Glove预训练词嵌入，并使大部分的预训练词嵌入权重固定，只对1000个最高频的问题单词进行微调，如what, how, which, many，这些词对问答系统会很重要；  
-(2) **完全匹配**：用3个二元特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{exact\\_match}(p_i) = \mathbb{I}(p_i \in q)$；  
+(2) **完全匹配**：用3个二元特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{\text{exact\_match}}(p_i) = \mathbb{I}(p_i \in q)$；  
 (3) **单词特征**：$f_{token}(p_i) = (\text{POS}(p_i), \text{NER}(p_i), \text{TF}(p_i))$，其中包含3个部分：词性(part-of-speech, POS)，命名实体识别(named entity recognition, NER)，和归一化的单词频率(term frequency, TF)；  
 (4) **对齐问题嵌入**：$f_{aligned}(p_i) = \sum_j a_{i, j} \text{E}(q_j)$，其中注意力得分$a_{i, j}$捕捉$p_i$和每个问题单词$q_j$的相似度，公式为：
 
