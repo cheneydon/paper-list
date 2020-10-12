@@ -2,6 +2,31 @@
 Record the papers I have read so far.
 
 ## Question Answering
+1. (DrQA) Reading Wikipedia to Answer Open-Domain Questions, ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1171.pdf)] [[Note]()]
+2. Denoising Distantly Supervised Open-Domain Question Answering, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1161.pdf)] [[Note]()]
+3. Ranking Paragraphs for Improving Answer Recall in Open-Domain Question Answering, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1053.pdf)] [[Note]()]
+4. Adaptive Document Retrieval for Deep Question Answering, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1055.pdf)] [[Note]()]
+5. RankQA: Neural Question Answering with Answer Re-Ranking, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1611.pdf)] [[Note]()]
+6. (GRAFT-Net) Open Domain Question Answering Using Early Fusion of Knowledge Bases and Text, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1455.pdf)] [[Note]()]
+7. Improving Question Answering over Incomplete KBs with Knowledge-Aware Reader, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1417.pdf)] [[Note]()]
+8. PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text, EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1242.pdf)] [[Note]()]
+9. Multi-Hop Paragraph Retrieval for Open-Domain Question Answering, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note]()]
+10. (CopyNet) Incorporating Copying Mechanism in Sequence-to-Sequence Learning, ACL 2016. [[Paper](https://www.aclweb.org/anthology/P16-1154.pdf)] [[Note]()]
+11. Get To The Point: Summarization with Pointer-Generator Networks, ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)] [[Note]()]
+12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note]()]
+13. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)] [[Note]()]
+14. Answer-focused and Position-aware Neural Question Generation, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)] [[Note]()]
+15. Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1480.pdf)] [[Note]()]
+16. Reinforced Dynamic Reasoning for Conversational Question Generation, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1203.pdf)] [[Note]()]
+17. (QCN) Question Condensing Networks for Answer Selection in Community Question Answering, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1162.pdf)]
+18. Joint Multitask Learning for Community Question Answering Using Task-Specific Embeddings, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1452.pdf)]
+19. A State-transition Framework to Answer Complex Questions over Knowledge Base, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1234.pdf)]
+20. (SLQA+) Multi-Granularity Hierarchical Attention Fusion Networks for Reading Comprehension and Question Answering, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1158.pdf)]
+21. Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs, SIGIR 2018. [[Paper](https://dl.acm.org/doi/10.1145/3209978.3210081)] [[Note]()]
+22. Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge, COLING 2018. [[Paper](https://www.aclweb.org/anthology/C18-1279.pdf)] [[Note]()]
+23. Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering, AAAI 2019. [[Paper](https://arxiv.org/pdf/1812.02354.pdf)] [[Note]()]
+24. Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering, AAAI 2020. [[Paper](https://arxiv.org/pdf/1911.09801.pdf)] [[Note]()]
+25. Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization, SIGIR 2020. [[Paper](https://dl.acm.org/doi/abs/10.1145/3397271.3401208)] [[Note]()]
 
 
 ## Pretrained Language Models & Transformers
