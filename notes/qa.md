@@ -12,7 +12,7 @@ Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to 
 #### 2.1 文档检索器
 文章和问题通过TF-IDF加权词袋向量(bag-of-word vectors)、局部词的二元组(bigram)特征的次序进行比对，并用无符号murmur3哈希算法将二元词组映射为$2^{24}$组值之一。对于一个给定的问题，文档检索器返回5个维基百科文章。
 
-**注：词袋向量与TF-IDF算法介绍**
+**注：词袋向量与TF-IDF算法介绍**  
 (1) 词袋向量表征单词在各个文档内出现的频率。通过计算一个单词在各个个文档里面出现的次数，并进行归一化，可以得到该单词对应的词袋向量，如下所示：
 
 ![](./images/qa/bag_of_word.png)
@@ -23,23 +23,23 @@ Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to 
 
 ![](./images/qa/tf_idf.png)
 
-其中$tf_{i,j}$表示单词频率，指单词$i$出现在文档$j$的次数；$log(\frac{N}{df_i})$表示逆文档频率，由总文档数$N$与包含单词$i$的文档数相除得到。引入逆文档频率的意义在于，像and或the这类词在所有文档都会频繁出现，这些词是要排除掉的，只能保留频繁出现并且有区分度的词作为区分不同文档的标记。每个单词与各个文档的TF-IDF关系值同样要经过归一化处理。
+其中$\text{tf}_{i,j}$表示单词频率，指单词$i$出现在文档$j$的次数；$log(\frac{N}{\text{df}_i})$表示逆文档频率，由总文档数$N$与包含单词$i$的文档数相除得到。引入逆文档频率的意义在于，像and或the这类词在所有文档都会频繁出现，这些词是要排除掉的，只能保留频繁出现并且有区分度的词作为区分不同文档的标记。每个单词与各个文档的TF-IDF关系值同样要经过归一化处理。
 
 #### 2.2 文档阅读器
 给定一个问题$q$，其包含$l$个单词$\{q_1, ..., q_l\}$，以及一个包含$n$个段落的文档，每个段落$p$包含$m$个单词$\{p_1, ..., p_m\}$，作者提出了一个包含3个部分的文档阅读器，分别是段落编码(paragraph encoding)、问题编码(question encoding)和预测(prediction)。
 
-**段落编码**
+**段落编码**  
 首先对于每个段落$p$里面的各个单词$p_i$进行特征组合，之后通过多层双向LSTM(Bi-LSTM)进行编码，即：
 
 $$
 \{p_1, ..., p_m\} = \text{Bi-LSTM}(\{\widetilde{p}_1, ..., \widetilde{p}_m\})
 $$
 
-其中每个单词的特征$\widetilde{p}\_i$由4部分组成：
-(1) **词嵌入(word embeddings)**：采用维度为300的Glove预训练词嵌入，并使大部分的预训练词嵌入权重固定，只对1000个最高频的问题单词进行微调，如what, how, which, many，这些词对问答系统会很重要；  
-(2) **完全匹配(exact match)**：用3个二元特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{exact_match}(p_i) = \mathbb{I}(p_i \in q)$；  
-(3) **单词特征(token features)**：$f_{token}(p_i) = (\text{POS}(p_i), \text{NER}(p_i), \text{TF}(p_i))$，其中包含3个部分：词性(part-of-speech, POS)，命名实体识别(named entity recognition, NER)，和归一化的单词频率(term frequency, TF)；  
-(4) **对齐问题嵌入(aligned question embedding)**：$f_{aligned}(p_i) = \sum_j a_{i, j} \text{E}(q_j)$，其中注意力得分$a_{i, j}$捕捉$p_i$和每个问题单词$q_j$的相似度，公式为：
+其中每个单词的特征$\widetilde{p}\_i$由4部分组成：  
+(1) 词嵌入(word embeddings)：采用维度为300的Glove预训练词嵌入，并使大部分的预训练词嵌入权重固定，只对1000个最高频的问题单词进行微调，如what, how, which, many，这些词对问答系统会很重要；  
+(2) 完全匹配(exact match)：用3个二元特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{exact\_match}(p_i) = \mathbb{I}(p_i \in q)$；  
+(3) 单词特征(token features)：$f_{token}(p_i) = (\text{POS}(p_i), \text{NER}(p_i), \text{TF}(p_i))$，其中包含3个部分：词性(part-of-speech, POS)，命名实体识别(named entity recognition, NER)，和归一化的单词频率(term frequency, TF)；  
+(4) 对齐问题嵌入(aligned question embedding)：$f_{aligned}(p_i) = \sum_j a_{i, j} \text{E}(q_j)$，其中注意力得分$a_{i, j}$捕捉$p_i$和每个问题单词$q_j$的相似度，公式为：
 
 $$
 a_{i, j} = \frac{\text{exp}(\alpha(\text{E}(p_i)) \cdot \alpha(\text{E}(q_j)))}{\sum_{j'} \text{exp}(\alpha(\text{E}(p_i)) \cdot \alpha(\text{E}(q_{j'})))}
@@ -47,14 +47,14 @@ $$
 
 其中$\alpha$是一个带ReLU的单层全连接网络。与完全匹配相比，这样的特征给词义相似但不一样的词添加软对齐，如car和vehicle。
 
-**问题编码**
+**问题编码**  
 问题编码较为简单，作者在$q_i$的词嵌入上添加了另一个循环神经网络，并把各个问题单词的最终隐藏层整合起来，即$q = \sum_j b_j q_j$，其中$b_j$为每个问题单词的重要度：
 
 $$
 b_j = \frac{\text{exp}(w \cdot q_j)}{\sum_{j'} \text{exp}(w \cdot q_{j'})}
 $$
 
-**预测**
+**预测**  
 预测的目标是段落内的单词片段(span)，作者将段落向量$\{p_1, ..., p_m\}$和问题向量$q$作为输入，通过双线性项(bilinear term)分别训练2个分类器预测片段的开始与结束位置，即：
 
 $$
@@ -70,6 +70,9 @@ $$
 
 *Ref:*  
 *1. [A Beginner's Guide to Bag of Words & TF-IDF](https://wiki.pathmind.com/bagofwords-tf-idf)*  
+
+
+---
 
 
 ## Denoising Distantly Supervised Open-Domain Question Answering
@@ -114,13 +117,13 @@ $$
 
 由于在DS-QA问题中，我们没有手工对答案在段落的起始和终止位置进行标记，因此在一个段落中可能会有很多与正确答案相匹配的单词片段，其起始和终止位置可表示为：$\{(a_s^1, a_e^1), ..., (a_s^{|a|}, a_e^{|a|})\}$，则上述的答案预测概率可用2种方式进一步表示：
 
-(1) **最大值**：假定段落内只包含一个正确起止位置，则：
+(1) 最大值：假定段落内只包含一个正确起止位置，则：
 
 $$
 \text{Pr}(a|q, p_i) = \max_j \text{Pr}_s(a_s^j) \text{Pr}_e(a_e^j)
 $$
 
-(2) **总和**：假定段落内各个候选片段均与正确答案匹配，则：
+(2) 总和：假定段落内各个候选片段均与正确答案匹配，则：
 
 $$
 \text{Pr}(a|q, p_i) = \sum_j \text{Pr}_s(a_s^j) \text{Pr}_e(a_e^j)
@@ -148,6 +151,9 @@ $$
 $$
 
 
+---
+
+
 ## RankQA: Neural Question Answering with Answer Re-Ranking
 Bernhard Kratzwald, Anna Eigenmann, and Stefan Feuerriegel. [RankQA: Neural Question Answering with Answer Re-Ranking](https://www.aclweb.org/anthology/P19-1611.pdf). ACL 2019.
 
@@ -167,7 +173,7 @@ Bernhard Kratzwald, Anna Eigenmann, and Stefan Feuerriegel. [RankQA: Neural Ques
 #### 2.3 答案重排序(answer re-ranking)
 答案重排序模块从机器理解模块接收到的每个候选答案$c_i, i = 1, ..., k$包括实际答案片段$s_i$和其它元信息如文档ID、段落ID等。答案重排序模块包含3个阶段：特征提取(feature extraction)、答案聚合(answer aggregation)和重排序网络(re-ranking network)。
 
-**特征提取**
+**特征提取**  
 从信息检索模块，我们可以得到5个特征：文档-问题相似度、段落-问题相似度、段落长度、问题长度、以及指示问题起始词的指示符变量(indicator variable)，如what、who、when等。
 
 从机器理解模块，我们可以得到4个特征：原始候选答案得分、原始候选答案排序、答案的词性标签(part-of-speech tag)、以及答案的命名实体特征(named entity feature)。其中后两者只为DrQA提取，通过指示答案片段是否包含命名实体或词性标签的指示符变量进行编码。
@@ -175,10 +181,14 @@ Bernhard Kratzwald, Anna Eigenmann, and Stefan Feuerriegel. [RankQA: Neural Ques
 具体如下所示：
 ![](./images/qa/rankqa_feature.jpg)
 
-**答案聚合**
-作者将答案片段一样的候选答案进行合并，保留排序更靠前的特征。此外，还生成4种其它的聚合特征：(1) 各个答案片段相同的候选答案出现的次数；(2) 第一次出现的名次；(3) 相同答案片段得分的总和、均值、最小值与最大值；(4) 相同答案片段的文档-问题相似度的总和、均值、最小值与最大值。
+**答案聚合**  
+作者将答案片段一样的候选答案进行合并，保留排序更靠前的特征。此外，还生成4种其它的聚合特征：  
+(1) 各个答案片段相同的候选答案出现的次数；  
+(2) 第一次出现的名次；  
+(3) 相同答案片段得分的总和、均值、最小值与最大值；  
+(4) 相同答案片段的文档-问题相似度的总和、均值、最小值与最大值。
 
-**重排序网络**
+**重排序网络**  
 每个候选答案重排序得分通过一个两层的前馈网络预测得到，即：
 
 $$
@@ -202,7 +212,7 @@ L = L_{rank} + \lambda L_{reg} \\\ L_{reg} = ||A||_1 + ||B||_1 + ||b_1||_1 + ||b
 \end{array}
 $$
 
-对于采样方式，由于训练时大部分生成的候选答案是错误的，因此作者采用了一种子采样方式。在生成前k个候选答案后，先将排序相邻的一对答案$(x_i, x_j), j = i + 1$进行采样，之后在训练时只训练排序靠前的答案对，如$j<4$。在测试时不进行子采样，对所有候选答案打分后选择得分最高的答案。
+对于采样方式，由于训练时大部分生成的候选答案是错误的，因此作者采用了一种子采样方式。在生成前k个候选答案后，先将排序相邻的每对答案$(x_i, x_j), j = i + 1$进行采样，之后在训练时只训练排序靠前的答案对，如$j<4$。在测试时不进行子采样，对所有候选答案打分后选择得分最高的答案。
 
 
 ## Improving Question Answering over Incomplete KBs with Knowledge-Aware Reader
