@@ -1,4 +1,6 @@
-# *$\mathit{I.}$ *Open-Domain Question Answering**
+*Open-Domain Question Answering*
+---
+
 # (DrQA) Reading Wikipedia to Answer Open-Domain Questions
 Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to Answer Open-Domain Questions](https://www.aclweb.org/anthology/P17-1171.pdf). ACL 2017.
 
@@ -239,13 +241,13 @@ Wenhan Xiong, Mo Yu, Shiyu Chang, Xiaoxiao Guo, and William Yang Wang. [Improvin
 为了将问题和知识图谱关系在一个同构的潜空间(isomorphic latent space)进行匹配，作者采用了一个权重共享的LSTM对问题$\\{w_1^q, ..., w_{l_q}^q\\}$和关系词$\\{w_1^r, ..., w_{l_r}^r\\}$进行编码，由此可得问题和关系的隐层特征$h^q \in \mathbb{R}^{l_q \times d_h}$和$h^r \in \mathbb{R}^{l_r \times d_h}$。之后，作者首先对各个关系特征进行自注意力编码，得到一个加权关系特征$\vec{r}$，即：
 
 $$
-\vec{r} = \sum_i \alpha_i \vec{h_i^r}, \alpha \propto \text{exp}(\vec{w_r} \cdot \vec{h_i^r})
+\vec{r} = \sum_i \alpha_i \vec{h}_i^r, \alpha \propto \text{exp}(\vec{w}_r \cdot \vec{h}_i^r)
 $$
 
 接着，作者将问题与各个关系特征进行注意力编码，并将得到的问题-关系加权特征与上述关系自加权特征$\vec{r}$进行相乘，得到一个更细粒度的匹配得分$s_r$，即：
 
 $$
-s_r = \vec{r} \cdot \sum_j \beta_j \vec{h_j^q}, \beta_j \propto \text{exp}(\vec{r} \cdot \vec{h_j^q})
+s_r = \vec{r} \cdot \sum_j \beta_j \vec{h}_j^q, \beta_j \propto \text{exp}(\vec{r} \cdot \vec{h}_j^q)
 $$
 
 #### 3.1.2 主题实体邻居的注意力机制
@@ -260,8 +262,8 @@ $$
 
 $$
 \begin{array}{cl}
-\vec{e'} = \gamma^e \vec{e} + (1 - \gamma^e) \sum_{(e_i, r_i) \in N_e} \tilde{s}\_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}]) \\\\
-\gamma^e = g(\vec{e}, \sum_{(e_i, r_i) \in N_e} \tilde{s}_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}])) \\\\
+\vec{e}' = \gamma^e \vec{e} + (1 - \gamma^e) \sum_{(e_i, r_i) \in N_e} \tilde{s}\_{(r_i, e_i)} \sigma (W_e [\vec{r}_i; \vec{e}_i]) \\\\
+\gamma^e = g(\vec{e}, \sum_{(e_i, r_i) \in N_e} \tilde{s}_{(r_i, e_i)} \sigma (W_e [\vec{r}_i; \vec{e}_i])) \\\\
 g(x, y) = \text{sigmoid}(W[x; y])
 \end{array}
 $$
@@ -272,55 +274,145 @@ $$
 知识型文本阅读器KAR是在DrQA所提的阅读理解模型的基础上进行了一定的改进，使其可以学习更多的知识图谱知识，主要包括3个部分：潜空间的问题重构(query reformulation)、知识型段落信息增强(knowledge-aware passage enhancement)、以及来自文本阅读的实体信息聚合(entity info aggregation)。
 
 #### 3.2.1 潜空间的问题重构
-该部分通过将问题内的主题实体对应的知识图谱特征整合进问题特征中，使得阅读器可以区分文本匹配外的相关信息。首先对问题特征$h^q$进行自注意力编码，可得$\vec{q} = \sum_i b_i \vec{h_i^q}$；之后收集问题中主题实体的知识图谱特征，可得$\vec{e^q} = \sum_{e \in \mathcal{E}_0} \vec{e'} / |\mathcal{E}_0|$；接下来，作者采用门控函数得到最终的问题特征，即：
+该部分通过将问题内的主题实体对应的知识图谱特征整合进问题特征中，使得阅读器可以区分文本匹配外的相关信息。首先对问题特征$h^q$进行自注意力编码，可得$\vec{q} = \sum_i b_i \vec{h}_i^q$；之后收集问题中主题实体的知识图谱特征，可得$\vec{e}^q = \sum_{e \in \mathcal{E}_0} \vec{e}' / |\mathcal{E}_0|$；接下来，作者采用门控函数得到最终的问题特征，即：
 
 $$
 \begin{array}{cl}
-\vec{q'} = \gamma^q \vec{q} + (1 - \gamma^q) \text{tanh}(W^q [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}]) \\\\
-\gamma^q = \text{sigmoid}(W^{gq} [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}])
+\vec{q}' = \gamma^q \vec{q} + (1 - \gamma^q) \text{tanh}(W^q [\vec{q}; \vec{e}^q; \vec{q} - \vec{e}^q]) \\\\
+\gamma^q = \text{sigmoid}(W^{gq} [\vec{q}; \vec{e}^q; \vec{q} - \vec{e}^q])
 \end{array}
 $$
 
 #### 3.2.2 知识型段落信息增强
-该部分通过各个段落内实体链接标注，将各个实体的知识图谱特征融合进来，并采用门控机制得到段落内每个词的特征。给定段落内的一个词$w_i^d$、其词特征$\vec{f_{w_i}^d}$、以及其知识图谱链接实体$e_{w_i}$，则每个词的知识型特征$\vec{i_{w_i}^d}$可由下式得到：
+该部分通过各个段落内实体链接标注，将各个实体的知识图谱特征融合进来，并采用门控机制得到段落内每个词的特征。给定段落内的一个词$w_i^d$、其词特征$\vec{f}_{w_i}^d$、以及其知识图谱链接实体$e_{w_i}$，则每个词的知识型特征$\vec{i}_{w_i}^d$可由下式得到：
 
 $$
 \begin{array}{cl}
-\vec{i_{w_i}^d} = \gamma^d \vec{e_{w_i}'} + (1 - \gamma^d) \vec{f_{w_i}^d} \\\\
-\gamma^d = \text{sigmoid}(W^{gd} [\vec{q} \cdot \vec{e_{w_i}'}; \vec{q} \cdot \vec{f_{w_i}^d}])
+\vec{i}_{w_i}^d = \gamma^d \vec{e}_{w_i}' + (1 - \gamma^d) \vec{f}_{w_i}^d \\\\
+\gamma^d = \text{sigmoid}(W^{gd} [\vec{q} \cdot \vec{e}_{w_i}'; \vec{q} \cdot \vec{f}_{w_i}^d])
 \end{array}
 $$
 
 #### 3.2.3 来自文本阅读的实体信息聚合
-作者通过一个双向LSTM将知识增强后的词特征$\vec{i_{w_i}^d}$进行编码，得到词最终特征$\vec{h_{w_i}^d}$，并计算各个词与问题的注意力得分$\lambda_i = \vec{q'}^T \vec{h_{w_i}^d}$，以及每个文档的注意力加权特征$\vec{d} = \sum_i \lambda_i \vec{h_{w_i}^d}$。那么，对于对于一个给定的实体$e$和所有包含该实体的文章$\mathcal{D}^e = \\{d | e \in d\\}$，该实体的聚合特征可表示为$\vec{e_d} = \frac{1}{|\mathcal{D}^e|} \sum_{d \in \mathcal{D^e}} \vec{d}$。
+作者通过一个双向LSTM将知识增强后的词特征$\vec{i}_{w_i}^d$进行编码，得到词最终特征$\vec{h}_{w_i}^d$，并计算各个词与问题的注意力得分$\lambda_i = \vec{q}'^T \vec{h}_{w_i}^d$，以及每个文档的注意力加权特征$\vec{d} = \sum_i \lambda_i \vec{h}_{w_i}^d$。那么，对于对于一个给定的实体$e$和所有包含该实体的文章$\mathcal{D}^e = \\{d | e \in d\\}$，该实体的聚合特征可表示为$\vec{e}_d = \frac{1}{|\mathcal{D}^e|} \sum_{d \in \mathcal{D^e}} \vec{d}$。
 
 ### 3.3 答案预测
-有了实体特征$\vec{e'}$和$\vec{e^d}$，那么每个实体为真实答案的概率可以表示为$s^e = \sigma_s(\vec{q'}^T W_s [\vec{e'}; \vec{e^d}])$。
+有了实体特征$\vec{e}'$和$\vec{e}^d$，那么每个实体为真实答案的概率可以表示为$s^e = \sigma_s(\vec{q}'^T W_s [\vec{e}'; \vec{e}^d])$。
 
 
 ---
 
 
-# Multi-Hop Paragraph Retrieval for Open-Domain Question Answering
+# (MUPPET) Multi-Hop Paragraph Retrieval for Open-Domain Question Answering
 Yair Feldman, and Ran El-Yaniv. [Multi-Hop Paragraph Retrieval for Open-Domain Question Answering](https://www.aclweb.org/anthology/P19-1222.pdf). ACL 2019.
 
+## 1. 贡献
+(1) 作者提出了一个新颖的多跳检索(multi-hop retrieval)方法，对解决开放域多跳问答任务很有帮助；
+(2) 作者所提方法在单跳和多跳开放域问答数据集上都取得了最好的效果；
+(3) 作者还提出了用句子特征进行检索的方法，实验表明该方法比用段落特征检索的效果更好。
+
+## 2. 方法
+![](./images/qa/muppet_overview.jpg)
+
+作者所提多跳检索方法的大致思路是，对于一个问题$Q$，首先将其编码为搜索向量$q^s \in \mathbb{R}^d$，用来检索前k个最相关的段落$\\{P_1^Q, ..., P_k^Q\\} \subset \text{KS}$；在随后的检索迭代中，作者用上一次迭代检索到的段落对搜索向量进行调整，得到k个新搜索向量$\\{\tilde{q}_1^s, ..., \tilde{q}_k^s\\}, \tilde{q}_i^s \in \mathbb{R}^d$，再用和之前迭代同样的方法检索出新一轮的前k个段落。该过程可以视为在段落编码空间进行的宽度为k的beam搜索。
+
+### 2.1 段落与问题编码
+![](./images/qa/muppet_paragraph_question_encoder.jpg)
+
+#### 2.1.1 段落编码
+对于段落编码，作者对段落内的每个句子进行分别编码，而非像之前的做法，对整个段落进行整体编码。作者首先对段落内的每个词进行编码，之后利用这些词编码对每个句子进行编码。
+
+对于词编码，作者采用了字符级嵌入(character-level embedding)与词级嵌入(word-level embedding)相结合的方式。在字符级嵌入中，作者先用一个一维卷积神经网络对每个长为$l_t$词的各个字符嵌入$t_i^c$进行编码，之后进行全局最大池化，得到每个词唯一的字符级嵌入$t^c$，即$t^c = \text{max}(\text{CNN}(t_1^c, ..., t_{l_t}^c))$；词级嵌入$t^w$则直接用预训练词嵌入GloVe表达。最终，每个词特征$t$可表示为$t = [t^w; t^c]$。
+
+对于句子编码，作者先用双向GRU模型对词特征编码，得到各个词的语境特征(contextualized representation)：
+
+$$
+(c_1, ..., c_m) = \text{BiGRU}(t_1, ..., t_m)
+$$
+
+其中$m$为段落内词总数。之后将各个词划分入各自对应的句子组中，并各自进行全局最大池化，即可得到每个句子的特征$s_i$，即$s_i = \text{max}(c_{i_1}, ..., c_{i_l})$，$l$为第$i$个句子的长度。
+
+#### 2.1.2 问题编码
+对于第一次检索迭代，问题编码方式与段落编码类似，但不考虑句子层面的信息，而是将问题进行整体编码，即对各个问题词的语境特征进行全局最大池化，得到问题特征$q$。
+
+对于随后的检索迭代，作者将上一次迭代的问题词语境特征$(c_1^q, ..., c_{n_q}^q)$和段落词语境特征$(c_1^p, ..., c_{n_p}^p)$作为输入，生成新一轮迭代的问题特征。首先将这两个语境特征通过一个双向注意力(bidirectional attention)层进行编码。问题词$i$和段落词$j$的注意力可表示为：
+
+$$
+a_{ij} = w_1^a \cdot c_i^q + w_2^a \cdot c_j^p + w_3^a \cdot (c_i^q \odot c_j^p)
+$$
+
+则每个问题词的注意力特征$a_i^q$为：
+
+$$
+\alpha_{ij} = \frac{e^{a_{ij}}}{\sum_{j=1}^{n_p} e^{a_{ij}}}, a_i^q = \sum_{j=1}^{n_p} \alpha_{ij} c_j^p
+$$
+
+段落对问题的整体注意力特征$a^p$为：
+
+$$
+\begin{array}{cl}
+m_i = \max_{i \leq j \leq n_p} a_{ij}, \beta_i = \frac{e^{m_i}}{\sum_{i=1}^{n_q} e^{m_i}} \\\\
+a^p = \sum_{i=1}^{n_q} \beta_i c_i^q
+\end{array}
+$$
+
+之后作者将$c_i^q, a_i^q, c_i^q \odot a_i^q, a^p \odot a_i^q$拼接起来送入一层带ReLU的线性层，同时用一个残差连接将该特征与该特征通过一个双向GRU和一个带ReLU线性层的另一特征进行求和，得到最终的双向注意力向量。最后通过一个全局最大池化，得到新一轮迭代的问题特征$\tilde{q}$。
+
+#### 2.1.3 问题-段落相关得分
+给定一个包含$n_k$个句子的段落$P$，其各个句子的特征为$\\{s_1, ..., s_{n_k}\\}$；以及一个问题$Q$，其特征为$q$，则$Q$与$P$的相关度为：
+
+$$
+\text{rel}(Q, P) = \max_{i = 1, ..., n_k} \sigma(\begin{bmatrix} s_i \\ s_i \odot q \\ s_i \cdot q \\ q \end{bmatrix}^T \cdot \begin{bmatrix} w_1 \\ w_2 \\ w_3 \\ w_4 \end{bmatrix} + b)
+$$
+
+其中，$w_1, w_2, w_4 \in \mathbb{R}^d, w_3, b \in \mathbb{R}$。
+
+#### 2.1.4 训练与损失函数
+每一个训练样本包含一个问题和两个段落，$(Q, P^1, P^2)$，其中$P^i$对应第$i$次迭代检索到的段落。各个迭代的损失形式相同，最终的损失是各个迭代损失之和。每个迭代的损失函数包括两部分：二元交叉熵损失(binary cross-entropy loss)和排序损失(ranking loss)，其中交叉熵损失可表示为：
+
+$$
+L_{CE} = -\frac{1}{N} \sum_{i = 1}^N y_i \text{log}(\text{rel}(Q_i, P_i)) + (1 - y_i) \text{log} (1 - \text{rel}(Q_i, P_i))
+$$
+
+其中$N$表示当前批量的样本数。对于排序损失，首先计算出每个批量内和与问题$Q_i$相对应的所有正负样本的相关度均值$q_i^{pos}$和$q_i^{neg}$，即：
+
+$$
+\begin{array}{cl}
+q_i^{pos} = \frac{1}{M_1} \sum_{j=1}^{M_1} \text{rel}(Q_i, P_i) \\\\
+q_i^{neg} = \frac{1}{M_2} \sum_{j=1}^{M_2} \text{rel}(Q_i, P_i)
+\end{array}
+$$
+
+其中$M_1$和$M_2$是问题$Q_i$对应的正负样本数。则余量(margin)排序损失可定义为：
+
+$$
+L_R = \frac{1}{M} \sum_{i = 1}^M \max(0, \gamma - q_i^{pos} + q_i^{neg})
+$$
+
+其中$M$是当前批量中不同问题的个数。最终损失为：
+
+$$
+L = L_{CE} + \lambda L_R
+$$
+
+### 2.2 段落阅读器
+该部分模型与问题特征调整模型很相似，首先用和上述同样的方法分别得到问题和段落的词语境特征，并将其送入双向注意力层，但与之前不同的是，问题和段落在公式中的角色互换。之后通过类似的残差网络得到最终注意力特征，但在双向GRU与后面的线性层之间增添一个段落自注意层。最后将该特征送入预测层，首先通过一个双向GRU层和一个线性层预测答案片段起始位置得分；之后将该GRU层输出特征与输入注意力特征进行拼接送入另一个双向GRU层和线性层，预测答案片段结束位置得分。
+
+该阅读器的起始位置损失可由下式表示：
+
+$$
+L_{start} = -\text{log}(\frac{\sum_{j \in P^Q} \sum_{k \in A_j} e^{s_{kj}}}{\sum_{j \in P^Q}{\sum_{i=1}^{n_j} e^{s_{ij}}}})
+$$
+
+其中，$P^Q$是和同一问题$Q$相匹配的段落集合，$A_j$是第$j$个段落里所有答案片段的起始词集合，$s_{ij}$是第$j$个段落里第$i$个词的预测得分。阅读器的结束位置损失形式与上式一致。则阅读器最终的损失为$L_{span} = L_{start} + L_{end}$。
 
 
 ---
 
 
-# $\mathit{II.}$ *Text Summarization*
-# Get To The Point: Summarization with Pointer-Generator Networks
-Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
-
-# Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization
-Yang Deng, Wenxuan Zhang, Yaliang Li, Min Yang, Wai Lam, and Ying Shen. [Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization](https://dl.acm.org/doi/abs/10.1145/3397271.3401208). SIGIR 2020.
-
-
+*Question Generation*
 ---
 
-
-# $\mathit{III.}$ *Question Generation*
 # Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders
 Yansen Wang, Chenyi Liu, Minlie Huang, and Liqiang Nie. [Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders](https://www.aclweb.org/anthology/P18-1204.pdf). ACL 2018.
 
@@ -334,7 +426,12 @@ Boyuan Pan, Hao Li, Ziyu Yao, Deng Cai, and Huan Sun. [Reinforced Dynamic Reason
 ---
 
 
-# $\mathit{IV.}$ *Answer Selection*
+*Answer Selection & Summarization*
+---
+
+# Get To The Point: Summarization with Pointer-Generator Networks
+Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
+
 # Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs
 Ying Shen, Yang Deng, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs](https://dl.acm.org/doi/10.1145/3209978.3210081). SIGIR 2018.
 
@@ -347,4 +444,6 @@ Yang Deng, Yuexiang Xie, Yaliang Li, Min Yang, Nan Du, Wei Fan, Kai Lei, and Yin
 # Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering
 Yang Deng, Wai Lam, Yuexiang Xie, Daoyuan Chen, Yaliang Li, Min Yang, and Ying Shen. [Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering](https://arxiv.org/pdf/1911.09801.pdf). AAAI 2020.
 
+# Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization
+Yang Deng, Wenxuan Zhang, Yaliang Li, Min Yang, Wai Lam, and Ying Shen. [Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization](https://dl.acm.org/doi/abs/10.1145/3397271.3401208). SIGIR 2020.
 

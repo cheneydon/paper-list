@@ -10,7 +10,7 @@ Record the papers I have read so far.
 6. (GRAFT-Net) Open Domain Question Answering Using Early Fusion of Knowledge Bases and Text, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1455.pdf)]
 7. Improving Question Answering over Incomplete KBs with Knowledge-Aware Reader, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1417.pdf)] [[Note]()]
 8. PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text, EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1242.pdf)]
-9. Multi-Hop Paragraph Retrieval for Open-Domain Question Answering, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note]()]
+9. (MUPPET) Multi-Hop Paragraph Retrieval for Open-Domain Question Answering, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note]()]
 10. (CopyNet) Incorporating Copying Mechanism in Sequence-to-Sequence Learning, ACL 2016. [[Paper](https://www.aclweb.org/anthology/P16-1154.pdf)]
 11. Get To The Point: Summarization with Pointer-Generator Networks, ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)] [[Note]()]
 12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note]()]
