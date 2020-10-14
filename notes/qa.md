@@ -66,7 +66,8 @@ $$
 
 $$
 \begin{array}{cl}
-P_{start}(i) \propto \text{exp}(p_i W_s q) \\\ P_{end}(i) \propto \text{exp}(p_i W_e q)
+&P_{start}(i) \propto \text{exp}(p_i W_s q) \\\\
+&P_{end}(i) \propto \text{exp}(p_i W_e q)
 \end{array}
 $$
 
@@ -102,7 +103,8 @@ Yankai Lin, Haozhe Ji, Zhiyuan Liu, and Maosong Sun. [Denoising Distantly Superv
 
 $$
 \begin{array}{cl}
-\hat{\textbf{q}} = \sum_j \alpha^j \hat{\textbf{q}}^j \\\ \alpha_i = \frac{\text{exp}(w_b \cdot q_i)}{\sum_j \text{exp}(w_b \cdot q_j)}
+&\hat{\textbf{q}} = \sum_j \alpha^j \hat{\textbf{q}}^j \\\\
+&\alpha_i = \frac{\text{exp}(w_b \cdot q_i)}{\sum_j \text{exp}(w_b \cdot q_j)}
 \end{array}
 $$
 
@@ -117,7 +119,9 @@ $$
 
 $$
 \begin{array}{cl}
-\text{Pr}(a|q, p_i) = P_s(a_s) P_e(a_e) \\\ P_s(j) = \text{softmax}(\bar{\textbf{p}}_i^j \textbf{W}_s \bar{\textbf{q}}) \\\ P_e(j) = \text{softmax}(\bar{\textbf{p}}_i^j \textbf{W}_e \bar{\textbf{q}})
+&\text{Pr}(a|q, p_i) = P_s(a_s) P_e(a_e) \\\\ 
+&P_s(j) = \text{softmax}(\bar{\textbf{p}}_i^j \textbf{W}_s \bar{\textbf{q}}) \\\\ 
+&P_e(j) = \text{softmax}(\bar{\textbf{p}}_i^j \textbf{W}_e \bar{\textbf{q}})
 \end{array}
 $$
 
@@ -154,7 +158,8 @@ $$
 
 $$
 \begin{array}{cl}
-\hat{a} &= \text{argmax}_a \text{Pr}(a|q, P) \\\ &= \text{argmax}_a \sum\_{p_i \in P} \text{Pr}(a|q, p_i) \text{Pr}(p_i|q, P) 
+\hat{a} &= \text{argmax}_a \text{Pr}(a|q, P) \\\\ 
+&= \text{argmax}_a \sum\_{p_i \in P} \text{Pr}(a|q, p_i) \text{Pr}(p_i|q, P) 
 \end{array}
 $$
 
@@ -217,7 +222,8 @@ $$
 
 $$
 \begin{array}{cl}
-L = L_{rank} + \lambda L_{reg} \\\ L_{reg} = ||A||_1 + ||B||_1 + ||b_1||_1 + ||b_2||_1
+&L = L_{rank} + \lambda L_{reg} \\\\ 
+&L_{reg} = ||A||_1 + ||B||_1 + ||b_1||_1 + ||b_2||_1
 \end{array}
 $$
 
@@ -269,9 +275,9 @@ $$
 
 $$
 \begin{array}{cl}
-\vec{e'} = \gamma^e \vec{e} + (1 - \gamma^e) \sum_{(e_i, r_i) \in N_e} \tilde{s}\_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}]) \\\\
-\gamma^e = g(\vec{e}, \sum_{(e_i, r_i) \in N_e} \tilde{s}_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}])) \\\\
-g(x, y) = \text{sigmoid}(W[x; y])
+&\vec{e'} = \gamma^e \vec{e} + (1 - \gamma^e) \sum_{(e_i, r_i) \in N_e} \tilde{s}\_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}]) \\\\
+&\gamma^e = g(\vec{e}, \sum_{(e_i, r_i) \in N_e} \tilde{s}_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}])) \\\\
+&g(x, y) = \text{sigmoid}(W[x; y])
 \end{array}
 $$
 
@@ -285,8 +291,8 @@ $$
 
 $$
 \begin{array}{cl}
-\vec{q'} = \gamma^q \vec{q} + (1 - \gamma^q) \text{tanh}(W^q [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}]) \\\\
-\gamma^q = \text{sigmoid}(W^{gq} [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}])
+&\vec{q'} = \gamma^q \vec{q} + (1 - \gamma^q) \text{tanh}(W^q [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}]) \\\\
+&\gamma^q = \text{sigmoid}(W^{gq} [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}])
 \end{array}
 $$
 
@@ -295,8 +301,8 @@ $$
 
 $$
 \begin{array}{cl}
-\vec{i_{w_i}^d} = \gamma^d \vec{e'\_{w_i}} + (1 - \gamma^d) \vec{f\_{w_i}^d} \\\\
-\gamma^d = \text{sigmoid}(W^{gd} [\vec{q} \cdot \vec{e'\_{w_i}}; \vec{q} \cdot \vec{f\_{w_i}^d}])
+&\vec{i_{w_i}^d} = \gamma^d \vec{e'\_{w_i}} + (1 - \gamma^d) \vec{f\_{w_i}^d} \\\\
+&\gamma^d = \text{sigmoid}(W^{gd} [\vec{q} \cdot \vec{e'\_{w_i}}; \vec{q} \cdot \vec{f\_{w_i}^d}])
 \end{array}
 $$
 
@@ -353,15 +359,19 @@ $$
 则每个问题词的注意力特征$a_i^q$为：
 
 $$
-\alpha_{ij} = \frac{e^{a_{ij}}}{\sum_{j=1}^{n_p} e^{a_{ij}}}, a_i^q = \sum_{j=1}^{n_p} \alpha_{ij} c_j^p
+\begin{array}{cl}
+&a_i^q = \sum_{j=1}^{n_p} \alpha_{ij} c_j^p \\\\
+&\alpha_{ij} = \frac{e^{a_{ij}}}{\sum_{j=1}^{n_p} e^{a_{ij}}}
+\end{array}
 $$
 
 段落对问题的整体注意力特征$a^p$为：
 
 $$
 \begin{array}{cl}
-m_i = \max_{i \leq j \leq n_p} a_{ij}, \beta_i = \frac{e^{m_i}}{\sum_{i=1}^{n_q} e^{m_i}} \\\\
-a^p = \sum_{i=1}^{n_q} \beta_i c_i^q
+&a^p = \sum_{i=1}^{n_q} \beta_i c_i^q \\\\
+&\beta_i = \frac{e^{m_i}}{\sum_{i=1}^{n_q} e^{m_i}} \\\\
+&m_i = \max_{i \leq j \leq n_p} a_{ij}
 \end{array}
 $$
 
@@ -371,7 +381,7 @@ $$
 给定一个包含$n_k$个句子的段落$P$，其各个句子的特征为$\\{s_1, ..., s_{n_k}\\}$；以及一个问题$Q$，其特征为$q$，则$Q$与$P$的相关度为：
 
 $$
-\text{rel}(Q, P) = \max_{i = 1, ..., n_k} \sigma(\begin{bmatrix} s_i \\ s_i \odot q \\ s_i \cdot q \\ q \end{bmatrix}^T \cdot \begin{bmatrix} w_1 \\ w_2 \\ w_3 \\ w_4 \end{bmatrix} + b)
+\text{rel}(Q, P) = \max_{i = 1, ..., n_k} \sigma(\begin{bmatrix} s_i \\\ s_i \odot q \\\ s_i \cdot q \\\ q \end{bmatrix}^T \cdot \begin{bmatrix} w_1 \\\ w_2 \\\ w_3 \\\ w_4 \end{bmatrix} + b)
 $$
 
 其中，$w_1, w_2, w_4 \in \mathbb{R}^d, w_3, b \in \mathbb{R}$。
@@ -387,8 +397,8 @@ $$
 
 $$
 \begin{array}{cl}
-q_i^{pos} = \frac{1}{M_1} \sum_{j=1}^{M_1} \text{rel}(Q_i, P_i) \\\\
-q_i^{neg} = \frac{1}{M_2} \sum_{j=1}^{M_2} \text{rel}(Q_i, P_i)
+&q_i^{pos} = \frac{1}{M_1} \sum_{j=1}^{M_1} \text{rel}(Q_i, P_i) \\\\
+&q_i^{neg} = \frac{1}{M_2} \sum_{j=1}^{M_2} \text{rel}(Q_i, P_i)
 \end{array}
 $$
 
