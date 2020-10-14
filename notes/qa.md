@@ -262,8 +262,8 @@ $$
 
 $$
 \begin{array}{cl}
-\vec{e}' = \gamma^e \vec{e} + (1 - \gamma^e) \sum_{(e_i, r_i) \in N_e} \tilde{s}\_{(r_i, e_i)} \sigma (W_e [\vec{r}_i; \vec{e}_i]) \\\\
-\gamma^e = g(\vec{e}, \sum_{(e_i, r_i) \in N_e} \tilde{s}_{(r_i, e_i)} \sigma (W_e [\vec{r}_i; \vec{e}_i])) \\\\
+\vec{e'} = \gamma^e \vec{e} + (1 - \gamma^e) \sum_{(e_i, r_i) \in N_e} \tilde{s}\_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}]) \\\\
+\gamma^e = g(\vec{e}, \sum_{(e_i, r_i) \in N_e} \tilde{s}_{(r_i, e_i)} \sigma (W_e [\vec{r_i}; \vec{e_i}])) \\\\
 g(x, y) = \text{sigmoid}(W[x; y])
 \end{array}
 $$
@@ -274,12 +274,12 @@ $$
 知识型文本阅读器KAR是在DrQA所提的阅读理解模型的基础上进行了一定的改进，使其可以学习更多的知识图谱知识，主要包括3个部分：潜空间的问题重构(query reformulation)、知识型段落信息增强(knowledge-aware passage enhancement)、以及来自文本阅读的实体信息聚合(entity info aggregation)。
 
 #### 3.2.1 潜空间的问题重构
-该部分通过将问题内的主题实体对应的知识图谱特征整合进问题特征中，使得阅读器可以区分文本匹配外的相关信息。首先对问题特征$h^q$进行自注意力编码，可得$\vec{q} = \sum_i b_i \vec{h}_i^q$；之后收集问题中主题实体的知识图谱特征，可得$\vec{e}^q = \sum_{e \in \mathcal{E}_0} \vec{e}' / |\mathcal{E}_0|$；接下来，作者采用门控函数得到最终的问题特征，即：
+该部分通过将问题内的主题实体对应的知识图谱特征整合进问题特征中，使得阅读器可以区分文本匹配外的相关信息。首先对问题特征$h^q$进行自注意力编码，可得$\vec{q} = \sum_i b_i \vec{h}\_i^q$；之后收集问题中主题实体的知识图谱特征，可得$\vec{e}^q = \sum_{e \in \mathcal{E}_0} \vec{e'} / |\mathcal{E}_0|$；接下来，作者采用门控函数得到最终的问题特征，即：
 
 $$
 \begin{array}{cl}
-\vec{q}' = \gamma^q \vec{q} + (1 - \gamma^q) \text{tanh}(W^q [\vec{q}; \vec{e}^q; \vec{q} - \vec{e}^q]) \\\\
-\gamma^q = \text{sigmoid}(W^{gq} [\vec{q}; \vec{e}^q; \vec{q} - \vec{e}^q])
+\vec{q'} = \gamma^q \vec{q} + (1 - \gamma^q) \text{tanh}(W^q [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}]) \\\\
+\gamma^q = \text{sigmoid}(W^{gq} [\vec{q}; \vec{e^q}; \vec{q} - \vec{e^q}])
 \end{array}
 $$
 
@@ -288,16 +288,16 @@ $$
 
 $$
 \begin{array}{cl}
-\vec{i}_{w_i}^d = \gamma^d \vec{e}_{w_i}' + (1 - \gamma^d) \vec{f}_{w_i}^d \\\\
-\gamma^d = \text{sigmoid}(W^{gd} [\vec{q} \cdot \vec{e}_{w_i}'; \vec{q} \cdot \vec{f}_{w_i}^d])
+\vec{i}_{w_i}^d = \gamma^d \vec{e'}_{w_i} + (1 - \gamma^d) \vec{f}_{w_i}^d \\\\
+\gamma^d = \text{sigmoid}(W^{gd} [\vec{q} \cdot \vec{e'}_{w_i}; \vec{q} \cdot \vec{f}_{w_i}^d])
 \end{array}
 $$
 
 #### 3.2.3 来自文本阅读的实体信息聚合
-作者通过一个双向LSTM将知识增强后的词特征$\vec{i}_{w_i}^d$进行编码，得到词最终特征$\vec{h}_{w_i}^d$，并计算各个词与问题的注意力得分$\lambda_i = \vec{q}'^T \vec{h}_{w_i}^d$，以及每个文档的注意力加权特征$\vec{d} = \sum_i \lambda_i \vec{h}_{w_i}^d$。那么，对于对于一个给定的实体$e$和所有包含该实体的文章$\mathcal{D}^e = \\{d | e \in d\\}$，该实体的聚合特征可表示为$\vec{e}_d = \frac{1}{|\mathcal{D}^e|} \sum_{d \in \mathcal{D^e}} \vec{d}$。
+作者通过一个双向LSTM将知识增强后的词特征$\vec{i}_{w_i}^d$进行编码，得到词最终特征$\vec{h}_{w_i}^d$，并计算各个词与问题的注意力得分$\lambda_i = \vec{q'}^T \vec{h}_{w_i}^d$，以及每个文档的注意力加权特征$\vec{d} = \sum_i \lambda_i \vec{h}_{w_i}^d$。那么，对于对于一个给定的实体$e$和所有包含该实体的文章$\mathcal{D}^e = \\{d | e \in d\\}$，该实体的聚合特征可表示为$\vec{e}_d = \frac{1}{|\mathcal{D}^e|} \sum_{d \in \mathcal{D^e}} \vec{d}$。
 
 ### 3.3 答案预测
-有了实体特征$\vec{e}'$和$\vec{e}^d$，那么每个实体为真实答案的概率可以表示为$s^e = \sigma_s(\vec{q}'^T W_s [\vec{e}'; \vec{e}^d])$。
+有了实体特征$\vec{e'}$和$\vec{e^d}$，那么每个实体为真实答案的概率可以表示为$s^e = \sigma_s(\vec{q'}^T W_s [\vec{e'}; \vec{e^d}])$。
 
 
 ---
