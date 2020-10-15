@@ -86,6 +86,7 @@ Record the papers I have read so far.
 54. Big Bird: Transformers for Longer Sequences, arXiv 2020. [[Paper](https://arxiv.org/pdf/2007.14062.pdf)]
 55. Very Deep Transformers for Neural Machine Translation, arXiv 2020. [[Paper](https://arxiv.org/pdf/2008.07772.pdf)]
 56. AMBERT: A Pre-trained Language Model with Multi-Grained Tokenization, arXiv 2020. [[Paper](https://arxiv.org/pdf/2008.11869.pdf)]
+57. Improving BERT Fine-Tuning via Self-Ensemble and Self-Distillation, arXiv 2020. [[Paper](https://arxiv.org/pdf/2002.10345.pdf)]
 
 
 ## AutoML & Dynamic Networks & Self-Supervised Learning

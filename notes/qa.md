@@ -1,5 +1,4 @@
-*Open-Domain Question Answering*
----
+## *I. Open-Domain Question Answering*
 
 # (DrQA) Reading Wikipedia to Answer Open-Domain Questions
 Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to Answer Open-Domain Questions](https://www.aclweb.org/anthology/P17-1171.pdf). ACL 2017.
@@ -13,7 +12,7 @@ Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to 
 ![](./images/qa/drqa_overview.jpg)
 
 ### 2.1 文档检索器
-文章和问题通过TF-IDF加权词袋向量(bag-of-word vectors)、局部词的二元组(bigram)特征的次序进行比对，并用无符号murmur3哈希算法将二元词组映射为$2^{24}$组值之一。对于一个给定的问题，文档检索器返回5个维基百科文章。
+文章和问题通过TF-IDF加权词袋向量(bag-of-word vectors)进行比对，并通过二元文法特征(bigram feature)将局部词的顺序考虑在内以提高效果。同时用无符号murmur3哈希算法将二元词组映射为$2^{24}$组值之一。对于一个给定的问题，文档检索器返回5个维基百科文章。
 
 **注：词袋向量与TF-IDF算法介绍**  
 (1) 词袋向量表征单词在各个文档内出现的频率。通过计算一个单词在各个个文档里面出现的次数，并进行归一化，可以得到该单词对应的词袋向量，如下所示：
@@ -42,7 +41,7 @@ $$
 
 (1) **词嵌入**：采用维度为300的Glove预训练词嵌入，并使大部分的预训练词嵌入权重固定，只对1000个最高频的问题单词进行微调，如what, how, which, many，这些词对问答系统会很重要；
 
-(2) **完全匹配**：用3个二元特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{\text{exact\_match}}(p_i) = \mathbb{I}(p_i \in q)$；
+(2) **完全匹配**：用3个二元文法特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{\text{exact\_match}}(p_i) = \mathbb{I}(p_i \in q)$；
 
 (3) **单词特征**：$f_{token}(p_i) = (\text{POS}(p_i), \text{NER}(p_i), \text{TF}(p_i))$，其中包含3个部分：词性(part-of-speech, POS)，命名实体识别(named entity recognition, NER)，和归一化的单词频率(term frequency, TF)；
 
@@ -74,7 +73,7 @@ $$
 预测时选择各个段落内$P_{start}(i) \times P_{end}(i')$最大的单词片段$i$至$i'$，且$i \leq i' \leq i + 15$。
 
 ### 2.3 远程监督与多任务学习
-作者在文中共用到4个数据集：SQuAD、CuratedTREC、WebQuestions和WikiMovies，但后3个数据集只包含问题-答案对，不像SQuAD那样还包含相关的文档或段落，因此不能直接用来训练文档阅读器。作者采用了远程监督的方式，首先对每个问题用文档检索器找到5个最相关的维基百科文章，接着，这些文章里不包含完全匹配答案的段落排除掉，少于25或长于1500字符的段落排除掉。如果在问题中检测到了命名实体(named entity)，不包含这些命名实体的段落排除掉。对于剩下的段落，作者对每一个段落内和答案匹配的句子内各个位置进行打分，用问题和一个20单词长度的窗口间一元组与二元组的重叠情况作为依据，最终找到5个重叠率最高的段落作为远程监督数据。在对各个数据集评测时，作者用多任务学习的方式，在4个数据集上联合训练，使得对应数据集的评测效果有了进一步的提高。
+作者在文中共用到4个数据集：SQuAD、CuratedTREC、WebQuestions和WikiMovies，但后3个数据集只包含问题-答案对，不像SQuAD那样还包含相关的文档或段落，因此不能直接用来训练文档阅读器。作者采用了远程监督的方式，首先对每个问题用文档检索器找到5个最相关的维基百科文章，接着，这些文章里不包含完全匹配答案的段落排除掉，少于25或长于1500字符的段落排除掉。如果在问题中检测到了命名实体(named entity)，不包含这些命名实体的段落排除掉。对于剩下的段落，作者对每一个段落内和答案匹配的句子内各个位置进行打分，用问题和一个20单词长度的窗口间一元词组与二元词组的重叠度作为依据，最终找到5个重叠率最高的段落作为远程监督数据。在对各个数据集评测时，作者用多任务学习的方式，在4个数据集上联合训练，使得对应数据集的评测效果有了进一步的提高。
 
 *Ref:*  
 *[A Beginner's Guide to Bag of Words & TF-IDF](https://wiki.pathmind.com/bagofwords-tf-idf)*  
@@ -423,17 +422,114 @@ $$
 L_{start} = -\text{log}(\frac{\sum_{j \in P^Q} \sum_{k \in A_j} e^{s_{kj}}}{\sum_{j \in P^Q}{\sum_{i=1}^{n_j} e^{s_{ij}}}})
 $$
 
-其中，$P^Q$是和同一问题$Q$相匹配的段落集合，$A_j$是第$j$个段落里所有答案片段的起始词集合，$s_{ij}$是第$j$个段落里第$i$个词的预测得分。阅读器的结束位置损失$L_{end}$形式与上式一致。则阅读器最终的损失为$L_{span} = L_{start} + L_{end}$。
+其中，$P^Q$是和同一问题$Q$相匹配的段落集合，$A_j$是第$j$个段落里所有答案片段的起始词集合，$s_{ij}$是第$j$个段落里第$i$个词的预测得分。阅读器的结束位置损失$L_{end}$形式与上式一致。阅读器最终的损失为$L_{span} = L_{start} + L_{end}$。
 
 
 ---
 
 
-*Question Generation*
----
+## *II. Question Generation*
 
 # Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders
 Yansen Wang, Chenyi Liu, Minlie Huang, and Liqiang Nie. [Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders](https://www.aclweb.org/anthology/P18-1204.pdf). ACL 2018.
+
+## 1. 贡献
+(1) 作者提出了在对话系统下的问题生成这一新任务，其与传统的问题生成任务有两点区别：
+
+(a) 首先，在问答系统下的问题生成中，对于同样的输入会有多种提问模式(questioning pattern)，如是否问题或Wh系列问题，不同的提问模式使得对话交互得更丰富灵活；而在传统的问题生成中，需要生成问题的答案语句通常是预先指定的，并直接决定了提问模式。例如，对给定的人进行Who提问，对给定的地点进行Where提问；
+
+(b) 其次，在问答系统下的问题生成中，对于给定的输入需要自然地引出过渡话题，通常需要场景理解(scene understanding)，通过与输入相关的主题词引出过渡话题。例如，对于输入"I went to dinner with my friends."，我们可以对friends或cuisine, price, place, taste等相关主题词进行提问；而在传统的问题生成中，需要提问的核心信息是预先指定的静态信息，其更需要的是意译(paraphrasing)。
+
+(2) 基于以上分析，作者认为一个好问题包含3个类型的词：疑问词(interrogative)，指示提问模式；话题词(topic word)，处理话题过渡的关键信息；以及普通词(ordinary word)，使整个句子句法和语法更自然。基于此，作者提出了软硬类型解码器捕捉不同类型词的信息来提出好问题。这样的类型解码器还可用于其它词语义类型已知的生成任务中。
+
+## 2. 方法
+![](./images/qa/typed_decoder_overview.jpg)
+
+### 2.1 编码-解码器框架
+在传统的编码-解码器框架中，编码器部分通过GRU模型将输入词向量进行编码得到隐层特征序列$h_t$：
+
+$$
+h_t = \text{GRU}(h_{t - 1}, e(x_t))
+$$
+
+解码器部分通过概率$P(y_t | y_{<t}, X)$生成单词序列，由下式计算得到：
+
+$$
+\begin{array}{cl}
+&P(y_t | y_{<t}, X) = \text{MLP}(s_t, e(y_{t - 1}), c_t) \\\\
+&s_t = \text{GRU}(s_{t - 1}, e(y_{t - 1}), c_t) \\\\
+&c_t = \sum_{i = 1}^{T} \alpha_{ti} h_i \\\\
+&\alpha_{ti} = \frac{\text{exp}(e_{ti})}{\sum_{k = 1}^{T} \text{exp}(e_{tk})} \\\\
+&e_{ti} = \text{MLP}(s_{t - 1}, h_i)
+\end{array}
+$$
+
+其中$s_t$是解码器在$t$时刻的隐层特征，$c_t$是$t - 1$时刻解码器隐层特征关于编码器在1至$t-1$时刻隐层特征的注意力特征。
+
+### 2.2 软类型解码器(soft typed decoder, STD)
+STD隐式地指示词的类型，其生成的概率分布$P(y_t | y_{<t}, X)$可表示为：
+
+$$
+\begin{array}{cl}
+&P(y_t | y_{<t}, X) = \sum_{i = 1}^k P(y_t | ty_t = c_i, y_{<t}, X) \cdot P(ty_t = c_i | y_{<t}, X) \\\\
+&P(ty_t | y_{<t}, X) = \text{softmax}(W_0 s_t + b_0) \\\\
+&P(y_t | ty_t = c_i, y_{<t}, X) = \text{softmax}(W_{c_i} s_t + b_{c_i})
+\end{array}
+$$
+
+其中，$ty_t$指$t$时刻的词类型，$c_i$是一个词类型（疑问词、话题词或普通词）；$W_0 \in R^{k \times d}$，$k$是词类型总数为3；$W_{c_i} \in R^{|V| \times d}$，$|V|$是整个单词表大小。
+
+### 2.3 硬类型编码器(hard typed decoder, HTD)
+HTD显示地指示词的类型，其生成的概率分布$P(y_t | y_{<t}, X)$可表示为：
+
+$$
+\begin{array}{cl}
+&P(y_t | y_{<t}, X) = P(y_t | ty_t = c^*, y_{<t}, X) \\\\
+&c^* = \underset{c_i}{\text{argmax}} P(ty_t = c_i | y_{<t}, X)
+\end{array}
+$$
+
+为了使操作可微分，作者用Gumbel-Softmax来近似argmax，则所有单词的概率分布$P'(y_t | y_{<t}, X)$为：
+
+$$
+\begin{array}{cl}
+&P'(y_t | y_{<t}, X) = P(y_t | y_{<t}, X) \cdot \text{Gumbel-Softmax}(P(ty_t = c(y_t) | y_{<t}, X)) \\\\
+&P(y_t | y_{<t}, X) = \text{softmax}(W_0 s_t + b_0) \\\\
+&P(ty_t | y_{<t}, X) = \text{softmax}(W_1 s_t + b_1) \\\\
+&\text{Gumbel-Softmax}(\pi_i) = \frac{e^{(\text{log}(\pi_i) + g_i) / \tau}}{\sum_{j = 1}^k e^{(\text{log}(\pi_j) + g_j) / \tau}}
+\end{array}
+$$
+
+其中，对于每个词会得到$k(k=3)$个Gumbel-Softmax预测值，但只将与该词类型对应的那一个概率作用在该词上。最终将$P'(y_t | y_{<t}, X)$进行归一化得到最终的词概率分布。
+
+### 2.4 损失函数
+作者采用预测词与预测词类型的联合交叉熵损失作为总损失函数$\Phi$，表示如下：
+
+$$
+\begin{array}{cl}
+&\Phi_1 = \sum_t -\text{log} P(y_t = \tilde{y_t} | y_{<t}, X) \\\\
+&\Phi_2 = \sum_t -\text{log} P(ty_t = \tilde{ty_t} | y_{<t}, X) \\\\
+&\Phi = \Phi_1 + \lambda \Phi_2
+\end{array}
+$$
+
+其中$\tilde{y_t}$和$\tilde{ty_t}$表示$t$时刻的参考词与参考词类型。
+
+### 2.5 词类型划分
+作者将句子里的词划分成3个类别：疑问词、话题词与普通词。在训练时，作者手工收集了20个疑问词，将问题中的动词和名词视为话题词，将其它词视为普通词。在测试时，由于HTD需要显示地指定词的类型，因此依然需要划分各个词的类别。疑问词和普通词划分方式与训练时一致，话题词通过PMI算法预测，如下所示：
+
+$$
+\begin{array}{cl}
+&\text{Rel}(k_i, X) = \sum_{w_x \in X} e^\text{PMI}(w_x, k_i) \\\\
+&\text{PMI}(w_x, w_y) = \text{log} \frac{p(w_x, w_y)}{p_1(w_x) \times p_2(w_y)}
+\end{array}
+$$
+
+其中，$p1(w) / p2(w)$表示词$w$在一个输入帖子/提问语句中出现的概率，$p(w_x, w_y)$表示词$w_x$出现在一个输入帖子且词$w_y$出现在对应提问语句中的概率。在测试时，作者对于一个输入帖子预测至多20个话题词，太少的词会影响语法性，太多的词会导致更宽泛的提问。
+
+
+---
+
 
 # Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling
 Yifan Gao, Piji Li, Irwin King, and Michael R. Lyu. [Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling](https://www.aclweb.org/anthology/P19-1480.pdf). ACL 2019.
@@ -445,8 +541,7 @@ Boyuan Pan, Hao Li, Ziyu Yao, Deng Cai, and Huan Sun. [Reinforced Dynamic Reason
 ---
 
 
-*Answer Selection & Summarization*
----
+## *III. Answer Selection & Summarization*
 
 # Get To The Point: Summarization with Pointer-Generator Networks
 Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
