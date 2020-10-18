@@ -587,7 +587,7 @@ $$
 ### 3.3 共指对齐
 共指对齐建模可以让解码器在对话注意力分布中关注到正确的非代词共指对象(non-pronominal coreferent mention)，如Clinton，以生成对应的代词参考词(pronominal reference word)，如he。作者采用了两阶段方法：
 
-(1) 在预处理阶段(pre-processing stage)，给定对话历史$C_{i - 1}$和包含代词参考词（如he）的问题$Q_i$，作者通过一个共指消解系统(可参考：[Deep reinforcement learning for mention-ranking coref- erence models](https://www.aclweb.org/anthology/D16-1245.pdf))找到其在$C_{i - 1}$中对应的共指对象$(w_1^c, ..., w_m^c)$（如clinton）；
+(1) 在预处理阶段(pre-processing stage)，给定对话历史$C_{i - 1}$和包含代词参考词（如he）的问题$Q_i$，作者通过一个共指消解系统（可参考：[Deep reinforcement learning for mention-ranking coref- erence models](https://www.aclweb.org/anthology/D16-1245.pdf)）找到其在$C_{i - 1}$中对应的共指对象$(w_1^c, ..., w_m^c)$（如clinton）；
 
 (2) 在训练阶段，作者设计了一个针对共指对象对话注意力$\beta_i^c$和其代词参考词概率$p_{coref} \in P_V$的损失函数，该共指损失$L_{coref}$为：
 
@@ -645,6 +645,52 @@ $$
 # Get To The Point: Summarization with Pointer-Generator Networks
 Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
 
+## 1. 贡献
+最近基于seq2seq的抽象型文本总结(abstractive summarization)模型取得了不错的效果，但是其存在一些问题，如：无法准确地复制事实细节(factual details)、无法处理超出词汇表(out-of-vocabulary, OOV)的词、多次重复自己等。在本文中，作者提出了一个介于抽取与抽象的文本摘要方法，解决了上述前两个问题；同时提出了一种覆盖机制(coverage mechanism)，解决了模型重复自身的问题。
+
+## 2. 方法
+![](./images/qa/get_to_the_point_overview.jpg)
+
+### 2.1 基准模型
+本文的基准模型是带注意力机制的seq2seq模型，编码器为单层双向LSTM，将输入词$w_i$编码为$h_i$；解码器是单层单向LSTM，在每一时刻$t$接收前一个词的词嵌入（训练时是参考摘要的前一个词，测试时是前一时刻解码器预测得到的词），生成解码隐层特征$s_t$。将时刻$t$解码器隐层特征$s_t$与各个时刻编码器隐层特征$h_i$进行注意力操作，可得语境向量$h_t^\*$，即：
+
+$$
+\begin{array}{cl}
+&h_t^\* = \sum_i a_i^t h_i \\\\
+&a^t = \text{softmax}(e^t) \\\\
+&e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + b_{attn})
+\end{array}
+$$
+
+之后时刻$t$解码器的单词预测分布$P_{vocab} = \text{softmax}(V'(V[s_t, h_t^\*] + b) + b')$，损失为目标单词$w_t^\*$的负对数似然估计，整个句子的总损失$\text{loss}$为：
+
+$$
+\text{loss} = -\frac{1}{T} \sum_{t = 0}^T \text{log} P(w_t^\*)
+$$
+
+### 2.2 指针-生成器网络(pointer-generator network)
+该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
+
+$$
+P(w) = p_{gen} P_{vocab}(w) + (1 - p_{gen}) \sum_{i:w_i = w} a_i^t
+$$
+
+其中，如果$w$是一个OOV词，则$P_{vocab} = 0$；如果$w$未在源文档出现，则$\sum_{i:w_i = w} a_i^t = 0$。
+
+### 2.3 覆盖机制
+应用覆盖机制的模型维持一个覆盖向量$c^t = \sum_{t' = 0}^{t - 1} a^{t'}$，其为所有之前解码器时刻的注意力分布之和。将其作为注意力机制的额外输入，则时刻$t$的注意力分布$a^t$中的$e_i^t$可改写为：
+
+$$
+e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + w_c c_i^t + b_{attn})
+$$
+
+这样可以避免注意力机制重复注意到源文档中的同一个位置，避免生成重复性的文本。此外，作者还定义了一个覆盖损失对重复注意到同一位置的情形进行惩罚，时刻$t$的覆盖损失$\text{covloss}_t = \sum_i \min(a_i^t, c_i^t)$，且$\text{covloss}_t \leq \sum_i a_i^t = 1$。则模型的总损失$\text{loss}$为：
+
+$$
+\text{loss} = \frac{1}{T} \sum_{t = 0}^T (-\text{log} P(w_t^*) + \lambda \sum_i \min(a_i^t, c_i^t))
+$$
+
+
 # Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs
 Ying Shen, Yang Deng, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs](https://dl.acm.org/doi/10.1145/3209978.3210081). SIGIR 2018.
 
@@ -659,4 +705,3 @@ Yang Deng, Wai Lam, Yuexiang Xie, Daoyuan Chen, Yaliang Li, Min Yang, and Ying S
 
 # Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization
 Yang Deng, Wenxuan Zhang, Yaliang Li, Min Yang, Wai Lam, and Ying Shen. [Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization](https://dl.acm.org/doi/abs/10.1145/3397271.3401208). SIGIR 2020.
-
