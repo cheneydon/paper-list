@@ -41,7 +41,7 @@ $$
 
 (1) **词嵌入**：采用维度为300的Glove预训练词嵌入，并使大部分的预训练词嵌入权重固定，只对1000个最高频的问题单词进行微调，如what, how, which, many，这些词对问答系统会很重要；
 
-(2) **完全匹配**：用3个二元文法特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{\text{exact\_match}}(p_i) = \mathbb{I}(p_i \in q)$；
+(2) **完全匹配**：用3个简单的二元特征表示，指示是否$p_i$和一个$q$里面的问题单词完全匹配，问题单词可以是原始、小写或引理形式，公式为$f_{\text{exact\_match}}(p_i) = \mathbb{I}(p_i \in q)$；
 
 (3) **单词特征**：$f_{token}(p_i) = (\text{POS}(p_i), \text{NER}(p_i), \text{TF}(p_i))$，其中包含3个部分：词性(part-of-speech, POS)，命名实体识别(named entity recognition, NER)，和归一化的单词频率(term frequency, TF)；
 
@@ -241,7 +241,7 @@ Wenhan Xiong, Mo Yu, Shiyu Chang, Xiaoxiao Guo, and William Yang Wang. [Improvin
 ## 2 问题定义
 本文的问答系统需要两部分知识，知识图谱三元组$\mathcal{K} = \\{(e_s, r, e_o)\\}$和检索到的维基百科文档$\mathcal{D}$。为了使系统可拓展性更好，作者采用Personalized PageRank算法从问题中提到的主题实体(topic entity) $\mathcal{E}_0 = \\{e | e \in Q\\}$中检索出一个子图谱(subgraph)。文档$\mathcal{D}$由DrQA的文档检索器检索得到，并通过Lucene index算法进一步排序。同时，文档中的实体也被标记并链接到知识图谱实体上。对于每个问题，模型从所有知识图谱与所有文档的实体中选择一个答案实体。
 
-## 3. 模型
+## 3. 方法
 ![](./images/qa/knowledge_aware_reader_overview.jpg)
 
 作者所提模型主要包括2个部分，知识图谱阅读器(sub-graph reader, SGR)与知识型文本阅读器(knowledge-aware text reader, KAR)。
@@ -534,8 +534,107 @@ $$
 # Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling
 Yifan Gao, Piji Li, Irwin King, and Michael R. Lyu. [Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling](https://www.aclweb.org/anthology/P19-1480.pdf). ACL 2019.
 
-# Reinforced Dynamic Reasoning for Conversational Question Generation
-Boyuan Pan, Hao Li, Ziyu Yao, Deng Cai, and Huan Sun. [Reinforced Dynamic Reasoning for Conversational Question Generation](https://www.aclweb.org/anthology/P19-1203.pdf). ACL 2019.
+## 1. 贡献
+(1) 作者提出了一个对话问题生成(conversational question generation, CQG)的新任务，在该场景下，系统需要用问答对话的方式根据文章提出一系列相互关联的问题，在第一轮对话后的每个问题都与对话历史相关；
+
+(2) 在对话问答数据集CoQA上，作者提出的框架效果超过了现有的一些基准模型；同时，作者提出的共指对齐(coreference alignment)方法可以极大地提升生成的代词指代(pronominal reference)的准确度与召回度。
+
+## 2. 问题定义
+对话问题生成任务的定义为，给定一个段落$P$，一个对话历史$C_{i - 1} = \\{(Q_1, A_1), ..., (Q_{i - 1}, A_{i - 1})\\}$，以及当前的答案$A_i$，CQG任务是生成下一轮对话的问题$\bar{Q_i}$，即：
+
+$$
+\bar{Q_i} = \underset{Q_i}{\text{argmax}} \text{Prob}(Q_i | P, A_i, C_{i - 1})
+$$
+
+作者将该问题定义为答案型(answer-aware)问题生成任务，即在生成问题之前，答案语句要事先给定，其中答案语句是段落中的若干文本片段(text fragment)。
+
+## 3. 方法
+![](./images/qa/interconnected_question_generation_overview.jpg)
+
+作者所提的框架主要包括4个部分：多源编码器(multi-source encoder)、带拷贝机制的解码器(decoder with copy mechanism)、共指对齐(coreference alignment)、以及对话流建模(conversation flow modeling)。
+
+### 3.1 多源编码器
+#### 3.1.1 段落编码器
+段落编码器是一个双向LSTM模型，对段落中的词嵌入$w$与答案位置嵌入$a$拼接后的特征$x_i = [w_i; a_i]$进行编码。其中答案位置嵌入是通过传统的BIO标记方法得到的，对段落中的答案片段与非答案片段进行标记，每个词的类别为(B_ANS, I_ANS, O)。整个段落的特征可表示为$(h_1^p, ..., h_m^p)$，其中$m$为句子长度。
+
+#### 3.1.2 对话编码器
+作者用符号\<q\>\<a\>将对话历史中的每个问题答案对拼接成$(<q>, q_1, ..., q_m; <a>,  a_1, ..., a_m)$形式。首先用词级别(token level)的双向LSTM对每个问题答案对编码为$(h_{i - k, 1}^w, ..., h_{i - k, m}^w)$，其中$i - k$是对话轮数，$k \in [1, i)$。为了对对话历史不同轮数的依赖关系进行建模，作者采用了语境级别(context level)的双向LSTM得到不同轮数间的语境依赖特征$(h_1^c, ..., h_{i - 1}^c)$。
+
+### 3.2 带注意力机制和拷贝机制的解码器
+解码器采用另一个LSTM预测单词的概率分布。在每个解码时刻$t$，解码器读入词嵌入$w_t$和前一时刻的隐层特征$h_{t - 1}^d$生成当前隐层特征$h_t^d = \text{LSTM}(w_t, h_{t - 1}^d)$。之后通过下式计算得到段落注意力$\alpha_j$和对话注意力$\beta_{i - k, j}$，并由此确定段落特征与各个历史对话特征的相对重要程度：
+
+$$
+\begin{array}{cl}
+&e_j^p = {h_j^p}^T W_p h_t^d \\\\
+&e_{i - k, j}^w = {h_{i - k, j}^w}^T W_w h_t^d \\\\
+&e_{i - k}^c = {h_{i - k}^c}^T W_c h_t^d \\\\
+&\alpha_j = \frac{e_j^p}{e_{total}} \\\\
+&\beta_{i - k, j} = \frac{e_{i - k, j}^w \times e_{i - k}^c}{e_{total}} \\\\
+\end{array}
+$$
+
+其中$e_{total} = \sum_j e_j^p + \sum_{k, j} e_{i - k, j}^w \times e_{i - k}^c$。最后，语境向量$c_t$和最终单词概率分布$P_V$可表示为：
+
+$$
+\begin{array}{cl}
+&c_t = \sum_j \alpha_j h_j^p + \sum_{j, k} \beta_{i - k, j} h_{i - k, j}^w \\\\
+&P_V = \text{softmax}(W_v (\text{tanh}(W_a [h_t^d; c_t])) + b_v)
+\end{array}
+$$
+
+作者还采用了拷贝机制，具体内容可参见：[Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf)。
+
+### 3.3 共指对齐
+共指对齐建模可以让解码器在对话注意力分布中关注到正确的非代词共指对象(non-pronominal coreferent mention)，如Clinton，以生成对应的代词参考词(pronominal reference word)，如he。作者采用了两阶段方法：
+
+(1) 在预处理阶段(pre-processing stage)，给定对话历史$C_{i - 1}$和包含代词参考词（如he）的问题$Q_i$，作者通过一个共指消解系统(可参考：[Deep reinforcement learning for mention-ranking coref- erence models](https://www.aclweb.org/anthology/D16-1245.pdf))找到其在$C_{i - 1}$中对应的共指对象$(w_1^c, ..., w_m^c)$（如clinton）；
+
+(2) 在训练阶段，作者设计了一个针对共指对象对话注意力$\beta_i^c$和其代词参考词概率$p_{coref} \in P_V$的损失函数，该共指损失$L_{coref}$为：
+
+$$
+L_{coref} = -(\lambda_1 \text{log} \frac{\sum_j \beta_j^c}{\sum_{k, j} \beta_{i - k, j}} + \lambda_2 \text{log} p_{coref}) \times s_c
+$$
+
+其中$s_c$是在预处理阶段非代词共指对象与其代词参考词之间的置信度得分(confidence score)。
+
+### 3.4 对话流建模
+另一个关键的CQG挑战是，在不同论对话间一定要有平滑的过渡词。作者发现，随着对话的进行，大部分问题的关注点从段落的开始渐渐地转移到段落的结尾。因此作者以这个方向对对话流建模以学习不同对话轮数间的过渡词。
+
+#### 3.4.1 流嵌入(flow embedding)
+在该部分作者为段落里面的每个词增加了2个嵌入：轮数嵌入$[t_1, ..., t_n]$，n是考虑的最大轮数；相对位置嵌入$[c_1, ..., c_L]$，段落被均匀地划分为L组句子。则最终的词嵌入特征为单词嵌入、答案位置嵌入和这两个流嵌入的拼接特征，即$x_i = [w_i; a_i; t_i; c_i]$。此外作者还引入了门控自注意力机制(gated self-attention mechanism)，先对加入流嵌入的新的段落特征$H^p = [h_1^p, ..., h_m^p]$进行自注意力操作：
+
+$$
+\begin{array}{cl}
+&\alpha_j^p = \text{softmax}({H^p}^T W_s h_j^p) \\\\
+&u_j^p = H^p \alpha_j^p \\\\
+&f_j^p = \text{tanh}(W_f [h_j^p; u_j^p])
+\end{array}
+$$
+
+之后最终的段落特征$\tilde{h}_j^p$由门控机制得到：
+
+$$
+\begin{array}{cl}
+&\tilde{h}_j^p = g_t^p \odot f_j^p + (1 - g_t^p) \odot h_j^p \\\\
+&g_t^p = \text{sigmoid}(W_g [h_j^p; u_j^p])
+\end{array}
+$$
+
+#### 3.4.2 流损失(flow loss)
+流损失用来显示地告诉模型哪些在答案周围的句子对生成当前轮问题更有帮助，含有更多有用信息。作者对段落中的句子定义了2种类型：如果一个句子会对当前问题提供有用信息，称之为当前依据句子(current evidence sentence, CES)；如果一个句子可以对对话历史提供有用信息，但与当前问题不相关，称之为历史依据句子(history evidence sentence, HES)。之后对于二者的段落注意力$\alpha_j$，通过流损失使得模型关注当前依据句子，而忽视历史依据句子。流损失$L_{flow}$可表示为：
+
+$$
+L_{flow} = -\lambda_3 \text{log} \frac{\sum_{j:w_j \in \text{CES}} \alpha_j}{\sum_j \alpha_j} + \lambda_4 \text{log} \frac{\sum_{j:w_j \in \text{HES}} \alpha_j}{\sum_j \alpha_j}
+$$
+
+则模型总损失$L$为seq2seq模型的交叉熵损失$L_{null}$、共指损失$L_{coref}$与流损失$L_{flow}$之和：
+
+$$
+\begin{array}{cl}
+&L = L_{null} + L_{coref} + L_{flow} \\\\
+&L_{null} = -\text{log} \text{Prob}(Q_i | P, A_i, C_{i - 1})
+\end{array}
+$$
 
 
 ---

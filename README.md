@@ -13,7 +13,7 @@ Record the papers I have read so far.
 9. (MUPPET) Multi-Hop Paragraph Retrieval for Open-Domain Question Answering, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#muppet-multi-hop-paragraph-retrieval-for-open-domain-question-answering)]
 10. (CopyNet) Incorporating Copying Mechanism in Sequence-to-Sequence Learning, ACL 2016. [[Paper](https://www.aclweb.org/anthology/P16-1154.pdf)]
 11. Get To The Point: Summarization with Pointer-Generator Networks, ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)] [[Note]()]
-12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note]()]
+12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#learning-to-ask-questions-in-open-domain-conversational-systems-with-typed-decoders)]
 13. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)]
 14. Answer-focused and Position-aware Neural Question Generation, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)]
 15. Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1480.pdf)] [[Note]()]
