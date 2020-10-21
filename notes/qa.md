@@ -853,13 +853,13 @@ L_{lqg} = L_{qg} + \beta L_{lm}
 $$
 
 ### 2.2 改述数据扩增(paraphrase expansion)
-作者采用谷歌翻译将原始英文文本先翻译成德文，再翻译回英文，得到其改述文本。对于输入句子$s$和其标准参考问题(golden reference question) $q$，我们可以得到相应的改述句子$s'$和改述问题$q'$，具体如下图所示：
+作者采用谷歌翻译将原始英文文本先翻译成德文，再翻译回英文，得到其改述文本。对于输入句子$s$和其标准参考问题(golden reference question) $q$，我们可以得到相应的改述句子$s'$和改述问题$q'$，如下图例子所示：
 
 ![](./images/qa/how_to_ask_good_questions_paraphrase_expansion.jpg)
 
 ### 2.3 带改述文本生成的多任务学习(multi-task learning with paraphrase generation)
 #### 2.3.1 辅助的改述文本生成任务(auxiliary PG task)
-特征增强后的词嵌入先通过任务共享(task-share)编码器进行编码，之后分别送入PG和QG解码器。PG和QG解码器各有2层，其结构一致但参数不一致。在该任务中，输入是原始句子$s$，训练目标是最小化生成句子与扩展改述句子(expanded sentence paraphrase)间的交叉熵损失$L_{pg}$：
+特征增强后的词嵌入先通过任务共享(task-share)编码器进行编码，之后分别送入PG和QG解码器。PG和QG解码器各有2层，其结构一致但参数不一致。在该任务中，输入是原始句子$s$，训练目标是最小化与扩展改述句子(expanded sentence paraphrase) $s'$间的交叉熵损失$L_{pg}$：
 
 $$
 L_{pg} = -\frac{1}{T_{pg}} \sum_{t = 1}^{T_{pg}} \text{log} P(y_t^{pg} = s_t')
