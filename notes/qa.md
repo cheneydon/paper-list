@@ -809,3 +809,82 @@ $$
 ### 2.7 由粗到细的生成(coarse-to-fine generation)
 半自回归式的生成方式使得处理问题间的共指任务更加困难，特别是在不同组的问题。因此，作者采用了一种由粗到细的生成方式，解码器只需要生成粗粒度的问题，即每个代词由一个占位符(placeholder) "[p]"替换。之后通过一个额外的预训练共指消解模型把代词填入到不同的占位符中。
 
+
+---
+
+
+# How to Ask Good Questions? Try to Leverage Paraphrases
+Xin Jia, Wenjie Zhou, Xu Sun, and Yunfang Wu. [How to Ask Good Questions? Try to Leverage Paraphrases](https://www.aclweb.org/anthology/2020.acl-main.545.pdf). ACL 2020.
+
+## 1. 贡献
+传统的问题生成模型由于缺乏句子转述(paraphrase)知识，生成的句子只是简单地从输入句子里面拷贝某些词，因此生成句子的质量不高，很难达到人工设计问题的效果。因此，作者引入了句子转述知识，使得生成的问题更接近人类的设计。通过实验发现，作者引入的转述知识明显提高了问题生成的效果。
+
+## 2. 方法
+![](./images/qa/how_to_ask_good_questions_overview.jpg)
+
+### 2.1 基准模型
+#### 2.1.1 特征增强型指针-生成器(feature-enriched pointer-generator)
+基准模型的编码器是一个双向LSTM模型，输入是特征增强后的嵌入$e_i = [w_i; a_i; n_i; p_i; u_i]$，其中$w_i, a_i, n_i, p_i, u_i$分别表示单词嵌入、答案位置、命名实体、词性、单词大小写。模型的解码器是带注意力机制的单向LSTM模型。之后，指针-生成器会同时计算生成词汇表单词的概率$P_{vocab}$与从源文本拷贝各个单词的概率$P_{copy}$，并通过一个生成概率$p_g$将两个单词预测概率结合起来，即：
+
+$$
+P(w) = p_g P_{vocab} + (1 - p_g) P_{copy}
+$$
+
+训练目标是最小化与目标句子$q$的对数似然函数：
+
+$$
+L_{qg} = -\frac{1}{T_{qp}} \sum_{t = 1}^{T_{qg}} \text{log} P(y_t^{qg} = q_t)
+$$
+
+#### 2.1.2 语言模型增强型问题生成(language modeling enhanced QG)
+输入句子首先送入语言模型模块得到语义(semantic)隐层特征$h^{lm}$，之后该特征与输入进行拼接，得到语言模型增强型词嵌入$e_i = [w_i; a_i; n_i; p_i; u_i; h_i^{lm}]$。语言模型的损失函数$L_{lm}$被定义为：
+
+$$
+\begin{array}{cl}
+L_{lm} &= -\frac{1}{T_{lm} - 1} \sum_{t = 1}^{T_{lm} - 1} \text{log}(P^{lm}(w_{t +1} | w_{<t + 1})) \\\\
+&=-\frac{1}{T_{lm} - 1} \sum_{t = 2}^{T_{lm}} \text{log}(P^{lm}(w_{t - 1} | w_{>t - 1}))
+\end{array}
+$$
+
+其中$P^{lm}(w_{t +1} | w_{<t + 1})$和$P^{lm}(w_{t - 1} | w_{>t - 1})$分别表示下一个词和前一个词的生成概率。则语言模型增强型问题生成的总损失$L_{lqg}$为：
+
+$$
+L_{lqg} = L_{qg} + \beta L_{lm}
+$$
+
+### 2.2 改述数据扩增(paraphrase expansion)
+作者采用谷歌翻译将原始英文文本先翻译成德文，再翻译回英文，得到其改述文本。对于输入句子$s$和其标准参考问题(golden reference question) $q$，我们可以得到相应的改述句子$s'$和改述问题$q'$，具体如下图所示：
+
+![](./images/qa/how_to_ask_good_questions_paraphrase_expansion.jpg)
+
+### 2.3 带改述文本生成的多任务学习(multi-task learning with paraphrase generation)
+#### 2.3.1 辅助的改述文本生成任务(auxiliary PG task)
+特征增强后的词嵌入先通过任务共享(task-share)编码器进行编码，之后分别送入PG和QG解码器。PG和QG解码器各有2层，其结构一致但参数不一致。在该任务中，输入是原始句子$s$，训练目标是最小化生成句子与扩展改述句子(expanded sentence paraphrase)间的交叉熵损失$L_{pg}$：
+
+$$
+L_{pg} = -\frac{1}{T_{pg}} \sum_{t = 1}^{T_{pg}} \text{log} P(y_t^{pg} = s_t')
+$$
+
+#### 2.3.2 软共享策略(soft sharing strategy)
+作者仅对PG和QG解码器的第一层采用软共享策略，做法是最小化软共享层的模型参数，该软共享损失$L_{sf}$可定义为：
+
+$$
+L_{sf} = \sum_{d \in \mathcal{D}} || \theta_d - \phi_d ||_2
+$$
+
+### 2.4 通过最小损失函数进行多元化训练(diversity training with min-loss function)
+为了提供多种生成模式，作者将训练目标从一个标准参考问题调整为含有扩展改述文本的多个参考问题，并在这些参考中采用了最小损失函数进行训练。则上述的问题生成损失$L_{qg}$可改写为：
+
+$$
+L_{qg} = \min_{q \in \mathcal{Q}} (-\frac{1}{T_{qg}} \sum_{t = 1}^{T_{qg}} \text{log} P(y_t^{qg} = q_t))
+$$
+
+其中$\mathcal{Q}$是参考问题集合$\\{q, q'\\}$，包括标准参考问题和扩展改述问题。每个生成的问题先分别和其各个参考问题计算负似然估计，再选择其中的最小值作为最终的损失。
+
+### 2.5 混合模型(hybrid model)
+将以上模块组合起来，即为最终的混合模型，其总的训练损失$L_{total}$可定义为：
+
+$$
+L_{total} = L_{lqg} + \alpha L_{pg} + \lambda L_{sf}
+$$
+
