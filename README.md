@@ -27,7 +27,7 @@ Record the papers I have read so far.
 23. Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering, AAAI 2019. [[Paper](https://arxiv.org/pdf/1812.02354.pdf)]
 24. Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering, AAAI 2020. [[Paper](https://arxiv.org/pdf/1911.09801.pdf)]
 25. Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization, SIGIR 2020. [[Paper](https://dl.acm.org/doi/abs/10.1145/3397271.3401208)]
-26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction, ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note]()]
+26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction, ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
 
 
 ## Pretrained Language Models & Transformers

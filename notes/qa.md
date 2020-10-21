@@ -712,9 +712,9 @@ Zi Chai, and Xiaojun Wan. [Learning to Ask More: Semi-Autoregressive Sequential 
 ![](./images/qa/learning_to_ask_more_overview.jpg)
 
 ### 2.1 问题定义
-在SQG任务中，输入是一个包含$n$个句子的段落$P = \\{S_i\\}_{i = 1}^n$和一个包含$l$个答案的答案序列$\\{A_i\\}_{i = 1}^l$，每个答案$A_i$是段落$P$里面的一个片段；输出是一系列问题$\\{Q_i\\}_{i = 1}^l$，每个问题$Q_i$可以根据输入段落$P$和之前的问题答案对由答案$A_i$回答。
+在SQG任务中，输入是一个包含$n$个句子的段落$P = \\{S_i\\}\_{i = 1}^n$和一个包含$l$个答案的答案序列$\\{A_i\\}\_{i = 1}^l$，每个答案$A_i$是段落$P$里面的一个片段；输出是一系列问题$\\{Q_i\\}\_{i = 1}^l$，每个问题$Q_i$可以根据输入段落$P$和之前的问题答案对由答案$A_i$回答。
 
-作者用半自回归的方式解决SQG任务，将目标问题划分成不同组，组内的问题紧密相关，组间的问题相互独立。划分的依据是，如果两个答案来自同一个句子，则这两个答案对应的问题可视为相互关联的。具体地，如果第$k$个句子$S_k$包含$p$个答案，则将其划分进第$k$个答案组$\mathbb{G}_k^{ans} = \\{A_{j_1}, ..., A_{j_p}\\}$中，由此得到对应的第$k$个问题组$\mathbb{G}_k^{ques} = \\{Q_{j_1}, ..., Q_{j_p}\\}$，并将其拼接成一个句子作为训练时生成句子的目标输出，即$"Q_{j_1} [sep] Q_{j_2} [sep] ... [sep] Q_{j_p}"$。以如下例子说明：
+作者用半自回归的方式解决SQG任务，将目标问题划分成不同组，组内的问题紧密相关，组间的问题相互独立。划分的依据是，如果两个答案来自同一个句子，则这两个答案对应的问题可视为相互关联的。具体地，如果第$k$个句子$S_k$包含$p$个答案，则将其划分进第$k$个答案组$\mathbb{G}\_k^{ans} = \\{A_{j_1}, ..., A_{j_p}\\}$中，由此得到对应的第$k$个问题组$\mathbb{G}\_k^{ques} = \\{Q_{j_1}, ..., Q_{j_p}\\}$，并将其拼接成一个句子作为训练时生成句子的目标输出，即$"Q_{j_1} [sep] Q_{j_2} [sep] ... [sep] Q_{j_p}"$。以如下例子说明：
 
 ![](./images/qa/learning_to_ask_more_comparison.jpg)
 
@@ -723,7 +723,7 @@ Zi Chai, and Xiaojun Wan. [Learning to Ask More: Semi-Autoregressive Sequential 
 ### 2.2 段落信息编码器(passage-info encoder)
 作者将段落中的每个句子看作一系列单词，将每个单词用其预训练词嵌入进行特征表示，并将每个句子的各个词嵌入送入Transformer编码器。之后将每个句子中所有单词的输出特征进行均值操作，得到段落中各个句子的局部表示(local representation) $s_i^{local} \in \mathbb{R}^{d_s}$。
 
-得到句子局部表示后，将所有局部表示$\\{s_i^{local}\\}_{i = 1}^n$送入另一个Transformer编码器，得到所有句子的全局表示$\\{s_i^{global}\\}_{i = 1}^n$。最后将句子局部表示与全局表示拼接在一起，得到段落里每个句子的最终特征$s_i = [s_i^{local}; s_i^{global}] \in \mathbb{R}^{2d_s}$。
+得到句子局部表示后，将所有局部表示$\\{s_i^{local}\\}\_{i = 1}^n$送入另一个Transformer编码器，得到所有句子的全局表示$\\{s_i^{global}\\}\_{i = 1}^n$。最后将句子局部表示与全局表示拼接在一起，得到段落里每个句子的最终特征$s_i = [s_i^{local}; s_i^{global}] \in \mathbb{R}^{2d_s}$。
 
 ### 2.3 答案信息编码器(answer-info encoder)
 如2.1所述，所有输入答案被划分为$m$个答案组，对于段落里第$k$个句子$S_k$，将$\\{\mathbb{G}_k^{ans}, S_k\\}$作为第$k$个依据组(rationale) $R_k$。
@@ -769,7 +769,7 @@ $$
 对于图$\mathcal{V}$，同理可得：
 
 $$
-\tilde{a}\_i^{(t)} = \sum_{v_j \in \mathcal{N}(v_i)} \tilde{W}_{ij} v_j^{(t - 1)} + \tilde{b}_{ij}
+\tilde{a}\_i^{(t)} = \sum_{v_j \in \mathcal{N}(v_i)} \tilde{W}\_{ij} v_j^{(t - 1)} + \tilde{b}\_{ij}
 $$
 
 (2) **计算多个门(compute multiple gates)**：对于图$\mathcal{U}$里的每个节点$u_i^{(t - 1)}$，计算一个更新门(update gate) $y_i^{(t)}$和复位门(reset gate) $z_i^{(t)}$：
@@ -802,7 +802,7 @@ $$
 迭代地将上述3个步骤进行$T$次，我们便可以得到各个图内最终的节点特征$u_i^{(T)}$和$v_i^{(T)}$。
 
 ### 2.6 解码器
-解码器的结构与Transformer解码器类似，包含遮蔽自注意力层(masked self-attention layer)、编码器注意力层(encoder-attention layer)、前馈映射层(feed-forward projection layer)和softmax层。在编码器注意力层中，key和value来自答案信息编码器中双向GRU之前的输出特征。
+解码器的结构与Transformer解码器类似，包含遮蔽自注意力层(masked self-attention layer)、编码器注意力层(encoder-attention layer)、前馈映射层(feed-forward projection layer)和softmax层。在编码器注意力层中，key和value来自答案信息编码器中双向GRU之前的最后一层Transformer编码器层。
 
 此外，为了生成连贯的问题，还需要捕捉输入段落和答案的语境依赖。作者将图特征$u_k^{(T)}$和$v_k^{(T)}$也作为额外的输入信息，将其与自注意力层和编码器注意力层的特征进行拼接，之后将其与前馈映射层的输入特征进行拼接。
 
