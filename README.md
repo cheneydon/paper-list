@@ -12,7 +12,7 @@ Record the papers I have read so far.
 8. PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text, EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1242.pdf)]
 9. (MUPPET) Multi-Hop Paragraph Retrieval for Open-Domain Question Answering, ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#muppet-multi-hop-paragraph-retrieval-for-open-domain-question-answering)]
 10. (CopyNet) Incorporating Copying Mechanism in Sequence-to-Sequence Learning, ACL 2016. [[Paper](https://www.aclweb.org/anthology/P16-1154.pdf)]
-11. Get To The Point: Summarization with Pointer-Generator Networks, ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)]
+11. Get To The Point: Summarization with Pointer-Generator Networks, ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#get-to-the-point-summarization-with-pointer-generator-networks)]
 12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#learning-to-ask-questions-in-open-domain-conversational-systems-with-typed-decoders)]
 13. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)]
 14. Answer-focused and Position-aware Neural Question Generation, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)]
@@ -27,6 +27,7 @@ Record the papers I have read so far.
 23. Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering, AAAI 2019. [[Paper](https://arxiv.org/pdf/1812.02354.pdf)]
 24. Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering, AAAI 2020. [[Paper](https://arxiv.org/pdf/1911.09801.pdf)]
 25. Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization, SIGIR 2020. [[Paper](https://dl.acm.org/doi/abs/10.1145/3397271.3401208)]
+26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction, ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note]()]
 
 
 ## Pretrained Language Models & Transformers

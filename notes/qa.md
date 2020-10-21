@@ -244,7 +244,7 @@ Wenhan Xiong, Mo Yu, Shiyu Chang, Xiaoxiao Guo, and William Yang Wang. [Improvin
 ## 3. 方法
 ![](./images/qa/knowledge_aware_reader_overview.jpg)
 
-作者所提模型主要包括2个部分，知识图谱阅读器(sub-graph reader, SGR)与知识型文本阅读器(knowledge-aware text reader, KAR)。
+作者所提模型主要包括2个部分，知识图谱阅读器(sub-graph reader, SGR)与知识感知型文本阅读器(knowledge-aware text reader, KAR)。
 
 ### 3.1 知识图谱阅读器
 知识图谱阅读器SGR采用图注意力机制将每个图谱上的实体$e$从其相连的各个邻居实体$N_e$积聚知识。对于某个图谱实体，其作用有两点：(1) 其与邻居的关系是否与问题相关；(2) 其邻居实体是否是问题提到的主题实体。具体地，SGR主要包括3个部分：问题-关系匹配(question-relation matching)、对主题实体邻居(topic entity neighbors)额外的注意力机制、以及来自邻居的信息传播(information propagation)。
@@ -282,8 +282,8 @@ $$
 
 其中$\sigma$是激活函数，$\gamma^e$是线性门控系数。
 
-### 3.2 知识型文本阅读器
-知识型文本阅读器KAR是在DrQA所提的阅读理解模型的基础上进行了一定的改进，使其可以学习更多的知识图谱知识，主要包括3个部分：潜空间的问题重构(query reformulation)、知识型段落信息增强(knowledge-aware passage enhancement)、以及来自文本阅读的实体信息聚合(entity info aggregation)。
+### 3.2 知识感知型文本阅读器
+知识感知型文本阅读器KAR是在DrQA所提的阅读理解模型的基础上进行了一定的改进，使其可以学习更多的知识图谱知识，主要包括3个部分：潜空间的问题重构(query reformulation)、知识感知段落信息增强(knowledge-aware passage enhancement)、以及来自文本阅读的实体信息聚合(entity info aggregation)。
 
 #### 3.2.1 潜空间的问题重构
 该部分通过将问题内的主题实体对应的知识图谱特征整合进问题特征中，使得阅读器可以区分文本匹配外的相关信息。首先对问题特征$h^q$进行自注意力编码，可得$\vec{q} = \sum_i b_i \vec{h_i^q}$；之后收集问题中主题实体的知识图谱特征，可得$\vec{e^q} = \sum_{e \in \mathcal{E}_0} \vec{e'} / |\mathcal{E}_0|$；接下来，作者采用门控函数得到最终的问题特征$\vec{q'}$，即：
@@ -295,8 +295,8 @@ $$
 \end{array}
 $$
 
-#### 3.2.2 知识型段落信息增强
-该部分通过各个段落内实体链接标注，将各个实体的知识图谱特征融合进来，并采用门控机制得到段落内每个词的特征。给定段落内的一个词$w_i^d$、其词特征$\vec{f_{w_i}^d}$、以及其知识图谱链接实体$e_{w_i}$，则每个词的知识型特征$\vec{i_{w_i}^d}$可由下式得到：
+#### 3.2.2 知识感知段落信息增强
+该部分通过各个段落内实体链接标注，将各个实体的知识图谱特征融合进来，并采用门控机制得到段落内每个词的特征。给定段落内的一个词$w_i^d$、其词特征$\vec{f_{w_i}^d}$、以及其知识图谱链接实体$e_{w_i}$，则每个词的知识感知特征$\vec{i_{w_i}^d}$可由下式得到：
 
 $$
 \begin{array}{cl}
@@ -428,7 +428,61 @@ $$
 ---
 
 
-## *II. Question Generation*
+## *II. Summarization*
+
+# Get To The Point: Summarization with Pointer-Generator Networks
+Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
+
+## 1. 贡献
+最近基于seq2seq的抽象型文本总结(abstractive summarization)模型取得了不错的效果，但是其存在一些问题，如：无法准确地复制事实细节(factual details)、无法处理超出词汇表(out-of-vocabulary, OOV)的词、多次重复自己等。在本文中，作者提出了一个介于抽取与抽象的文本摘要方法，解决了上述前两个问题；同时提出了一种覆盖机制(coverage mechanism)，解决了模型重复自身的问题。
+
+## 2. 方法
+![](./images/qa/get_to_the_point_overview.jpg)
+
+### 2.1 基准模型
+本文的基准模型是带注意力机制的seq2seq模型，编码器为单层双向LSTM，将输入词$w_i$编码为$h_i$；解码器是单层单向LSTM，在每一时刻$t$接收前一个词的词嵌入（训练时是参考摘要的前一个词，测试时是前一时刻解码器预测得到的词），生成解码隐层特征$s_t$。将时刻$t$解码器隐层特征$s_t$与各个时刻编码器隐层特征$h_i$进行注意力操作，可得语境向量$h_t^\*$，即：
+
+$$
+\begin{array}{cl}
+&h_t^\* = \sum_i a_i^t h_i \\\\
+&a^t = \text{softmax}(e^t) \\\\
+&e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + b_{attn})
+\end{array}
+$$
+
+之后时刻$t$解码器的单词预测分布$P_{vocab} = \text{softmax}(V'(V[s_t, h_t^\*] + b) + b')$，损失为目标单词$w_t^\*$的负对数似然估计，整个句子的总损失$\text{loss}$为：
+
+$$
+\text{loss} = -\frac{1}{T} \sum_{t = 0}^T \text{log} P(w_t^\*)
+$$
+
+### 2.2 指针-生成器网络(pointer-generator network)
+该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
+
+$$
+P(w) = p_{gen} P_{vocab}(w) + (1 - p_{gen}) \sum_{i:w_i = w} a_i^t
+$$
+
+其中，如果$w$是一个OOV词，则$P_{vocab} = 0$；如果$w$未在源文档出现，则$\sum_{i:w_i = w} a_i^t = 0$。
+
+### 2.3 覆盖机制
+应用覆盖机制的模型维持一个覆盖向量$c^t = \sum_{t' = 0}^{t - 1} a^{t'}$，其为所有之前解码器时刻的注意力分布之和。将其作为注意力机制的额外输入，则时刻$t$的注意力分布$a^t$中的$e_i^t$可改写为：
+
+$$
+e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + w_c c_i^t + b_{attn})
+$$
+
+这样可以避免注意力机制重复注意到源文档中的同一个位置，避免生成重复性的文本。此外，作者还定义了一个覆盖损失对重复注意到同一位置的情形进行惩罚，时刻$t$的覆盖损失$\text{covloss}_t = \sum_i \min(a_i^t, c_i^t)$，且$\text{covloss}_t \leq \sum_i a_i^t = 1$。则模型的总损失$\text{loss}$可改写为：
+
+$$
+\text{loss} = \frac{1}{T} \sum_{t = 0}^T (-\text{log} P(w_t^*) + \lambda \sum_i \min(a_i^t, c_i^t))
+$$
+
+
+---
+
+
+## *III. Question Generation*
 
 # Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders
 Yansen Wang, Chenyi Liu, Minlie Huang, and Liqiang Nie. [Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders](https://www.aclweb.org/anthology/P18-1204.pdf). ACL 2018.
@@ -546,7 +600,7 @@ $$
 \bar{Q_i} = \underset{Q_i}{\text{argmax}} \text{Prob}(Q_i | P, A_i, C_{i - 1})
 $$
 
-作者将该问题定义为答案型(answer-aware)问题生成任务，即在生成问题之前，答案语句要事先给定，其中答案语句是段落中的若干文本片段(text fragment)。
+作者将该问题定义为答案感知型(answer-aware)问题生成任务，即在生成问题之前，答案语句要事先给定，其中答案语句是段落中的若干文本片段(text fragment)。
 
 ## 3. 方法
 ![](./images/qa/interconnected_question_generation_overview.jpg)
@@ -640,68 +694,118 @@ $$
 ---
 
 
-## *III. Answer Selection & Summarization*
-
-# Get To The Point: Summarization with Pointer-Generator Networks
-Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
+# Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction
+Zi Chai, and Xiaojun Wan. [Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction](https://www.aclweb.org/anthology/2020.acl-main.21.pdf). ACL 2020.
 
 ## 1. 贡献
-最近基于seq2seq的抽象型文本总结(abstractive summarization)模型取得了不错的效果，但是其存在一些问题，如：无法准确地复制事实细节(factual details)、无法处理超出词汇表(out-of-vocabulary, OOV)的词、多次重复自己等。在本文中，作者提出了一个介于抽取与抽象的文本摘要方法，解决了上述前两个问题；同时提出了一种覆盖机制(coverage mechanism)，解决了模型重复自身的问题。
+(1) 当存在一个序列答案时，序列问题生成(sequential question generation, SQG)任务旨在生成一系列相互关联(interconnected)的问题。传统方法将该任务看作对话问题生成(conversational question generation, CQG)任务，即当前轮对话问题是以之前轮对话的输出自回归式(autoregressive)地生成。但这样的方式存在两个问题：首先，这些模型存在错误叠加(error cascade)的问题，越往后生成的问题长度越短、质量越低、与给定的答案越不相关；其次，模型很难捕捉长距离的共指关系(long-distance coreference)。本质上，SQG任务与CQG任务是不同的，其所有的答案是预先给定的，在文本生成过程中充当严格的语义约束(strict semantic constraint)。
+
+**作者第一次没将SQG任务视为CQG任务**，通过半自回归式(semi-autoregressive)进行问题生成，抛弃了不同组问题间的递归依赖(recurrent dependency)，解决了错误叠加的问题，并提出了一种由粗到细的文本生成方式进行长距离共指消解(coreference resolution)；
+
+(2) 之前的工作将SQG任务在CoQA上实验，但CoQA是对话问答数据集，很多数据不适用于SQG任务。一些工作直接删除掉了这些数据，但剩余的问题可能互不相关，很多代词指代的共指实体词并不明确。
+
+**作者第一次为SQG任务构建了专门的数据集**，从CoQA中构建了包含7.2K段落、81.9K问题的数据集。
+
+(3) 通过大量实验表明，作者所提模型的效果大幅度地超越了之前的工作。
 
 ## 2. 方法
-![](./images/qa/get_to_the_point_overview.jpg)
+![](./images/qa/learning_to_ask_more_overview.jpg)
 
-### 2.1 基准模型
-本文的基准模型是带注意力机制的seq2seq模型，编码器为单层双向LSTM，将输入词$w_i$编码为$h_i$；解码器是单层单向LSTM，在每一时刻$t$接收前一个词的词嵌入（训练时是参考摘要的前一个词，测试时是前一时刻解码器预测得到的词），生成解码隐层特征$s_t$。将时刻$t$解码器隐层特征$s_t$与各个时刻编码器隐层特征$h_i$进行注意力操作，可得语境向量$h_t^\*$，即：
+### 2.1 问题定义
+在SQG任务中，输入是一个包含$n$个句子的段落$P = \\{S_i\\}_{i = 1}^n$和一个包含$l$个答案的答案序列$\\{A_i\\}_{i = 1}^l$，每个答案$A_i$是段落$P$里面的一个片段；输出是一系列问题$\\{Q_i\\}_{i = 1}^l$，每个问题$Q_i$可以根据输入段落$P$和之前的问题答案对由答案$A_i$回答。
+
+作者用半自回归的方式解决SQG任务，将目标问题划分成不同组，组内的问题紧密相关，组间的问题相互独立。划分的依据是，如果两个答案来自同一个句子，则这两个答案对应的问题可视为相互关联的。具体地，如果第$k$个句子$S_k$包含$p$个答案，则将其划分进第$k$个答案组$\mathbb{G}_k^{ans} = \\{A_{j_1}, ..., A_{j_p}\\}$中，由此得到对应的第$k$个问题组$\mathbb{G}_k^{ques} = \\{Q_{j_1}, ..., Q_{j_p}\\}$，并将其拼接成一个句子作为训练时生成句子的目标输出，即$"Q_{j_1} [sep] Q_{j_2} [sep] ... [sep] Q_{j_p}"$。以如下例子说明：
+
+![](./images/qa/learning_to_ask_more_comparison.jpg)
+
+其中，前两个段落句子的答案组为：$\mathbb{G}_1^{ans}$ = "John"，$\mathbb{G}_2^{ans}$ = "swinging [sep] on the swings [sep] ... [sep] played on the side"；前两个段落句子的问题组为：$\mathbb{G}_1^{ques}$ = "Who was at the park?"，$\mathbb{G}_2^{ques}$ = "What was he doing there? [sep] On what? [sep] ... [sep] What was he doing?"。
+
+### 2.2 段落信息编码器(passage-info encoder)
+作者将段落中的每个句子看作一系列单词，将每个单词用其预训练词嵌入进行特征表示，并将每个句子的各个词嵌入送入Transformer编码器。之后将每个句子中所有单词的输出特征进行均值操作，得到段落中各个句子的局部表示(local representation) $s_i^{local} \in \mathbb{R}^{d_s}$。
+
+得到句子局部表示后，将所有局部表示$\\{s_i^{local}\\}_{i = 1}^n$送入另一个Transformer编码器，得到所有句子的全局表示$\\{s_i^{global}\\}_{i = 1}^n$。最后将句子局部表示与全局表示拼接在一起，得到段落里每个句子的最终特征$s_i = [s_i^{local}; s_i^{global}] \in \mathbb{R}^{2d_s}$。
+
+### 2.3 答案信息编码器(answer-info encoder)
+如2.1所述，所有输入答案被划分为$m$个答案组，对于段落里第$k$个句子$S_k$，将$\\{\mathbb{G}_k^{ans}, S_k\\}$作为第$k$个依据组(rationale) $R_k$。
+
+为了从$G_k^{ans}$得到更多信息，作者增加了2个额外部分。首先，对于段落句子$S_k$中的单词$w_i$，将其预训练词嵌入$x_i^w$与一个额外的答案标签特征(answer-tag feature) $x_i^a$进行拼接，得到$[x_i^w; x_i^a] \in \mathbb{R}^{d_r}$。具体地，对于单词$w_i$，作者将其从{O, B, I}三个类别中进行标注，分别表示该单词在$\mathbb{G}_k^{ans}$外部(outside)、开头(beginning)和内部(inside)。
+
+其次，作者增加了一个额外的答案感知型注意力机制，即将一个段落句子中不是答案的单词在注意力操作时遮住。具体如下图所示：
+
+![](./images/qa/learning_to_ask_more_answer_info.jpg)
+
+之后将Transformer编码器输出的特征送入一个双向GRU模型中，并取其最后一层隐层特征作为最终依据嵌入(rationale embedding)，第$k$个依据嵌入为$r_k \in \mathbb{R}^{2d_r}$。
+
+### 2.4 图的构造(graph construction)
+输入段落内包含$n$个句子，但只有$m$个句子包含答案（$m \leq n$），因此在构造图时，要将$m$个依据嵌入与其对应的$m$个段落句子特征进行对应来构造图。
+
+作者构造了一个段落信息图$\mathcal{V}$和答案信息图$\mathcal{U}$。对于段落内第$k$个句子对应的答案信息图节点$u_k$，其初始特征为：
+
+$$
+u_k^{(0)} = \text{ReLU}(W_u [r_k; e_k] + b_u)
+$$
+
+其中$r_k$是依据特征，$e_k$是索引$k$的嵌入。同理，对于段落信息图节点$v_k$，其初始特征为：
+
+$$
+v_k^{(0)} = \text{ReLU}(W_v [s_k; e_k] + b_v)
+$$
+
+其中$s_k$是段落句子特征。在此之后，图$\mathcal{U}$和$\mathcal{V}$中各有$m$个节点。对于$u_i, u_j \in \mathcal{U}$，如果$|i - j| < \delta$，则在节点$u_i, u_j$之间增加一条边。
+
+### 2.5 对偶图交互(dual-graph interaction)
+对偶图交互过程使得图$\mathcal{U}$和$\mathcal{V}$通过彼此迭代地更新各自的节点特征。在时刻$t$，节点特征$u_i^{(t - 1)}, v_i^{(t - 1)}$通过3个步骤更新为$u_i^{(t)}, v_i^{(t)}$。
+
+(1) **信息传递(information transfer)**：以图$\mathcal{U}$为例，每个节点$u_i^{(t - 1)}$的邻居节点聚合信息$a_i^{(t)}$为：
+
+$$
+a_i^{(t)} = \sum_{u_j \in \mathcal{N}(u_i)} W_{ij} u_j^{(t - 1)} + b_{ij}
+$$
+
+其中$\mathcal{N}(u_i)$是所有节点$u_i$的邻居节点。
+
+对于节点$u_i, u_j$和$u_{i'}, u_{j'}$，如果$|i - j| = |i' - j'|$，则它们使用同一个$W$和$b$。具体实现时，可以先创建一系列矩阵$\\{W_1, W_2, ...\\} \in \mathbb{R}^{d_g \times d_g}$和$\\{b_1, b_2, ...\\} \in \mathbb{R}^{d_g}$，之后用$|i - j|$作为索引获取对应的$W_{ij}$和$b_{ij}$。
+
+对于图$\mathcal{V}$，同理可得：
+
+$$
+\tilde{a}\_i^{(t)} = \sum_{v_j \in \mathcal{N}(v_i)} \tilde{W}_{ij} v_j^{(t - 1)} + \tilde{b}_{ij}
+$$
+
+(2) **计算多个门(compute multiple gates)**：对于图$\mathcal{U}$里的每个节点$u_i^{(t - 1)}$，计算一个更新门(update gate) $y_i^{(t)}$和复位门(reset gate) $z_i^{(t)}$：
 
 $$
 \begin{array}{cl}
-&h_t^\* = \sum_i a_i^t h_i \\\\
-&a^t = \text{softmax}(e^t) \\\\
-&e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + b_{attn})
+&y_i^{(t)} = \sigma(W_y [a_i^{(t)}; u_i^{(t - 1)}]) \\\\
+&z_i^{(t)} = \sigma(W_z [a_i^{(t)}; u_i^{(t - 1)}])
 \end{array}
 $$
 
-之后时刻$t$解码器的单词预测分布$P_{vocab} = \text{softmax}(V'(V[s_t, h_t^\*] + b) + b')$，损失为目标单词$w_t^\*$的负对数似然估计，整个句子的总损失$\text{loss}$为：
+对于图$\mathcal{V}$，同理可得：
 
 $$
-\text{loss} = -\frac{1}{T} \sum_{t = 0}^T \text{log} P(w_t^\*)
+\begin{array}{cl}
+&\tilde{y}_i^{(t)} = \sigma(\tilde{W}_y [\tilde{a}_i^{(t)}; v_i^{(t - 1)}]) \\\\
+&\tilde{z}_i^{(t)} = \sigma(\tilde{W}_z [\tilde{a}_i^{(t)}; v_i^{(t - 1)}])
+\end{array}
 $$
 
-### 2.2 指针-生成器网络(pointer-generator network)
-该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
+(3) **信息交互(information interaction)**：每个图在另一个图内各个门的控制下，更新自己的节点特征，即：
 
 $$
-P(w) = p_{gen} P_{vocab}(w) + (1 - p_{gen}) \sum_{i:w_i = w} a_i^t
+\begin{array}{cl}
+&u_i^{(t)} = \tilde{z}_i^{(t)} \odot u_i^{(t - 1)} + (1 - \tilde{z}_i^{(t)}) \odot \text{tanh}(W_a [a_i^{(t)}; \tilde{y}_i^{(t)} \odot u_i^{(t - 1)}]) \\\\
+&v_i^{(t)} = z_i^{(t)} \odot v_i^{(t - 1)} + (1 - z_i^{(t)}) \odot \text{tanh}(\tilde{W}_a [\tilde{a}_i^{(t)}; y_i^{(t)} \odot v_i^{(t - 1)}])
+\end{array}
 $$
 
-其中，如果$w$是一个OOV词，则$P_{vocab} = 0$；如果$w$未在源文档出现，则$\sum_{i:w_i = w} a_i^t = 0$。
+迭代地将上述3个步骤进行$T$次，我们便可以得到各个图内最终的节点特征$u_i^{(T)}$和$v_i^{(T)}$。
 
-### 2.3 覆盖机制
-应用覆盖机制的模型维持一个覆盖向量$c^t = \sum_{t' = 0}^{t - 1} a^{t'}$，其为所有之前解码器时刻的注意力分布之和。将其作为注意力机制的额外输入，则时刻$t$的注意力分布$a^t$中的$e_i^t$可改写为：
+### 2.6 解码器
+解码器的结构与Transformer解码器类似，包含遮蔽自注意力层(masked self-attention layer)、编码器注意力层(encoder-attention layer)、前馈映射层(feed-forward projection layer)和softmax层。在编码器注意力层中，key和value来自答案信息编码器中双向GRU之前的输出特征。
 
-$$
-e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + w_c c_i^t + b_{attn})
-$$
+此外，为了生成连贯的问题，还需要捕捉输入段落和答案的语境依赖。作者将图特征$u_k^{(T)}$和$v_k^{(T)}$也作为额外的输入信息，将其与自注意力层和编码器注意力层的特征进行拼接，之后将其与前馈映射层的输入特征进行拼接。
 
-这样可以避免注意力机制重复注意到源文档中的同一个位置，避免生成重复性的文本。此外，作者还定义了一个覆盖损失对重复注意到同一位置的情形进行惩罚，时刻$t$的覆盖损失$\text{covloss}_t = \sum_i \min(a_i^t, c_i^t)$，且$\text{covloss}_t \leq \sum_i a_i^t = 1$。则模型的总损失$\text{loss}$为：
+### 2.7 由粗到细的生成(coarse-to-fine generation)
+半自回归式的生成方式使得处理问题间的共指任务更加困难，特别是在不同组的问题。因此，作者采用了一种由粗到细的生成方式，解码器只需要生成粗粒度的问题，即每个代词由一个占位符(placeholder) "[p]"替换。之后通过一个额外的预训练共指消解模型把代词填入到不同的占位符中。
 
-$$
-\text{loss} = \frac{1}{T} \sum_{t = 0}^T (-\text{log} P(w_t^*) + \lambda \sum_i \min(a_i^t, c_i^t))
-$$
-
-
-# Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs
-Ying Shen, Yang Deng, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs](https://dl.acm.org/doi/10.1145/3209978.3210081). SIGIR 2018.
-
-# Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge
-Yang Deng, Ying Shen, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge](https://www.aclweb.org/anthology/C18-1279.pdf). COLING 2018.
-
-# Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering
-Yang Deng, Yuexiang Xie, Yaliang Li, Min Yang, Nan Du, Wei Fan, Kai Lei, and Ying Shen. [Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering](https://arxiv.org/pdf/1812.02354.pdf). AAAI 2019.
-
-# Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering
-Yang Deng, Wai Lam, Yuexiang Xie, Daoyuan Chen, Yaliang Li, Min Yang, and Ying Shen. [Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering](https://arxiv.org/pdf/1911.09801.pdf). AAAI 2020.
-
-# Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization
-Yang Deng, Wenxuan Zhang, Yaliang Li, Min Yang, Wai Lam, and Ying Shen. [Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization](https://dl.acm.org/doi/abs/10.1145/3397271.3401208). SIGIR 2020.
