@@ -9,7 +9,7 @@ Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to 
 (2) 实验表明，作者所提的文档检索器(document retriever)效果超过了维基百科内置的搜索引擎，文档阅读器(document reader)在SQuAD数据集上取得了最好的效果；同时，作者采用了远程监督(distant supervision)和多任务学习(multitask learning)的方法，使得整个系统表现有所提升。
 
 ## 2. 方法
-![](./images/qa/drqa_overview.jpg)
+![](./images/qa/reading_wikipedia_to_answer_open_domain_questions/1_overview.jpg)
 
 ### 2.1 文档检索器
 文章和问题通过TF-IDF加权词袋向量(bag-of-word vectors)进行比对，并通过二元文法特征(bigram feature)将局部词的顺序考虑在内以提高效果。同时用无符号murmur3哈希算法将二元词组映射为$2^{24}$组值之一。对于一个给定的问题，文档检索器返回5个维基百科文章。
@@ -17,13 +17,13 @@ Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes. [Reading Wikipedia to 
 **注：词袋向量与TF-IDF算法介绍**  
 (1) 词袋向量表征单词在各个文档内出现的频率。通过计算一个单词在各个个文档里面出现的次数，并进行归一化，可以得到该单词对应的词袋向量，如下所示：
 
-![](./images/qa/bag_of_word.png)
+![](./images/qa/reading_wikipedia_to_answer_open_domain_questions/2_bag_of_word.png)
 
 可以看到，不同单词对应的词袋向量维度是一致的，均为3。
 
 (2) TF-IDF算法由两部分相乘得到，单词频率(term frequency)与逆文档频率(inverse document frequency)，公式如下：
 
-![](./images/qa/tf_idf.png)
+![](./images/qa/reading_wikipedia_to_answer_open_domain_questions/3_tf_idf.png)
 
 其中$\text{tf}_{i,j}$表示单词频率，指单词$i$出现在文档$j$的次数；$\text{log}(\frac{N}{\text{df}_i})$表示逆文档频率，由总文档数$N$与包含单词$i$的文档数相除得到。引入逆文档频率的意义在于，像and或the这类词在所有文档都会频繁出现，这些词是要排除掉的，只能保留频繁出现并且有区分度的词作为区分不同文档的标记。每个单词与各个文档的TF-IDF关系值同样要经过归一化处理。
 
@@ -91,7 +91,7 @@ Yankai Lin, Haozhe Ji, Zhiyuan Liu, and Maosong Sun. [Denoising Distantly Superv
 (2) 实验表明，作者所提出的模型效果在一系列的数据集下取得了显著提升。同时，在选择一小部分段落的情况下依然能取得不错的效果，并极大地提高了整个DS-QA系统的速度。
 
 ## 2. 方法
-![](./images/qa/denoise_dsqa_overview.jpg)
+![](./images/qa/denoising_distantly_supervised_open_domain_question_answering/1_overview.jpg)
 
 给定一个问题$q = (q^1, q^2, ..., q^{|q|})$，首先检索出$m$个段落$P = \\{p_1, p_2, ..., p_m\\}$，其中$p_i = (p_i^1, p_i^2, ..., p_i^{|p_i|})$是第$i$个检索到的段落。之后将这些段落经过段落选择器(paragraph selector)进行进一步筛选，过滤掉噪声段落，并通过段落阅读器(paragraph reader)进行答案预测。
 
@@ -175,7 +175,7 @@ Bernhard Kratzwald, Anna Eigenmann, and Stefan Feuerriegel. [RankQA: Neural Ques
 (2) 本文方法在3个公开数据集上达到了最佳效果，特别是当语料库规模发生变化时，可以高效地弥补由此造成的噪声信息损害。
 
 ## 2. 方法
-![](./images/qa/rankqa_overview.jpg)
+![](./images/qa/rankqa_neural_question_answering_with_answer_reranking/1_overview.jpg)
 
 ### 2.1 信息检索(information retrieval)
 与DrQA类似，信息检索模块首先从内容知识库中检索出前n(n=10)个最相关的文档，之后将这些文章切分成段落，这些段落被送入机器理解模块。
@@ -192,7 +192,7 @@ Bernhard Kratzwald, Anna Eigenmann, and Stefan Feuerriegel. [RankQA: Neural Ques
 从机器理解模块，我们可以得到4个特征：原始候选答案得分、原始候选答案排序、答案的词性标签(part-of-speech tag)、以及答案的命名实体特征(named entity feature)。其中后两者只为DrQA提取，通过指示答案片段是否包含命名实体或词性标签的指示符变量进行编码。
 
 具体如下所示：
-![](./images/qa/rankqa_feature.jpg)
+![](./images/qa/rankqa_neural_question_answering_with_answer_reranking/2_feature.jpg)
 
 #### 2.3.2 答案聚合
 作者将答案片段一样的候选答案进行合并，保留排序更靠前的特征。此外，还生成4种其它的聚合特征：  
@@ -242,7 +242,7 @@ Wenhan Xiong, Mo Yu, Shiyu Chang, Xiaoxiao Guo, and William Yang Wang. [Improvin
 本文的问答系统需要两部分知识，知识图谱三元组$\mathcal{K} = \\{(e_s, r, e_o)\\}$和检索到的维基百科文档$\mathcal{D}$。为了使系统可拓展性更好，作者采用Personalized PageRank算法从问题中提到的主题实体(topic entity) $\mathcal{E}_0 = \\{e | e \in Q\\}$中检索出一个子图谱(subgraph)。文档$\mathcal{D}$由DrQA的文档检索器检索得到，并通过Lucene index算法进一步排序。同时，文档中的实体也被标记并链接到知识图谱实体上。对于每个问题，模型从所有知识图谱与所有文档的实体中选择一个答案实体。
 
 ## 3. 方法
-![](./images/qa/knowledge_aware_reader_overview.jpg)
+![](./images/qa/improving_question_answering_over_incomplete_kbs_with_knowledge_aware_reader/1_overview.jpg)
 
 作者所提模型主要包括2个部分，知识图谱阅读器(sub-graph reader, SGR)与知识感知型文本阅读器(knowledge-aware text reader, KAR)。
 
@@ -326,12 +326,12 @@ Yair Feldman, and Ran El-Yaniv. [Multi-Hop Paragraph Retrieval for Open-Domain Q
 (3) 作者提出了用句子特征进行检索的方法，实验表明该方法比用段落特征检索的效果更好。
 
 ## 2. 方法
-![](./images/qa/muppet_overview.jpg)
+![](./images/qa/multi_hop_paragraph_retrieval_for_open_domain_question_answering/1_overview.jpg)
 
 作者所提多跳检索方法的大致思路是，对于一个问题$Q$，首先将其编码为搜索向量$q^s \in \mathbb{R}^d$，用来检索前k个最相关的段落$\\{P_1^Q, ..., P_k^Q\\} \subset \text{KS}$；在随后的检索迭代中，作者用上一次迭代检索到的段落对搜索向量进行调整，得到k个新搜索向量$\\{\tilde{q}_1^s, ..., \tilde{q}_k^s\\}, \tilde{q}_i^s \in \mathbb{R}^d$，再用和之前迭代同样的方法检索出新一轮的前k个段落。该过程可以视为在段落编码空间进行的宽度为k的beam搜索。
 
 ### 2.1 段落与问题编码
-![](./images/qa/muppet_paragraph_question_encoder.jpg)
+![](./images/qa/multi_hop_paragraph_retrieval_for_open_domain_question_answering/2_paragraph_question_encoder.jpg)
 
 #### 2.1.1 段落编码
 对于段落编码，作者对段落内的每个句子进行分别编码，而非像之前的做法，对整个段落进行整体编码。作者首先对段落内的每个词进行编码，之后利用这些词编码对每个句子进行编码。
@@ -428,7 +428,7 @@ $$
 ---
 
 
-## *II. Summarization*
+## *II. Answer Selection & Summarization*
 
 # Get To The Point: Summarization with Pointer-Generator Networks
 Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
@@ -437,7 +437,7 @@ Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summar
 最近基于seq2seq的抽象型文本总结(abstractive summarization)模型取得了不错的效果，但是其存在一些问题，如：无法准确地复制事实细节(factual details)、无法处理超出词汇表(out-of-vocabulary, OOV)的词、多次重复自己等。在本文中，作者提出了一个介于抽取与抽象的文本摘要方法，解决了上述前两个问题；同时提出了一种覆盖机制(coverage mechanism)，解决了模型重复自身的问题。
 
 ## 2. 方法
-![](./images/qa/get_to_the_point_overview.jpg)
+![](./images/qa/get_to_the_point_summarization_with_pointer_generator_networks/1_overview.jpg)
 
 ### 2.1 基准模型
 本文的基准模型是带注意力机制的seq2seq模型，编码器为单层双向LSTM，将输入词$w_i$编码为$h_i$；解码器是单层单向LSTM，在每一时刻$t$接收前一个词的词嵌入（训练时是参考摘要的前一个词，测试时是前一时刻解码器预测得到的词），生成解码隐层特征$s_t$。将时刻$t$解码器隐层特征$s_t$与各个时刻编码器隐层特征$h_i$进行注意力操作，可得语境向量$h_t^\*$，即：
@@ -482,6 +482,59 @@ $$
 ---
 
 
+# Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge
+Yang Deng, Ying Shen, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge](https://www.aclweb.org/anthology/C18-1279.pdf). COLING 2018.
+
+## 1. 贡献
+(1) 作者引入外部知识图谱，将原始的文本信息与背景知识相结合，提高答案选择系统的表现；
+
+(2) 在不同领域或类型的问答数据集中，文本的句法与词汇特征可能会各不相同，但在同一个知识图谱内的句子知识之间的关系是一致的。因此，通过将源领域有标签的文本数据与外部知识图谱相结合的方式，可以帮助源领域答案选择系统迁移到新的目标领域中，特别是当目标领域只有有限的标注数据的时候，外部知识的帮助会更显著。
+
+## 2. 方法
+![](./images/qa/knowledge_as_a_bridge_improving_cross_domain_answer_selection_with_external_knowledge/1_overview.jpg)
+
+作者所提模型主要包括2个部分：基准模型(base model)与知识模块(knowledge module)。
+
+### 2.1 基准模型
+给定一个问题$q$和一系列候选答案$A = \\{a_1, ..., a_n\\}$，作者首先将其转换为对应的词嵌入，之后将嵌入特征送入基准模型中。可选的基准模型包括：(1) Bi-LSTM，即双向LSTM；(2) Att-LSTM，一个基于问题-答案注意力机制的LSTM模型；(3) AP-LSTM，一个基于注意力池化和两路注意力机制的LSTM模型；(4) Conv-RNN，一个基于注意力机制的卷积循环神经网络，该注意力机制与Att-LSTM类似，但作用在RNN的输入处。作者采用Bi-LSTM作为该RNN模型。问题语句与答案语句的基准模型特征分别表示为$Q_w$和$A_w$，二者可同时用$H_w$表示。
+
+### 2.2 知识模块
+作者首先采用n元文法匹配对句子里面的所有实体词组(entity mention)进行检测，之后对于每个实体词组从知识图谱中提取出相应的实体嵌入。但有些实体有多种词意，具有歧义性，比如Santiago可以是一个城市或者一个人，因此作者对于每个句子里的实体词组都从知识图谱中提取出top-K个实体候选，并采用一个注意力机制计算这K个候选实体与对应句子的语境相关得分，进行加权处理。对于句子里第$t$个词的候选实体嵌入$e(t) = \\{e_{t_1}, ..., e_{t_K}\\} \in \mathbb{R}^{K \times d_e}$，$d_e$是实体嵌入维度，则第$t$个词的语境知识嵌入(context-guided knowledge embedding) $\tilde{e}_t$可由下式计算得到：
+
+$$
+\begin{array}{cl}
+&\tilde{e}_t = \sum_{e_{t_i} \in e(t)} \alpha_{t_i} e_{t_i} \\
+&\alpha_{t_i} = \frac{\text{exp}(w_m^T m_{t_i})}{\sum_{m_{t_j} \in m(t)} \text{exp}(w_m^T m_{t_j})} \\
+&m(t) = \text{tanh}(W_{em} e(t) + W_{hm} H_w)
+\end{array}
+$$
+
+考虑到卷积通过卷积核滑窗提取特征的特性，作者又用一个卷积层进一步地捕捉局部n元文法的信息，并对每一时刻的卷积特征进行最大池化。由于各个实体的长度是不确定的，作者采用了多个不同大小的卷积核进行卷积操作，得到n元文法特征组$\\{y^{(1)}, ..., y^{(n)}\\}$，其中$y^{(i)}$表示通过卷积核大小为$i$的卷积操作得到的特征。之后将这些特征拼接起来，并通过一个全连接层得到最终的知识型句子嵌入$H_e \in \mathbb{R}^{L \times d_f}$，其中$d_f$是所有卷积核通道总数，$L$是句子长度。问题语句与答案语句的知识型句子嵌入$Q_e$和$A_e$可分别表示为：
+
+$$
+Q_e = [y_q^{(1)}; ...; y_q^{(n)}]; A_e = [y_a^{(1)}; ...; y_a^{(n)}]
+$$
+
+### 2.3 训练
+作者将基准模型特征与知识型特征拼接起来，得到问题和答案的最终特征$r_q$和$r_a$：
+
+$$
+r_q = [Q_w; Q_e]; r_a = [A_w; A_e]
+$$
+
+此外，作者还添加了一些额外特征。首先是最终问题和答案特征$r_q$和$r_a$的双线性相似得分$s(r_q, r_a) = r_q^T W r_a$；其次是相同单词重叠特征$x_{extra} \in \mathbb{R}^4$。则最终用于分类的特征为$x = [r_q; s(r_q, r_a); r_a; x_{extra}]$，并通过一个softmax层进行二分类，训练目标为最小化交叉熵损失$L$：
+
+$$
+\begin{array}{cl}
+&L = -\sum_{i = 1}^N [y_i \text{log} p_i + (1 - y_i) \text{log} (1 - p_i)] + \lambda ||\theta||_2^2 \\
+&y(q, a) = softmax(W_s x + b_s)
+\end{array}
+$$
+
+### 2.4 迁移学习
+不同数据集之间的迁移学习可以分为两步：首先用在源数据集上预训练好的模型进行参数初始化，之后在目标数据集上进一步地微调。作者提出了3种方式进行微调：(1) 对整个网络进行微调；(2) 只对知识模块的参数进行微调；(3) 只对基准模型的参数进行微调。此外，预训练词向量与预训练知识嵌入的参数在训练时不进行更新。
+
+
 ## *III. Question Generation*
 
 # Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders
@@ -497,7 +550,7 @@ Yansen Wang, Chenyi Liu, Minlie Huang, and Liqiang Nie. [Learning to Ask Questio
 (2) 基于以上分析，作者认为一个好问题包含3个类型的词：疑问词(interrogative)，指示提问模式；话题词(topic word)，处理话题过渡的关键信息；以及普通词(ordinary word)，使整个句子句法和语法更自然。基于此，作者提出了软硬类型解码器捕捉不同类型词的信息来提出好问题。这样的类型解码器还可用于其它词语义类型已知的生成任务中。
 
 ## 2. 方法
-![](./images/qa/typed_decoder_overview.jpg)
+![](./images/qa/learning_to_ask_questions_in_open_domain_conversational_systems_with_typed_decoders/1_overview.jpg)
 
 ### 2.1 编码-解码器框架
 在传统的编码-解码器框架中，编码器部分通过GRU模型将输入词向量进行编码得到隐层特征序列$h_t$：
@@ -603,7 +656,7 @@ $$
 作者将该问题定义为答案感知型(answer-aware)问题生成任务，即在生成问题之前，答案语句要事先给定，其中答案语句是段落中的若干文本片段(text fragment)。
 
 ## 3. 方法
-![](./images/qa/interconnected_question_generation_overview.jpg)
+![](./images/qa/interconnected_question_generation_with_coreference_alignment_and_conversation_flow_modeling/1_overview.jpg)
 
 作者所提的框架主要包括4个部分：多源编码器(multi-source encoder)、带拷贝机制的解码器(decoder with copy mechanism)、共指对齐(coreference alignment)、以及对话流建模(conversation flow modeling)。
 
@@ -619,11 +672,11 @@ $$
 
 $$
 \begin{array}{cl}
-&e_j^p = {h_j^p}^T W_p h_t^d \\\\
-&e_{i - k, j}^w = {h_{i - k, j}^w}^T W_w h_t^d \\\\
-&e_{i - k}^c = {h_{i - k}^c}^T W_c h_t^d \\\\
 &\alpha_j = \frac{e_j^p}{e_{total}} \\\\
 &\beta_{i - k, j} = \frac{e_{i - k, j}^w \times e_{i - k}^c}{e_{total}} \\\\
+&e_j^p = {h_j^p}^T W_p h_t^d \\\\
+&e_{i - k, j}^w = {h_{i - k, j}^w}^T W_w h_t^d \\\\
+&e_{i - k}^c = {h_{i - k}^c}^T W_c h_t^d
 \end{array}
 $$
 
@@ -704,19 +757,19 @@ Zi Chai, and Xiaojun Wan. [Learning to Ask More: Semi-Autoregressive Sequential 
 
 (2) 之前的工作将SQG任务在CoQA上实验，但CoQA是对话问答数据集，很多数据不适用于SQG任务。一些工作直接删除掉了这些数据，但剩余的问题可能互不相关，很多代词指代的共指实体词并不明确。
 
-**作者第一次为SQG任务构建了专门的数据集**，从CoQA中构建了包含7.2K段落、81.9K问题的数据集。
+**作者第一次为SQG任务构建了专门的数据集**，从CoQA中构建了包含7.2K段落、81.9K问题的数据集；
 
 (3) 通过大量实验表明，作者所提模型的效果大幅度地超越了之前的工作。
 
 ## 2. 方法
-![](./images/qa/learning_to_ask_more_overview.jpg)
+![](./images/qa/learning_to_ask_more_semi_autoregressive_sequential_question_generation_under_dual_graph_interaction/1_overview.jpg)
 
 ### 2.1 问题定义
 在SQG任务中，输入是一个包含$n$个句子的段落$P = \\{S_i\\}\_{i = 1}^n$和一个包含$l$个答案的答案序列$\\{A_i\\}\_{i = 1}^l$，每个答案$A_i$是段落$P$里面的一个片段；输出是一系列问题$\\{Q_i\\}\_{i = 1}^l$，每个问题$Q_i$可以根据输入段落$P$和之前的问题答案对由答案$A_i$回答。
 
 作者用半自回归的方式解决SQG任务，将目标问题划分成不同组，组内的问题紧密相关，组间的问题相互独立。划分的依据是，如果两个答案来自同一个句子，则这两个答案对应的问题可视为相互关联的。具体地，如果第$k$个句子$S_k$包含$p$个答案，则将其划分进第$k$个答案组$\mathbb{G}\_k^{ans} = \\{A_{j_1}, ..., A_{j_p}\\}$中，由此得到对应的第$k$个问题组$\mathbb{G}\_k^{ques} = \\{Q_{j_1}, ..., Q_{j_p}\\}$，并将其拼接成一个句子作为训练时生成句子的目标输出，即$"Q_{j_1} [sep] Q_{j_2} [sep] ... [sep] Q_{j_p}"$。以如下例子说明：
 
-![](./images/qa/learning_to_ask_more_comparison.jpg)
+![](./images/qa/learning_to_ask_more_semi_autoregressive_sequential_question_generation_under_dual_graph_interaction/2_qg_comparison.jpg)
 
 其中，前两个段落句子的答案组为：$\mathbb{G}_1^{ans}$ = "John"，$\mathbb{G}_2^{ans}$ = "swinging [sep] on the swings [sep] ... [sep] played on the side"；前两个段落句子的问题组为：$\mathbb{G}_1^{ques}$ = "Who was at the park?"，$\mathbb{G}_2^{ques}$ = "What was he doing there? [sep] On what? [sep] ... [sep] What was he doing?"。
 
@@ -732,7 +785,7 @@ Zi Chai, and Xiaojun Wan. [Learning to Ask More: Semi-Autoregressive Sequential 
 
 其次，作者增加了一个额外的答案感知型注意力机制，即将一个段落句子中不是答案的单词在注意力操作时遮住。具体如下图所示：
 
-![](./images/qa/learning_to_ask_more_answer_info.jpg)
+![](./images/qa/learning_to_ask_more_semi_autoregressive_sequential_question_generation_under_dual_graph_interaction/3_answer_info.jpg)
 
 之后将Transformer编码器输出的特征送入一个双向GRU模型中，并取其最后一层隐层特征作为最终依据嵌入(rationale embedding)，第$k$个依据嵌入为$r_k \in \mathbb{R}^{2d_r}$。
 
@@ -820,7 +873,7 @@ Xin Jia, Wenjie Zhou, Xu Sun, and Yunfang Wu. [How to Ask Good Questions? Try to
 传统的问题生成模型由于缺乏句子转述(paraphrase)知识，生成的句子只是简单地从输入句子里面拷贝某些词，因此生成句子的质量不高，很难达到人工设计问题的效果。因此，作者引入了句子转述知识，使得生成的问题更接近人类的设计。通过实验发现，作者引入的转述知识明显提高了问题生成的效果。
 
 ## 2. 方法
-![](./images/qa/how_to_ask_good_questions_overview.jpg)
+![](./images/qa/how_to_ask_good_questions_try_to_leverage_paraphrases/1_overview.jpg)
 
 ### 2.1 基准模型
 #### 2.1.1 特征增强型指针-生成器(feature-enriched pointer-generator)
@@ -855,7 +908,7 @@ $$
 ### 2.2 改述数据扩增(paraphrase expansion)
 作者采用谷歌翻译将原始英文文本先翻译成德文，再翻译回英文，得到其改述文本。对于输入句子$s$和其标准参考问题(golden reference question) $q$，我们可以得到相应的改述句子$s'$和改述问题$q'$，如下图例子所示：
 
-![](./images/qa/how_to_ask_good_questions_paraphrase_expansion.jpg)
+![](./images/qa/how_to_ask_good_questions_try_to_leverage_paraphrases/2_paraphrase_expansion.jpg)
 
 ### 2.3 带改述文本生成的多任务学习(multi-task learning with paraphrase generation)
 #### 2.3.1 辅助的改述文本生成任务(auxiliary PG task)
