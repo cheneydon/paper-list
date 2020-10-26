@@ -486,9 +486,7 @@ $$
 Yang Deng, Ying Shen, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge](https://www.aclweb.org/anthology/C18-1279.pdf). COLING 2018.
 
 ## 1. 贡献
-(1) 作者引入外部知识图谱，将原始的文本信息与背景知识相结合，提高答案选择系统的表现；
-
-(2) 在不同领域或类型的问答数据集中，文本的句法与词汇特征可能会各不相同，但在同一个知识图谱内的句子知识之间的关系是一致的。因此，通过将源领域有标签的文本数据与外部知识图谱相结合的方式，可以帮助源领域答案选择系统迁移到新的目标领域中，特别是当目标领域只有有限的标注数据的时候，外部知识的帮助会更显著。
+作者将源领域有标签的文本数据与外部知识图谱相结合进行答案选择，这样做有两个好处：首先是引入了背景知识，扩充了原始的文本信息，可以提高系统的表现；其次，在不同领域或类型的问答数据集中，文本的句法与词汇特征可能会各不相同，但在同一个知识图谱内的句子知识之间的关系是一致的。因此，引入知识图谱的知识可以帮助系统从源领域迁移到新的目标领域中，特别是当目标领域只有有限的标注数据的时候。
 
 ## 2. 方法
 ![](./images/qa/knowledge_as_a_bridge_improving_cross_domain_answer_selection_with_external_knowledge/1_overview.jpg)
@@ -503,8 +501,8 @@ Yang Deng, Ying Shen, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowl
 
 $$
 \begin{array}{cl}
-&\tilde{e}_t = \sum_{e_{t_i} \in e(t)} \alpha_{t_i} e_{t_i} \\
-&\alpha_{t_i} = \frac{\text{exp}(w_m^T m_{t_i})}{\sum_{m_{t_j} \in m(t)} \text{exp}(w_m^T m_{t_j})} \\
+&\tilde{e}\_t = \sum_{e_{t_i} \in e(t)} \alpha_{t_i} e_{t_i} \\\\
+&\alpha_{t_i} = \frac{\text{exp}(w_m^T m_{t_i})}{\sum_{m_{t_j} \in m(t)} \text{exp}(w_m^T m_{t_j})} \\\\
 &m(t) = \text{tanh}(W_{em} e(t) + W_{hm} H_w)
 \end{array}
 $$
@@ -526,7 +524,7 @@ $$
 
 $$
 \begin{array}{cl}
-&L = -\sum_{i = 1}^N [y_i \text{log} p_i + (1 - y_i) \text{log} (1 - p_i)] + \lambda ||\theta||_2^2 \\
+&L = -\sum_{i = 1}^N [y_i \text{log} p_i + (1 - y_i) \text{log} (1 - p_i)] + \lambda ||\theta||_2^2 \\\\
 &y(q, a) = softmax(W_s x + b_s)
 \end{array}
 $$
