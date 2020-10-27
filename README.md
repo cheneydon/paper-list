@@ -23,7 +23,7 @@ Record the papers I have read so far.
 19. A State-transition Framework to Answer Complex Questions over Knowledge Base, EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1234.pdf)]
 20. (SLQA+) Multi-Granularity Hierarchical Attention Fusion Networks for Reading Comprehension and Question Answering, ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1158.pdf)]
 21. Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs, SIGIR 2018. [[Paper](https://dl.acm.org/doi/10.1145/3209978.3210081)]
-22. Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge, COLING 2018. [[Paper](https://www.aclweb.org/anthology/C18-1279.pdf)]
+22. Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge, COLING 2018. [[Paper](https://www.aclweb.org/anthology/C18-1279.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/qa.md#knowledge-as-a-bridge-improving-cross-domain-answer-selection-with-external-knowledge)]
 23. Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering, AAAI 2019. [[Paper](https://arxiv.org/pdf/1812.02354.pdf)]
 24. Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering, AAAI 2020. [[Paper](https://arxiv.org/pdf/1911.09801.pdf)]
 25. Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization, SIGIR 2020. [[Paper](https://dl.acm.org/doi/abs/10.1145/3397271.3401208)]

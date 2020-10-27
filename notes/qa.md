@@ -428,112 +428,7 @@ $$
 ---
 
 
-## *II. Answer Selection & Summarization*
-
-# Get To The Point: Summarization with Pointer-Generator Networks
-Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
-
-## 1. 贡献
-最近基于seq2seq的抽象型文本总结(abstractive summarization)模型取得了不错的效果，但是其存在一些问题，如：无法准确地复制事实细节(factual details)、无法处理超出词汇表(out-of-vocabulary, OOV)的词、多次重复自己等。在本文中，作者提出了一个介于抽取与抽象的文本摘要方法，解决了上述前两个问题；同时提出了一种覆盖机制(coverage mechanism)，解决了模型重复自身的问题。
-
-## 2. 方法
-![](./images/qa/get_to_the_point_summarization_with_pointer_generator_networks/1_overview.jpg)
-
-### 2.1 基准模型
-本文的基准模型是带注意力机制的seq2seq模型，编码器为单层双向LSTM，将输入词$w_i$编码为$h_i$；解码器是单层单向LSTM，在每一时刻$t$接收前一个词的词嵌入（训练时是参考摘要的前一个词，测试时是前一时刻解码器预测得到的词），生成解码隐层特征$s_t$。将时刻$t$解码器隐层特征$s_t$与各个时刻编码器隐层特征$h_i$进行注意力操作，可得语境向量$h_t^\*$，即：
-
-$$
-\begin{array}{cl}
-&h_t^\* = \sum_i a_i^t h_i \\\\
-&a^t = \text{softmax}(e^t) \\\\
-&e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + b_{attn})
-\end{array}
-$$
-
-之后时刻$t$解码器的单词预测分布$P_{vocab} = \text{softmax}(V'(V[s_t, h_t^\*] + b) + b')$，损失为目标单词$w_t^\*$的负对数似然估计，整个句子的总损失$\text{loss}$为：
-
-$$
-\text{loss} = -\frac{1}{T} \sum_{t = 0}^T \text{log} P(w_t^\*)
-$$
-
-### 2.2 指针-生成器网络(pointer-generator network)
-该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
-
-$$
-P(w) = p_{gen} P_{vocab}(w) + (1 - p_{gen}) \sum_{i:w_i = w} a_i^t
-$$
-
-其中，如果$w$是一个OOV词，则$P_{vocab} = 0$；如果$w$未在源文档出现，则$\sum_{i:w_i = w} a_i^t = 0$。
-
-### 2.3 覆盖机制
-应用覆盖机制的模型维持一个覆盖向量$c^t = \sum_{t' = 0}^{t - 1} a^{t'}$，其为所有之前解码器时刻的注意力分布之和。将其作为注意力机制的额外输入，则时刻$t$的注意力分布$a^t$中的$e_i^t$可改写为：
-
-$$
-e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + w_c c_i^t + b_{attn})
-$$
-
-这样可以避免注意力机制重复注意到源文档中的同一个位置，避免生成重复性的文本。此外，作者还定义了一个覆盖损失对重复注意到同一位置的情形进行惩罚，时刻$t$的覆盖损失$\text{covloss}_t = \sum_i \min(a_i^t, c_i^t)$，且$\text{covloss}_t \leq \sum_i a_i^t = 1$。则模型的总损失$\text{loss}$可改写为：
-
-$$
-\text{loss} = \frac{1}{T} \sum_{t = 0}^T (-\text{log} P(w_t^*) + \lambda \sum_i \min(a_i^t, c_i^t))
-$$
-
-
----
-
-
-# Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge
-Yang Deng, Ying Shen, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge](https://www.aclweb.org/anthology/C18-1279.pdf). COLING 2018.
-
-## 1. 贡献
-作者将源领域有标签的文本数据与外部知识图谱相结合进行答案选择，这样做有两个好处：首先是引入了背景知识，扩充了原始的文本信息，可以提高系统的表现；其次，在不同领域或类型的问答数据集中，文本的句法与词汇特征可能会各不相同，但在同一个知识图谱内的句子知识之间的关系是一致的。因此，引入知识图谱的知识可以帮助系统从源领域迁移到新的目标领域中，特别是当目标领域只有有限的标注数据的时候。
-
-## 2. 方法
-![](./images/qa/knowledge_as_a_bridge_improving_cross_domain_answer_selection_with_external_knowledge/1_overview.jpg)
-
-作者所提模型主要包括2个部分：基准模型(base model)与知识模块(knowledge module)。
-
-### 2.1 基准模型
-给定一个问题$q$和一系列候选答案$A = \\{a_1, ..., a_n\\}$，作者首先将其转换为对应的词嵌入，之后将嵌入特征送入基准模型中。可选的基准模型包括：(1) Bi-LSTM，即双向LSTM；(2) Att-LSTM，一个基于问题-答案注意力机制的LSTM模型；(3) AP-LSTM，一个基于注意力池化和两路注意力机制的LSTM模型；(4) Conv-RNN，一个基于注意力机制的卷积循环神经网络，该注意力机制与Att-LSTM类似，但作用在RNN的输入处。作者采用Bi-LSTM作为该RNN模型。问题语句与答案语句的基准模型特征分别表示为$Q_w$和$A_w$，二者可同时用$H_w$表示。
-
-### 2.2 知识模块
-作者首先采用n元文法匹配对句子里面的所有实体词组(entity mention)进行检测，之后对于每个实体词组从知识图谱中提取出相应的实体嵌入。但有些实体有多种词意，具有歧义性，比如Santiago可以是一个城市或者一个人，因此作者对于每个句子里的实体词组都从知识图谱中提取出top-K个实体候选，并采用一个注意力机制计算这K个候选实体与对应句子的语境相关得分，进行加权处理。对于句子里第$t$个词的候选实体嵌入$e(t) = \\{e_{t_1}, ..., e_{t_K}\\} \in \mathbb{R}^{K \times d_e}$，$d_e$是实体嵌入维度，则第$t$个词的语境知识嵌入(context-guided knowledge embedding) $\tilde{e}_t$可由下式计算得到：
-
-$$
-\begin{array}{cl}
-&\tilde{e}\_t = \sum_{e_{t_i} \in e(t)} \alpha_{t_i} e_{t_i} \\\\
-&\alpha_{t_i} = \frac{\text{exp}(w_m^T m_{t_i})}{\sum_{m_{t_j} \in m(t)} \text{exp}(w_m^T m_{t_j})} \\\\
-&m(t) = \text{tanh}(W_{em} e(t) + W_{hm} H_w)
-\end{array}
-$$
-
-考虑到卷积通过卷积核滑窗提取特征的特性，作者又用一个卷积层进一步地捕捉局部n元文法的信息，并对每一时刻的卷积特征进行最大池化。由于各个实体的长度是不确定的，作者采用了多个不同大小的卷积核进行卷积操作，得到n元文法特征组$\\{y^{(1)}, ..., y^{(n)}\\}$，其中$y^{(i)}$表示通过卷积核大小为$i$的卷积操作得到的特征。之后将这些特征拼接起来，并通过一个全连接层得到最终的知识型句子嵌入$H_e \in \mathbb{R}^{L \times d_f}$，其中$d_f$是所有卷积核通道总数，$L$是句子长度。问题语句与答案语句的知识型句子嵌入$Q_e$和$A_e$可分别表示为：
-
-$$
-Q_e = [y_q^{(1)}; ...; y_q^{(n)}]; A_e = [y_a^{(1)}; ...; y_a^{(n)}]
-$$
-
-### 2.3 训练
-作者将基准模型特征与知识型特征拼接起来，得到问题和答案的最终特征$r_q$和$r_a$：
-
-$$
-r_q = [Q_w; Q_e]; r_a = [A_w; A_e]
-$$
-
-此外，作者还添加了一些额外特征。首先是最终问题和答案特征$r_q$和$r_a$的双线性相似得分$s(r_q, r_a) = r_q^T W r_a$；其次是相同单词重叠特征$x_{extra} \in \mathbb{R}^4$。则最终用于分类的特征为$x = [r_q; s(r_q, r_a); r_a; x_{extra}]$，并通过一个softmax层进行二分类，训练目标为最小化交叉熵损失$L$：
-
-$$
-\begin{array}{cl}
-&L = -\sum_{i = 1}^N [y_i \text{log} p_i + (1 - y_i) \text{log} (1 - p_i)] + \lambda ||\theta||_2^2 \\\\
-&y(q, a) = softmax(W_s x + b_s)
-\end{array}
-$$
-
-### 2.4 迁移学习
-不同数据集之间的迁移学习可以分为两步：首先用在源数据集上预训练好的模型进行参数初始化，之后在目标数据集上进一步地微调。作者提出了3种方式进行微调：(1) 对整个网络进行微调；(2) 只对知识模块的参数进行微调；(3) 只对基准模型的参数进行微调。此外，预训练词向量与预训练知识嵌入的参数在训练时不进行更新。
-
-
-## *III. Question Generation*
+## *II. Question Generation*
 
 # Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders
 Yansen Wang, Chenyi Liu, Minlie Huang, and Liqiang Nie. [Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders](https://www.aclweb.org/anthology/P18-1204.pdf). ACL 2018.
@@ -937,5 +832,264 @@ $$
 
 $$
 L_{total} = L_{lqg} + \alpha L_{pg} + \lambda L_{sf}
+$$
+
+
+---
+
+
+## *III. Answer Selection & Summarization*
+
+# Get To The Point: Summarization with Pointer-Generator Networks
+Abigail See, Peter J. Liu, and Christopher D. Manning. [Get To The Point: Summarization with Pointer-Generator Networks](https://www.aclweb.org/anthology/P17-1099.pdf). ACL 2017.
+
+## 1. 贡献
+最近基于seq2seq的抽象型文本总结(abstractive summarization)模型取得了不错的效果，但是其存在一些问题，如：无法准确地复制事实细节(factual details)、无法处理超出词汇表(out-of-vocabulary, OOV)的词、多次重复自己等。在本文中，作者提出了一个介于抽取与抽象的文本摘要方法，解决了上述前两个问题；同时提出了一种覆盖机制(coverage mechanism)，解决了模型重复自身的问题。
+
+## 2. 方法
+![](./images/qa/get_to_the_point_summarization_with_pointer_generator_networks/1_overview.jpg)
+
+### 2.1 基准模型
+本文的基准模型是带注意力机制的seq2seq模型，编码器为单层双向LSTM，将输入词$w_i$编码为$h_i$；解码器是单层单向LSTM，在每一时刻$t$接收前一个词的词嵌入（训练时是参考摘要的前一个词，测试时是前一时刻解码器预测得到的词），生成解码隐层特征$s_t$。将时刻$t$解码器隐层特征$s_t$与各个时刻编码器隐层特征$h_i$进行注意力操作，可得语境向量$h_t^\*$，即：
+
+$$
+\begin{array}{cl}
+&h_t^\* = \sum_i a_i^t h_i \\\\
+&a^t = \text{softmax}(e^t) \\\\
+&e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + b_{attn})
+\end{array}
+$$
+
+之后时刻$t$解码器的单词预测分布$P_{vocab} = \text{softmax}(V'(V[s_t, h_t^\*] + b) + b')$，损失为目标单词$w_t^\*$的负对数似然估计，整个句子的总损失$\text{loss}$为：
+
+$$
+\text{loss} = -\frac{1}{T} \sum_{t = 0}^T \text{log} P(w_t^\*)
+$$
+
+### 2.2 指针-生成器网络(pointer-generator network)
+该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
+
+$$
+P(w) = p_{gen} P_{vocab}(w) + (1 - p_{gen}) \sum_{i:w_i = w} a_i^t
+$$
+
+其中，如果$w$是一个OOV词，则$P_{vocab} = 0$；如果$w$未在源文档出现，则$\sum_{i:w_i = w} a_i^t = 0$。
+
+### 2.3 覆盖机制
+应用覆盖机制的模型维持一个覆盖向量$c^t = \sum_{t' = 0}^{t - 1} a^{t'}$，其为所有之前解码器时刻的注意力分布之和。将其作为注意力机制的额外输入，则时刻$t$的注意力分布$a^t$中的$e_i^t$可改写为：
+
+$$
+e_i^t = v^T \text{tanh}(W_h h_i + W_s s_t + w_c c_i^t + b_{attn})
+$$
+
+这样可以避免注意力机制重复注意到源文档中的同一个位置，避免生成重复性的文本。此外，作者还定义了一个覆盖损失对重复注意到同一位置的情形进行惩罚，时刻$t$的覆盖损失$\text{covloss}_t = \sum_i \min(a_i^t, c_i^t)$，且$\text{covloss}_t \leq \sum_i a_i^t = 1$。则模型的总损失$\text{loss}$可改写为：
+
+$$
+\text{loss} = \frac{1}{T} \sum_{t = 0}^T (-\text{log} P(w_t^*) + \lambda \sum_i \min(a_i^t, c_i^t))
+$$
+
+
+---
+
+
+# Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge
+Yang Deng, Ying Shen, Min Yang, Yaliang Li, Nan Du, Wei Fan, and Kai Lei. [Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge](https://www.aclweb.org/anthology/C18-1279.pdf). COLING 2018.
+
+## 1. 贡献
+作者将源领域有标签的文本数据与外部知识图谱相结合进行答案选择，这样做有两个好处：首先是引入了背景知识，扩充了原始的文本信息，可以提高系统的表现；其次，在不同领域或类型的问答数据集中，文本的句法与词汇特征可能会各不相同，但在同一个知识图谱内的句子知识之间的关系是一致的。因此，引入知识图谱的知识可以帮助系统从源领域迁移到新的目标领域中，特别是当目标领域只有有限的标注数据的时候。
+
+## 2. 方法
+![](./images/qa/knowledge_as_a_bridge_improving_cross_domain_answer_selection_with_external_knowledge/1_overview.jpg)
+
+作者所提模型主要包括2个部分：基准模型(base model)与知识模块(knowledge module)。
+
+### 2.1 基准模型
+给定一个问题$q$和一系列候选答案$A = \\{a_1, ..., a_n\\}$，作者首先将其转换为对应的词嵌入，之后将嵌入特征送入基准模型中。可选的基准模型包括：(1) Bi-LSTM，即双向LSTM；(2) Att-LSTM，一个基于问题-答案注意力机制的LSTM模型；(3) AP-LSTM，一个基于注意力池化和两路注意力机制的LSTM模型；(4) Conv-RNN，一个基于注意力机制的卷积循环神经网络，该注意力机制与Att-LSTM类似，但作用在RNN的输入处。作者采用Bi-LSTM作为该RNN模型。问题语句与答案语句的基准模型特征分别表示为$Q_w$和$A_w$，二者可同时用$H_w$表示。
+
+### 2.2 知识模块
+作者首先采用n元文法匹配对句子里面的所有实体词组(entity mention)进行检测，之后对于每个实体词组从知识图谱中提取出相应的实体嵌入。但有些实体有多种词意，具有歧义性，比如Santiago可以是一个城市或者一个人，因此作者对于每个句子里的实体词组都从知识图谱中提取出top-K个实体候选，并采用一个注意力机制计算这K个候选实体与对应句子的语境相关得分，进行加权处理。对于句子里第$t$个词的候选实体嵌入$e(t) = \\{e_{t_1}, ..., e_{t_K}\\} \in \mathbb{R}^{K \times d_e}$，$d_e$是实体嵌入维度，第$t$个词的语境知识嵌入(context-guided knowledge embedding) $\tilde{e}_t$可由下式计算得到：
+
+$$
+\begin{array}{cl}
+&\tilde{e}\_t = \sum_{e_{t_i} \in e(t)} \alpha_{t_i} e_{t_i} \\\\
+&\alpha_{t_i} = \frac{\text{exp}(w_m^T m_{t_i})}{\sum_{m_{t_j} \in m(t)} \text{exp}(w_m^T m_{t_j})} \\\\
+&m(t) = \text{tanh}(W_{em} e(t) + W_{hm} H_w)
+\end{array}
+$$
+
+考虑到卷积通过卷积核滑窗提取特征的特性，作者又用一个卷积层进一步地捕捉局部n元文法的信息，并对每一时刻的卷积特征进行最大池化。由于各个实体的长度是不确定的，作者采用了多个不同大小的卷积核进行卷积操作，得到n元文法特征组$\\{y^{(1)}, ..., y^{(n)}\\}$，其中$y^{(i)}$表示通过卷积核大小为$i$的卷积操作得到的特征。之后将这些特征拼接起来，并通过一个全连接层得到最终的知识型句子嵌入$H_e \in \mathbb{R}^{L \times d_f}$，其中$d_f$是所有卷积核通道总数，$L$是句子长度。问题语句与答案语句的知识型句子嵌入$Q_e$和$A_e$可分别表示为：
+
+$$
+Q_e = [y_q^{(1)}; ...; y_q^{(n)}]; A_e = [y_a^{(1)}; ...; y_a^{(n)}]
+$$
+
+### 2.3 训练
+作者将基准模型特征与知识型特征拼接起来，得到问题和答案的最终特征$r_q$和$r_a$：
+
+$$
+r_q = [Q_w; Q_e]; r_a = [A_w; A_e]
+$$
+
+此外，作者还添加了一些额外特征。首先是最终问题和答案特征$r_q$和$r_a$的双线性相似得分(bilinear similarity score) $s(r_q, r_a) = r_q^T W r_a$；其次是相同单词重叠特征$x_{extra} \in \mathbb{R}^4$。则最终用于分类的特征为$x = [r_q; s(r_q, r_a); r_a; x_{extra}]$，并通过一个softmax层进行二分类，训练目标为最小化交叉熵损失$L$：
+
+$$
+\begin{array}{cl}
+&L = -\sum_{i = 1}^N [y_i \text{log} p_i + (1 - y_i) \text{log} (1 - p_i)] + \lambda ||\theta||_2^2 \\\\
+&y(q, a) = softmax(W_s x + b_s)
+\end{array}
+$$
+
+### 2.4 迁移学习
+不同数据集之间的迁移学习可以分为两步：首先用在源数据集上预训练好的模型进行参数初始化，之后在目标数据集上进一步地微调。作者提出了3种方式进行微调：(1) 对整个网络进行微调；(2) 只对知识模块的参数进行微调；(3) 只对基准模型的参数进行微调。此外，预训练词向量与预训练知识嵌入的参数在训练时不进行更新。
+
+
+---
+
+
+# Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering
+Yang Deng, Yuexiang Xie, Yaliang Li, Min Yang, Nan Du, Wei Fan, Kai Lei, and Ying Shen. [Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering](https://arxiv.org/pdf/1812.02354.pdf). AAAI 2019.
+
+## 1. 贡献
+作者提出了对答案选择和知识库问答(knowledge base question answering, KBQA)任务进行多任务学习的方法，答案选择任务可以由KBQA任务在知识层面提高效果，而KBQA任务可以由答案选择任务在单词层面提高效果。实验表明经过多任务学习后的模型在各自任务上的效果均超过了最好的单任务模型效果。
+
+## 2. 方法
+### 2.1 问题定义
+答案选择任务和KBQA任务都可以看做排序问题。给定一个问题$q_i \in Q$，任务目标是通过一个函数$f(q, a) \in [0, 1]$对一系列候选答案句子或事实组$a_i \in A$进行排序。
+
+在对答案选择和KBQA进行多任务学习时，首先要进行实体链接(entity linking)，对于每个问题和其候选答案的单词序列(word sequence) $W = \\{w_1, ..., w_L\\}$，得到其对应的知识序列(knowledge sequence) $K = \\{k_1, ..., k_L\\}$，如下图例子所示：
+
+![](./images/qa/multi_task_learning_with_multi_view_attention_for_answer_selection_and_knowledge_base_question_answering/1_data_example.jpg)
+
+之后可以得到如下形式的数据集：
+
+$$
+D_t = \\{(W_{q_i}^{(t)}, K_{q_i}^{(t)}, W_{a_i}^{(t)}, K_{a_i}^{(t)}, Y_i^{(t)})\\}_{i = 1}^{N_t}
+$$
+
+其中$Y_i^{(t)}$指第$t$个任务中第$i$个QA对的标签。
+
+### 2.2 多任务学习基准模型
+![](./images/qa/multi_task_learning_with_multi_view_attention_for_answer_selection_and_knowledge_base_question_answering/2_basic_network.jpg)
+
+基准模型主要包含3个部分：特定任务编码层(task-specific encoder layer)、共享特征学习层(shared representation learning layer)、以及特定任务softmax层。
+
+#### 2.2.1 特定任务编码层
+![](./images/qa/multi_task_learning_with_multi_view_attention_for_answer_selection_and_knowledge_base_question_answering/3_task_specific_encoder.jpg)
+
+(1) **单词编码器**，其输入是词嵌入序列$E_W = \\{e_{w_1}, ..., e_{w_L}\\}$，通过双向LSTM进行特征编码，得到问题和答案的单词特征$H_{W_q}$和$H_{W_a}$：
+
+$$
+H_{W_q} = \text{Bi-LSTM}(E_{W_q}); H_{W_a} = \text{Bi-LSTM}(E_{W_a})
+$$
+
+(2) **知识编码器**，其采用卷积神经网络捕捉局部n元文法特征，并用一系列不同大小的卷积核进行特征提取，以解决实体长度不确定的问题。问题和答案的知识特征$H_{K_q}$和$H_{K_a}$可表示为：
+
+$$
+H_{K_q} = [H_{K_q}^{(1)}; ...; H_{K_q}^{(n)}]; H_{K_a} = [H_{K_a}^{(1)}; ...; H_{K_a}^{(n)}]
+$$
+
+其中$H^{(i)}$表示卷积核大小为$i$的卷积特征。最后将问题和答案各自的单词特征和知识特征拼接起来，得到最终的特定任务编码$H_q$和$H_a$：
+
+$$
+H_q = [H_{W_q}; H_{K_q}]; H_a = [H_{W_a}; H_{K_a}]
+$$
+
+#### 2.2.2 共享特征学习层
+作者采用了一个共享孪生(siamese)双向LSTM网络对不同任务的特定任务编码进行进一步地特征提取，不同任务孪生网络的权重是共享的。不同任务问题和答案的共享特征$S_q$和$S_a$可表示为：
+
+$$
+S_q = \text{Bi-LSTM}(H_q); S_a = \text{Bi-LSTM}(H_a)
+$$
+
+之后对Bi-LSTM的输出进行平均池化，得到$s_q = \text{Average}(S_q), s_a = \text{Average}(S_a)$。此外，作者还加入了单词和知识重叠特征$x_{ol} \in \mathbb{R}^6$，包括：单词重叠得分、非终止单词重叠得分、加权单词重叠得分、非终止加权单词重叠得分、知识重叠得分、加权知识重叠得分。最终可得到不同任务的共享联合特征为$x = [s_q; s_a; x_{ol}]$。
+
+#### 2.2.3 特定任务softmax层
+对于第$t$个任务的问题答案对$(q_i^{(t)}, a_i^{(t)})$和其标签$y_i^{(t)}$，其最终的共享联合特征被送入特定任务softmax层进行二分类，即：
+
+$$
+p^{(t)} = \text{softmax}(W_s^{(t)} x + b_s^{(t)})
+$$
+
+总体的多任务训练目标是最小化如下的交叉熵损失：
+
+$$
+L = -\sum_{t = 1}^T \lambda_t \sum_{i = 1}^{N_t} [y_i^{(t)} \text{log} p_i^{(t)} + (1 - y_i^{(t)}) \text{log} (1 - p_i^{(t)})]
+$$
+
+其中$\lambda_t$决定了第$t$个任务的权重。
+
+### 2.3 带多视角注意力(multi-view attention)的多任务模型
+![](./images/qa/multi_task_learning_with_multi_view_attention_for_answer_selection_and_knowledge_base_question_answering/4_multi_view_attention.jpg)
+
+作者计算了5个视角的注意力，分别是：单词视角、知识视角、文本语义视角、知识语义视角和共同注意力(co-attention)视角。
+
+#### 2.3.1 单词和知识视角
+作者首先采用了一个两路注意力机制，交互地为一对QA句子建模，得到单词和知识嵌入的注意力权重$M_W$和$M_K$：
+
+$$
+M_W = \text{tanh}(E_{W_q}^T U_W E_{W_a}); M_K = \text{tanh}(E_{K_q}^T U_K E_{K_a})
+$$
+
+之后对$M_W$和$M_K$的行和列做最大池化，得到问题和答案不同视角的注意力权重。具体地，问题和答案的单词视角注意力权重$\alpha_q^{(1)}$和$\alpha_a^{(1)}$可表示为：
+
+$$
+\alpha_q^{(1)} = \text{softmax}(\text{Max}(M_W)); \alpha_a^{(1)} = \text{softmax}(\text{Max}(M_W^T))
+$$
+
+相应地，问题和答案的知识视角注意力权重$\alpha_q^{(2)}$和$\alpha_a^{(2)}$可表示为：
+
+$$
+\alpha_q^{(2)} = \text{softmax}(\text{Max}(M_K)); \alpha_a^{(2)} = \text{softmax}(\text{Max}(M_K^T))
+$$
+
+#### 2.3.2 文本语义和知识语义视角
+作者对特定任务编码层的输出采用最大/平均池化，得到句子总体的语义信息。其中问题和答案的文本总体语义信息$o_{w_q}, o_{w_a}$与各自的知识总体语义信息$o_{k_q}, o_{k_a}$可表示为：
+
+$$
+\begin{array}{cl}
+&o_{w_q} = \text{Average}(H_{W_q}); o_{w_a} = \text{Average}(H_{W_a}) \\\\
+&o_{k_q} = \text{Max}(H_{K_q}); o_{k_a} = \text{Max}(H_{K_a})
+\end{array}
+$$
+
+之后计算问题与答案的交互语义注意力，即将问题和答案的总体语义信息分别与答案和问题原始的特定任务编码层的输出计算注意力。问题和答案的文本语义视角注意力权重$\alpha_q^{(3)}$和$\alpha_a^{(3)}$可表示为：
+
+$$
+\begin{array}{cl}
+&\alpha_q^{(3)} = \text{softmax}(w_{w_q}^T \text{tanh}(W_{w_a} o_{w_a} + W_{w_q} H_{W_q})) \\\\
+&\alpha_a^{(3)} = \text{softmax}(w_{w_a}^T \text{tanh}(W_{w_q} o_{w_q} + W_{w_a} H_{W_a}))
+\end{array}
+$$
+
+相应地，问题和答案的知识语义视角注意力权重$\alpha_q^{(4)}$和$\alpha_a^{(4)}$可表示为：
+
+$$
+\begin{array}{cl}
+&\alpha_q^{(4)} = \text{softmax}(w_{k_q}^T \text{tanh}(W_{k_a} o_{k_a} + W_{k_q} H_{K_q})) \\\\
+&\alpha_a^{(4)} = \text{softmax}(w_{k_a}^T \text{tanh}(W_{k_q} o_{k_q} + W_{k_a} H_{K_a}))
+\end{array}
+$$
+
+#### 2.3.3 共同注意力视角
+与单词和知识视角注意力类似，作者采用了一个两路注意力机制生成问题和答案共享特征$S_q$和$S_a$的共同注意力。问题和答案的共同注意力视角权重$\alpha_q^{(5)}$和$\alpha_a^{(5)}$可表示为：
+
+$$
+\begin{array}{cl}
+&\alpha_q^{(5)} = \text{softmax}(\text{Max}(M_{co})); \alpha_a^{(5)} = \text{softmax}(\text{Max}(M_{co}^T)) \\\\
+&M_{co} = \text{tanh}(S_q^T U_S S_a)
+\end{array}
+$$
+
+#### 2.3.4 多视角注意力特征
+结合上述5种视角的注意力机制，问题和答案的多视角注意力权重$\alpha_q$和$\alpha_a$可表示为：
+
+$$
+\alpha_q = \text{softmax}(\sum_{i = 1}^5 \lambda_q^{(i)} \alpha_q^{i}); \alpha_a = \text{softmax}(\sum_{i = 1}^5 \lambda_a^{(i)} \alpha_a^{(i)})
+$$
+
+其中$\lambda^{(i)}$是控制各个视角注意力的权重，作者将不同视角的权重设为一致。则问题和答案最终的注意力共享特征$S_q'$和$S_a'$为：
+
+$$
+S_q' = \alpha_q S_q; S_a' = \alpha_a S_a
 $$
 
