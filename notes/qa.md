@@ -960,13 +960,7 @@ Yang Deng, Yuexiang Xie, Yaliang Li, Min Yang, Nan Du, Wei Fan, Kai Lei, and Yin
 
 ![](./images/qa/multi_task_learning_with_multi_view_attention_for_answer_selection_and_knowledge_base_question_answering/1_data_example.jpg)
 
-之后可以得到如下形式的数据集：
-
-$$
-D_t = \\{(W_{q_i}^{(t)}, K_{q_i}^{(t)}, W_{a_i}^{(t)}, K_{a_i}^{(t)}, Y_i^{(t)})\\}_{i = 1}^{N_t}
-$$
-
-其中$Y_i^{(t)}$指第$t$个任务中第$i$个QA对的标签。
+之后可以得到数据集$D_t = \\{(W_{q_i}^{(t)}, K_{q_i}^{(t)}, W_{a_i}^{(t)}, K_{a_i}^{(t)}, Y_i^{(t)})\\}_{i = 1}^{N_t}$，其中$Y_i^{(t)}$指第$t$个任务中第$i$个QA对的标签。
 
 ### 2.2 多任务学习基准模型
 ![](./images/qa/multi_task_learning_with_multi_view_attention_for_answer_selection_and_knowledge_base_question_answering/2_basic_network.jpg)
