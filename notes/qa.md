@@ -867,7 +867,13 @@ $$
 $$
 
 ### 2.2 指针-生成器网络(pointer-generator network)
-该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
+该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度，$p_{gen}$由下式计算得到：
+
+$$
+p_{gen} = \text{sigmoid}(w_{h^\*}^T h_t^\* + w_s^T s_t + w_x^T x_t + b_{ptr})
+$$
+
+其中$h_t^\*$是语境向量，$s_t$是解码器隐层特征，$x_t$是解码器输入。模型每次预测时从词汇表和所有源文档出现的单词所组成的扩展词汇表(extended vocabulary)进行预测，这样也缓解了OOV问题。每个单词的预测概率$P(w)$可表示为：
 
 $$
 P(w) = p_{gen} P_{vocab}(w) + (1 - p_{gen}) \sum_{i:w_i = w} a_i^t
@@ -1087,3 +1093,164 @@ $$
 S_q' = \alpha_q S_q; S_a' = \alpha_a S_a
 $$
 
+
+---
+
+
+# Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering
+Yang Deng, Wai Lam, Yuexiang Xie, Daoyuan Chen, Yaliang Li, Min Yang, and Ying Shen. [Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering](https://arxiv.org/pdf/1911.09801.pdf). AAAI 2020.
+
+## 1. 贡献
+(1) 作者为社区问答(community question answering, CQA)领域的答案选择和答案摘要生成任务设计了一个联合学习模型，问题可以指导抽象型摘要(abstractive summarization)的生成，同时生成的答案摘要可以减少答案中的噪声，提高答案选择的效果；
+
+(2) 作者为CQA中的答案摘要生成任务构建了一个新的数据集WikiHowQA，其也可以用于答案选择任务。实验表明，作者提出的多任务联合学习方法不仅在答案选择任务上超过了效果最好的方法，还可以生成比当前摘要方法更准确的答案摘要；
+
+(3) 为了处理资源受限的CQA任务，作者设计了一个迁移学习策略，使得那些没有参考答案摘要的任务也可以进行多任务联合学习，大幅提高预测效果。
+
+## 2. 方法
+![](./images/qa/joint_learning_of_answer_selection_and_answer_summary_generation_in_community_question_answering/1_joint_learning_framework.jpg)
+
+### 2.1 问题定义
+给定一个问题$q_i$，首先从一系列答案$A_i = \\{a_i^{(1)}, ..., a_i^{(j)\\}$中选出若干正确答案，之后对于每个所选答案$a_i^{(\*)}$生成其抽象型摘要$\beta_i^{(\*)}$。
+
+数据集$D$中包含一系列问题$Q$，数目是$N$，对于每个问题$q_i \in Q$，有$M_i$个候选答案$A_i$、对应的人工所写的参考摘要$\beta_i^{(j)}$、以及指示答案$a_i^{(j)}$是否可以回答问题$q_i$的标签$y_i^{(j)}$。数据集$D$可表示为：
+
+$$
+D = \{(q_i, \{(a_i^{(j)}, \beta_i^{(j)}, y_i^{(j)})\}_{j = 1}^{M_i})\}_{i = 1}^{N}
+$$
+
+### 2.2 模型
+作者所提的ASAS模型主要包括4个部分：(1) 对比-聚合(compare-aggregate)编码器；(2) 带问题感知注意力(question-aware attention)的seq2seq模型；(3) 通过摘要特征进行问题答案对齐(question answer alignment)；(4) 问题驱动型指针-生成网络(question-driven pointer-generator netowrk)。
+
+#### 2.2.1 对比-聚合编码器
+以答案的对比-聚合过程为例。首先对原始的问题嵌入$Q$和答案嵌入$A$进行门控计算，得到问题和答案门控向量$\bar{Q}$和$\bar{A}$：
+
+$$
+\begin{array}{cl}
+&\bar{Q} = \sigma(W^i Q + b^i) \odot \text{tanh}(W^u Q + b^u) \\\\
+&\bar{A} = \sigma(W^i A + b^i) \odot \text{tanh}(W^u A + b^u)
+\end{array}
+$$
+
+接着进行注意力计算，得到答案的注意力加权特征$H$：
+
+$$
+\begin{array}{cl}
+&H = \bar{Q}G \\\\
+&G = \text{softmax}((W^g \bar{Q} + b^g)^T \bar{A})
+\end{array}
+$$
+
+之后进行对比计算，将答案的注意力加权特征$H$与答案向量$\bar{A}$进行对比，对比方式有如下几种：
+
+$$
+\begin{array}{cl}
+&\text{NeuralNet}: t_j = f(\bar{a}_j, h_j) = \text{ReLU}(W \begin{bmatrix} \bar{a}_j \\\ h_j \end{bmatrix} + b) \\\\
+&\text{NeuralTensorNet}: t_j = f(\bar{a}_j, h_j) = \text{ReLU}(\bar{a}_j^T T^{[1...l]} h_j + b) \\\\
+&\text{Euclidean+Cosine}: t_j = f(\bar{a}_j, h_j) = \begin{bmatrix} ||\bar{a}_j - h_j||_2 \\\ \text{cos}(\bar{a}_j, h_j) \end{bmatrix} \\\\
+&\text{Subtraction}: t_j = f(\bar{a}_j, h_j) = (\bar{a}_j - h_j) \odot (\bar{a}_j - h_j) \\\\
+&\text{Multiplication}: t_j = f(\bar{a}_j, h_j) = \bar{a}_j \odot h_j \\\\
+&\text{SubMult+NN}: t_j = f(\bar{a}_j, h_j) = \text{ReLU}(W \begin{bmatrix} (\bar{a}_j - h_j) \odot (\bar{a}_j - h_j) \\\ \bar{a}_j \odot h_j \end{bmatrix} + b)
+\end{array}
+$$
+
+最后通过一个双向LSTM对答案的对比特征进行整合，得到答案的对比-整合特征$H_a$，即：
+
+$$
+H_a = \text{Bi-LSTM}([t_1, ..., t_A])
+$$
+
+对于问题的对比-聚合过程与上述类似，以类似方法可得问题的对比-聚合特征$H_q$。
+
+#### 2.2.2 带问题感知注意力的seq2seq模型
+作者采用一个单向LSTM作为解码器，在时刻$t$，解码器通过前一时刻单词$w_{t - 1}$生成当前时刻隐层特征$s_t = \text{LSTM}(s_{t - 1}, w_{t - 1})$。$t$时刻的隐层特征与源文本各个时刻隐层特征的注意力加权语境向量$\hat{h}_t$可表示为：
+
+$$
+\begin{array}{cl}
+&\hat{h}_t = \sum_i \alpha^t h_i^a \\\\
+&\alpha^t = \text{softmax}(e^t) \\\\
+&e_i^t = m^t \text{tanh}(W_h h_i^a + W_s s_t + W_q o_q + b) \\\\
+&o_q = \text{Average}(H_q)
+\end{array}
+$$
+
+其中的语境向量同时包含了问题信息与源文本信息。则$t$时刻的答案摘要特征$h_t^s$可表示为：
+
+$$
+h_t^s = W_1 [s_t; \hat{h}_t] + b_1
+$$
+
+#### 2.2.3 通过摘要特征进行问题答案对齐
+作者采用了一个两路注意力机制计算问题编码特征$H_q$和答案摘要解码特征$H_s$的共同注意力，其中问题和答案摘要注意力$\alpha_q$和$\alpha_a$由下式计算得到：
+
+$$
+\begin{array}{cl}
+&\alpha_q = \text{softmax}(\text{Max}(M_{qa})) \\\\
+&\alpha_a = \text{softmax}(\text{Max}(M_{qa}^T)) \\\\
+&M_{qa} = \text{tanh}(H_q^T U H_s)
+\end{array}
+$$
+
+则问题和答案摘要的注意力特征$r_q$和$r_a$可表示为：
+
+$$
+r_q = H_q^T \alpha_q, r_a = H_s^T \alpha_a
+$$
+
+与答案编码特征相比，答案摘要解码特征更加准确精练，使得答案选择模型可以更好地捕捉问题和答案之间的交互信息。
+
+#### 2.2.4 问题驱动型指针-生成网络
+词汇表的概率分布$P_{vocab}$为：
+
+$$
+P_{vocab} = \text{softmax}(W_2 h_t^s + b_2)
+$$
+
+结合问题信息的指针网络的重要程度$p_{gen} \in [0, 1]$为：
+
+$$
+p_{gen} = \text{sigmoid}(w_h^T h_t^s + w_x^T x_t + w_q^T o_q + b_p)
+$$
+
+其中$h_t^s$是摘要解码特征，$x_t$是解码器输入，$o_q$是问题聚合特征。最终，基于词汇表与源文章单词的预测概率分布$P$为：
+
+$$
+P = p_{gen} P_{vocab} + (1 - p_{gen}) \sum_{i: w_i = w} \alpha_i^t
+$$
+
+### 2.3 联合训练过程
+#### 2.3.1 答案选择损失
+首先将问题和答案摘要的注意力特征$r_q$和$r_a$进行拼接并送入一个softmax层进行二分类，即：
+
+$$
+y(q, a) = \text{softmax}(W_s [r_q; r_a] + b_s)
+$$
+
+之后训练目标为最小化如下交叉熵损失$L_{qa}$：
+
+$$
+L_{qa} = -\sum_{i = 1}^N [y_i \text{log} p_i + (1 - y_i) \text{log}(1 - p_i)]
+$$
+
+#### 2.3.2 摘要损失
+摘要任务训练目标为最小化如下负对数似然估计损失$L_{sum}$：
+
+$$
+L_{sum} = -\frac{1}{T} \sum_{t = 0}^T \text{log} P(w_t^\*)
+$$
+
+#### 2.3.3 覆盖损失
+在每一个解码时刻$t$，覆盖向量$c^t = \sum_{t' = 0}^{t - 1} \alpha^{t'}$对到目前为止的覆盖程度进行评估，之后通过如下覆盖损失$L_{cov}$对注意力权重$\alpha^t$的重复进行惩罚：
+
+$$
+L_{cov} = \frac{1}{T} \sum_{t = 1}^T \sum_i \min(\alpha_i^t, c_i^t)
+$$
+
+综合以上3种损失，模型的总体训练损失$L$为：
+
+$$
+L = \lambda_1 L_{qa} + \lambda_2 L_{sum} + \lambda_3 L_{cov}
+$$
+
+### 2.4 处理资源受限数据集
+对于没有参考答案摘要的数据集，作者采用了一种迁移学习的策略进行处理，使得其也能受益于多任务学习的训练方式。首先将整个模型在源数据集上进行多任务联合训练，之后在资源受限的目标数据集上只微调答案选择模块的权重，包括对比-聚合编码器与问题答案对齐。
