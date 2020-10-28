@@ -867,7 +867,7 @@ $$
 $$
 
 ### 2.2 指针-生成器网络(pointer-generator network)
-该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度，$p_{gen}$由下式计算得到：
+该网络是基准生成模型与一个指针网络的混合体，通过一个门控函数$p_{gen}$控制在时刻$t$时，以$P_{vocab}$从词汇表中生成一个词和以注意力分布$a^t$从输入句子拷贝一个词的相对重要程度。$p_{gen}$由下式计算得到：
 
 $$
 p_{gen} = \text{sigmoid}(w_{h^\*}^T h_t^\* + w_s^T s_t + w_x^T x_t + b_{ptr})
@@ -1111,12 +1111,12 @@ Yang Deng, Wai Lam, Yuexiang Xie, Daoyuan Chen, Yaliang Li, Min Yang, and Ying S
 ![](./images/qa/joint_learning_of_answer_selection_and_answer_summary_generation_in_community_question_answering/1_joint_learning_framework.jpg)
 
 ### 2.1 问题定义
-给定一个问题$q_i$，首先从一系列答案$A_i = \\{a_i^{(1)}, ..., a_i^{(j)\\}$中选出若干正确答案，之后对于每个所选答案$a_i^{(\*)}$生成其抽象型摘要$\beta_i^{(\*)}$。
+给定一个问题$q_i$，首先从一系列答案$A_i = \\{a_i^{(1)}, ..., a_i^{(j)} \\}$中选出若干正确答案，之后对于每个所选答案$a_i^{(\*)}$生成其抽象型摘要$\beta_i^{(\*)}$。
 
 数据集$D$中包含一系列问题$Q$，数目是$N$，对于每个问题$q_i \in Q$，有$M_i$个候选答案$A_i$、对应的人工所写的参考摘要$\beta_i^{(j)}$、以及指示答案$a_i^{(j)}$是否可以回答问题$q_i$的标签$y_i^{(j)}$。数据集$D$可表示为：
 
 $$
-D = \{(q_i, \{(a_i^{(j)}, \beta_i^{(j)}, y_i^{(j)})\}_{j = 1}^{M_i})\}_{i = 1}^{N}
+D = \{(q_i, \{(a_i^{(j)}, \beta_i^{(j)}, y_i^{(j)})\}\_{j = 1}^{M_i})\}\_{i = 1}^{N}
 $$
 
 ### 2.2 模型
