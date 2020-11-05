@@ -11,7 +11,7 @@
 
 $$
 \begin{array}{cl}
-&\alpha = \{K, \alpha_c\}, K < K_{max} \\\\
+&\alpha = \\{K, \alpha_c\\}, K < K_{max} \\\\
 &\alpha_c = [o_{0, 2}, o_{1, 2}, ..., o_{i, j}, ..., o_{N + 1, N + 2}]
 \end{array}
 $$

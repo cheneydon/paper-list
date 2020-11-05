@@ -117,7 +117,7 @@ Record the papers I have read so far.
 22. WeNet: Weighted Networks for Recurrent Network Architecture Search, arXiv 2019. [[Paper](https://arxiv.org/pdf/1904.03819.pdf)]
 23. Improved Differentiable Architecture Search for Language Modeling and Named Entity Recognition, EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1367.pdf)]
 24. (DNA) Blockwisely Supervised Neural Architecture Search with Knowledge Distillation, CVPR 2020. [[Paper](https://arxiv.org/pdf/1911.13053.pdf)]
-25. AdaBERT: Task-Adaptive BERT Compression with Differentiable Neural Architecture Search, IJCAI 2020. [[Paper](https://arxiv.org/pdf/2001.04246.pdf)]
+25. AdaBERT: Task-Adaptive BERT Compression with Differentiable Neural Architecture Search, IJCAI 2020. [[Paper](https://arxiv.org/pdf/2001.04246.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/nas.md#adabert-task-adaptive-bert-compression-with-differentiable-neural-architecture-search)]
 26. AutoML-Zero: Evolving Machine Learning Algorithms From Scratch, ICML 2020. [[Paper](https://arxiv.org/pdf/2003.03384.pdf)]
 27. Once-for-All: Train One Network and Specialize it for Efficient Deployment on Diverse Hardware Platforms, ICLR 2020. [[Paper](https://arxiv.org/pdf/1908.09791.pdf)]
 28. Are Labels Necessary for Neural Architecture Search?, ECCV 2020. [[Paper](https://arxiv.org/pdf/2003.12056.pdf)]
