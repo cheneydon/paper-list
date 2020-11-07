@@ -1,11 +1,12 @@
 # AdaBERT: Task-Adaptive BERT Compression with Differentiable Neural Architecture Search
 
-![](./images/nas/adabert/overview.jpg)
+## 1. 总览
+![](./images/automl/adabert/overview.jpg)
 
-## 1. 搜索空间
+## 2. 搜索空间
 作者从宏观(macro)和微观(micro)两个方面设计搜索空间，如下图所示：
 
-![](./images/nas/adabert/search_space.jpg)
+![](./images/automl/adabert/search_space.jpg)
 
 在微观方面，作者搜索一个模型层/细胞结构并将其重复堆叠，其结构参数为$\alpha_c$；在宏观方面，作者搜索模型层堆叠次数，即整个模型的层数$K \in [1, 2, ..., K_{max}]$。整个搜索空间$\alpha$可表示为：
 
@@ -22,7 +23,7 @@ $$
 
 对于操作集合$\mathcal{O}$，其主要包括：一维标准卷积和空洞卷积，卷积核大小为{3, 5, 7}；平均池化和最大池化，卷积核大小为3；跳过(skip)和零(zero)操作，分别用来进行残差连接和舍弃操作。
 
-## 2. 蒸馏方法
+## 3. 蒸馏方法
 作者将每层老师模型层和学生模型层后都各自加了一个softmax分类器，通过软交叉熵损失将老师模型的知识蒸馏到学生模型中。老师模型是J层(J = 12)的BERT-base，则其共有J个softmax分类器。在蒸馏前，作者首先固定老师模型权重，将各层老师模型的分类器进行训练，之后将各层老师模型分类器权重固定，用各层分类器预测结果对学生模型进行蒸馏。第$i$层学生层与第$j$层老师层的蒸馏损失可由下式表示：
 
 $$
@@ -42,7 +43,7 @@ $$
 
 其中$M$是训练样本总数，$y_m$是样本$m$的标签。该注意力机制作用为，对于预测效果更准确的老师层分类器，其对应的学生层蒸馏损失的权重应该更高。
 
-## 3. 效率感知型损失
+## 4. 效率感知型损失
 作者用模型参数量$\text{SIZE}(\cdot)$和浮点操作数$\text{FLOPs}(\cdot)$来近似模型的实际推理时间，则效率感知损失$L_E$可表示为：
 
 $$
@@ -55,7 +56,7 @@ $$
 L = (1 - \gamma) L_{CE} + \gamma L_{KD} + \beta L_E
 $$
 
-## 4. 搜索方法
+## 5. 搜索方法
 作者采用了和DARTS类似的可微分搜索方法，对结构参数$\alpha$和其对应的各个操作的参数$w_{\alpha}$进行交替优化。结构参数分为两部分：所有候选层数$P_K = [\theta_1^K, ..., \theta_{K_{max}}^K]$，和所有单元操作$P_o = [\theta_1^o, ..., \theta_{|\mathcal{O}|}^o]$。在训练时，作者采用了Gumbel Softmax使得结构的采样可以微分，得到连续的采样向量$y^K \in R^{K_{max}}$和$y^o \in R^{|\mathcal{O}|}$：
 
 $$
