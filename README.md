@@ -147,4 +147,4 @@ Record the papers I have read so far.
 
 
 ## Meta-Learning
-1. Automated Relational Meta-learning, ICLR 2020. [[Paper](https://arxiv.org/pdf/2001.00745.pdf)]
+1. Automated Relational Meta-learning, ICLR 2020. [[Paper](https://arxiv.org/pdf/2001.00745.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/meta_learning.md#automated-relational-meta-learning)]
