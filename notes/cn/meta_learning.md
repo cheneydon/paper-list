@@ -36,7 +36,7 @@ $$
 A_{\mathcal{G}}(h^j, h^m) = \sigma(W_o(|h^j - h^m| / \gamma_o) + b_o)
 $$
 
-之后作者将prototype关系图与元知识图组合成一个超级图，对于每个任务$\mathcal{T}_i$，将prototype关系图$\mathcal{R}\_i$和整个元知识图$\mathcal{G}$相连，得到一个超级图$\mathcal{S}\_i$。在组合时，两个图原始的边按原样保留，接着通过计算当前任务的prototype关系图中各个顶点特征与整个元知识图中各个顶点特征的相似度，将两个图的顶点一一连接起来。具体地，对于prototype $c_i^j$，其与元知识图顶点特征$h^k$的连接权重$A\_{\mathcal{S}}(c_i^j, h^k)$可表示为：
+之后作者将prototype关系图与元知识图组合成一个超级图，对于每个任务$\mathcal{T}_i$，将prototype关系图$\mathcal{R}\_i$和整个元知识图$\mathcal{G}$相连，得到一个超级图$\mathcal{S}\_i$。在组合时，两个图原始的边按原样保留，接着通过计算$\mathcal{R}\_i$和$\mathcal{G}$中各个顶点特征之间的相似度，将两个图的顶点一一连接起来。具体地，对于prototype $c_i^j$，其与元知识图顶点特征$h^k$的连接权重$A\_{\mathcal{S}}(c_i^j, h^k)$可表示为：
 
 $$
 A_{\mathcal{S}}(c_i^j, h^k) = \frac{\text{exp}(-|| (c_i^j - h^k) / \gamma_s ||_2^2 / 2)}{\sum\_{k' = 1}^K \text{exp}(-|| (c_i^j - h^{k'}) / \gamma_s ||_2^2 / 2)}
