@@ -36,7 +36,7 @@ $$
 A_{\mathcal{G}}(h^j, h^m) = \sigma(W_o(|h^j - h^m| / \gamma_o) + b_o)
 $$
 
-之后作者将prototype关系图与元知识图组合成一个超级图，对于每个任务$\mathcal{T}_i$，将prototype关系图$\mathcal{R}_i$和整个元知识图$\mathcal{G}$相连，得到一个超级图$\mathcal{S}\_i$。在组合时，两个图原始的边按原样保留，接着通过计算当前任务的prototype关系图中各个顶点特征与整个元知识图中各个顶点特征的相似度，将两个图的顶点一一连接起来。具体地，对于prototype $c_i^j$，其与元知识图顶点特征$h^k$的连接权重$A_{\mathcal{S}}(c_i^j, h^k)$可表示为：
+之后作者将prototype关系图与元知识图组合成一个超级图，对于每个任务$\mathcal{T}_i$，将prototype关系图$\mathcal{R}\_i$和整个元知识图$\mathcal{G}$相连，得到一个超级图$\mathcal{S}\_i$。在组合时，两个图原始的边按原样保留，接着通过计算当前任务的prototype关系图中各个顶点特征与整个元知识图中各个顶点特征的相似度，将两个图的顶点一一连接起来。具体地，对于prototype $c_i^j$，其与元知识图顶点特征$h^k$的连接权重$A\_{\mathcal{S}}(c_i^j, h^k)$可表示为：
 
 $$
 A_{\mathcal{S}}(c_i^j, h^k) = \frac{\text{exp}(-|| (c_i^j - h^k) / \gamma_s ||_2^2 / 2)}{\sum_{k' = 1}^K \text{exp}(-|| (c_i^j - h^{k'}) / \gamma_s ||_2^2 / 2)}
@@ -53,7 +53,7 @@ $$
 其中$\text{MP}$为信息传递函数(message passing function)。
 
 ## 4. 任务感知型元学习器(Task-Specific Meta-Learner)
-作者引入了两个自编码器重建模块来学习更好的任务特征，分别对原始prototype特征$C_{\mathcal{R}\_i}$和与元知识图知识融合后的prototype特征$\hat{C}\_{\mathcal{R}\_i}$进行重建，编码器为$\text{AG}^q(\cdot)$，解码器为$\text{AG}_{dec}^q(\cdot)$。以$C_{\mathcal{R}_i}$为例，其任务特征$q_i$和重建损失$L_q$为：
+作者引入了两个自编码器重建模块来学习更好的任务特征，分别对原始prototype特征$C_{\mathcal{R}\_i}$和与元知识图知识融合后的prototype特征$\hat{C}\_{\mathcal{R}\_i}$进行重建，编码器为$\text{AG}^q(\cdot)$，解码器为$\text{AG}\_{dec}^q(\cdot)$。以$C\_{\mathcal{R}_i}$为例，其任务特征$q_i$和重建损失$L_q$为：
 
 $$
 \begin{array}{cl}
@@ -62,13 +62,13 @@ $$
 \end{array}
 $$
 
-同理可得$\hat{C}_{\mathcal{R}_i}$的任务特征$t_i$和重建损失$L_t$。则元学习器在任务$\mathcal{T}_i$下的初始参数$\theta_{0i}$可由全局共享初始参数$\theta_0$表示为：
+同理可得$\hat{C}_{\mathcal{R}_i}$的任务特征$t_i$和重建损失$L_t$。则元学习器在任务$\mathcal{T}\_i$下的初始参数$\theta\_{0i}$可由全局共享初始参数$\theta_0$表示为：
 
 $$
 \theta_{0i} = \sigma(W_g (t_i \oplus q_i) + b_g) \circ \theta_0
 $$
 
-对于每个任务$\mathcal{T}_i$，作者从$\theta_{0i}$开始进行梯度下降，直至达到其最优参数。模型整体的训练损失函数为：
+对于每个任务$\mathcal{T}\_i$，作者从$\theta\_{0i}$开始进行梯度下降，直至达到其最优参数。模型整体的训练损失函数为：
 
 $$
 \begin{array}{cl}
