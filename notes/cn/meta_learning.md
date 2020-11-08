@@ -27,7 +27,7 @@ $$
 
 其中$\sigma$为Sigmoid函数。
 
-综上，基于prototype的关系图可表示为$\mathcal{R}\_i = (C\_{\mathcal{R}\_i}, A\_{\mathcal{R}\_i})$，其中$C\_{\mathcal{R}\_i} = \\{c_i^j | \forall j \in [1, K] \\} \in \mathbb{R}^{K \times d}$指图顶点集合，$A_{\mathcal{R}_i} = \\{A_{\mathcal{R}_i}(c_i^j, c_i^m) | \forall j, m \in [1, K] \\} \in \mathbb{R}^{K \times K}$指prototype之间的相似度邻接矩阵。
+综上，基于prototype的关系图可表示为$\mathcal{R}\_i = (C\_{\mathcal{R}\_i}, A\_{\mathcal{R}\_i})$，其中$C\_{\mathcal{R}\_i} = \\{c_i^j | \forall j \in [1, K] \\} \in \mathbb{R}^{K \times d}$指图顶点集合，$A\_{\mathcal{R}\_i} = \\{A\_{\mathcal{R}\_i}(c_i^j, c_i^m) | \forall j, m \in [1, K] \\} \in \mathbb{R}^{K \times K}$指prototype之间的相似度邻接矩阵。
 
 ## 3. 元知识图(Meta-knowledge Graph)与超级图
 元知识图的各个顶点表示训练时的各个任务，顶点特征随机初始化，并在训练时不断学习；顶点特征$h^j$和$h^m$之间的相似度$A_{\mathcal{G}}(h^j, h^m)$可表示为：
@@ -39,10 +39,10 @@ $$
 之后作者将prototype关系图与元知识图组合成一个超级图，对于每个任务$\mathcal{T}_i$，将prototype关系图$\mathcal{R}\_i$和整个元知识图$\mathcal{G}$相连，得到一个超级图$\mathcal{S}\_i$。在组合时，两个图原始的边按原样保留，接着通过计算当前任务的prototype关系图中各个顶点特征与整个元知识图中各个顶点特征的相似度，将两个图的顶点一一连接起来。具体地，对于prototype $c_i^j$，其与元知识图顶点特征$h^k$的连接权重$A\_{\mathcal{S}}(c_i^j, h^k)$可表示为：
 
 $$
-A_{\mathcal{S}}(c_i^j, h^k) = \frac{\text{exp}(-|| (c_i^j - h^k) / \gamma_s ||_2^2 / 2)}{\sum_{k' = 1}^K \text{exp}(-|| (c_i^j - h^{k'}) / \gamma_s ||_2^2 / 2)}
+A_{\mathcal{S}}(c_i^j, h^k) = \frac{\text{exp}(-|| (c_i^j - h^k) / \gamma_s ||_2^2 / 2)}{\sum\_{k' = 1}^K \text{exp}(-|| (c_i^j - h^{k'}) / \gamma_s ||_2^2 / 2)}
 $$
 
-这样，对于任务$\mathcal{T}_i$的超级图$\mathcal{S}_i = (A_i, H_i)$可定义为$A_i = (A_{\mathcal{R}_i}, A_{\mathcal{S}}; A_{\mathcal{S}}^\top, A_{\mathcal{G}}) \in \mathbb{R}^{(K + G) \times (K + G)}$，$H_i = (C_{\mathcal{R}_i}; H_{\mathcal{G}}) \in \mathbb{R}^{(K + G) \times d}$
+这样，对于任务$\mathcal{T}\_i$的超级图$\mathcal{S}\_i = (A_i, H_i)$可定义为$A_i = (A\_{\mathcal{R}\_i}, A\_{\mathcal{S}}; A\_{\mathcal{S}}^\top, A\_{\mathcal{G}}) \in \mathbb{R}^{(K + G) \times (K + G)}$，$H_i = (C\_{\mathcal{R}\_i}; H\_{\mathcal{G}}) \in \mathbb{R}^{(K + G) \times d}$
 
 在构建好超级图后，作者通过图神经网络将元知识图中最相关的知识传递给prototype关系图中，第$l + 1$层的GNN特征为：
 
