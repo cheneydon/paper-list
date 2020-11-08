@@ -58,7 +58,7 @@ $$
 $$
 \begin{array}{cl}
 &q_i = \frac{1}{N^{tr}} \sum_{j = 1}^{N^{tr}}(\text{AG}^q(c_i^j)) \\\\
-&L_q = || C_{\mathcal{R}_i} - \text{AG}_{dec}^q(\text{AG}^q(C_{\mathcal{R}_i})) ||_F^2
+&L_q = || C_{\mathcal{R}\_i} - \text{AG}\_{dec}^q(\text{AG}^q(C_{\mathcal{R}_i})) ||_F^2
 \end{array}
 $$
 
