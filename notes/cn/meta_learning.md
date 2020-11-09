@@ -50,7 +50,7 @@ $$
 H_i^{(l +1)} = \text{MP}(A_i, H_i^{(l)}; W^{(l)})
 $$
 
-其中$\text{MP}$为信息传递函数(message passing function)。
+其中$\text{MP}$为信息传递函数(message passing function)。在堆叠了$L$层GNN模型层后，便可以得到prototype关系图$\mathcal{R}\_i$的结合了元知识图信息的新prototype，其由$H_i^{(L)}$的top-$K$行向量组成，可表示为$\hat{C}\_{\mathcal{R}\_i} = \\{\hat{c}\_i^j | j \in [1, K] \\}$。
 
 ## 4. 任务感知型元学习器(Task-Specific Meta-Learner)
 作者引入了两个自编码器重建模块来学习更好的任务特征，分别对原始prototype特征$C_{\mathcal{R}\_i}$和与元知识图知识融合后的prototype特征$\hat{C}\_{\mathcal{R}\_i}$进行重建，编码器为$\text{AG}^q(\cdot)$，解码器为$\text{AG}\_{dec}^q(\cdot)$。以$C\_{\mathcal{R}_i}$为例，其任务特征$q_i$和重建损失$L_q$为：
