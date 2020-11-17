@@ -1,37 +1,6 @@
 # Paper List
 Record the papers I have read so far.
 
-## Question Answering
-1. (DrQA) Reading Wikipedia to Answer Open-Domain Questions. ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1171.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#drqa-reading-wikipedia-to-answer-open-domain-questions)]
-2. Denoising Distantly Supervised Open-Domain Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1161.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#denoising-distantly-supervised-open-domain-question-answering)]
-3. Ranking Paragraphs for Improving Answer Recall in Open-Domain Question Answering. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1053.pdf)]
-4. Adaptive Document Retrieval for Deep Question Answering. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1055.pdf)]
-5. RankQA: Neural Question Answering with Answer Re-Ranking. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1611.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#rankqa-neural-question-answering-with-answer-re-ranking)]
-6. (GRAFT-Net) Open Domain Question Answering Using Early Fusion of Knowledge Bases and Text. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1455.pdf)]
-7. Improving Question Answering over Incomplete KBs with Knowledge-Aware Reader. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1417.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#improving-question-answering-over-incomplete-kbs-with-knowledge-aware-reader)]
-8. PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text. EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1242.pdf)]
-9. (MUPPET) Multi-Hop Paragraph Retrieval for Open-Domain Question Answering. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#muppet-multi-hop-paragraph-retrieval-for-open-domain-question-answering)]
-10. (CopyNet) Incorporating Copying Mechanism in Sequence-to-Sequence Learning. ACL 2016. [[Paper](https://www.aclweb.org/anthology/P16-1154.pdf)]
-11. Get To The Point: Summarization with Pointer-Generator Networks. ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#get-to-the-point-summarization-with-pointer-generator-networks)]
-12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-questions-in-open-domain-conversational-systems-with-typed-decoders)]
-13. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)]
-14. Answer-focused and Position-aware Neural Question Generation. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)]
-15. Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1480.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#interconnected-question-generation-with-coreference-alignment-and-conversation-flow-modeling)]
-16. Reinforced Dynamic Reasoning for Conversational Question Generation. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1203.pdf)]
-17. (QCN) Question Condensing Networks for Answer Selection in Community Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1162.pdf)]
-18. Joint Multitask Learning for Community Question Answering Using Task-Specific Embeddings. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1452.pdf)]
-19. A State-transition Framework to Answer Complex Questions over Knowledge Base. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1234.pdf)]
-20. (SLQA+) Multi-Granularity Hierarchical Attention Fusion Networks for Reading Comprehension and Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1158.pdf)]
-21. Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs. SIGIR 2018. [[Paper](https://dl.acm.org/doi/10.1145/3209978.3210081)]
-22. Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge. COLING 2018. [[Paper](https://www.aclweb.org/anthology/C18-1279.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#knowledge-as-a-bridge-improving-cross-domain-answer-selection-with-external-knowledge)]
-23. Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering. AAAI 2019. [[Paper](https://arxiv.org/pdf/1812.02354.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#multi-task-learning-with-multi-view-attention-for-answer-selection-and-knowledge-base-question-answering)]
-24. Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering. AAAI 2020. [[Paper](https://arxiv.org/pdf/1911.09801.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#joint-learning-of-answer-selection-and-answer-summary-generation-in-community-question-answering)]
-25. Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization. SIGIR 2020. [[Paper](https://dl.acm.org/doi/abs/10.1145/3397271.3401208)]
-26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
-27. How to Ask Good Questions? Try to Leverage Paraphrases. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.545.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#how-to-ask-good-questions-try-to-leverage-paraphrases)]
-28. Knowledge Enhanced Latent Relevance Mining for Question Answering. ICASSP 2020. [[Paper](https://ieeexplore.ieee.org/document/9053432)]
-
-
 ## Pretrained Language Models & Transformers
 1. (Transformer) Attention Is All You Need. NeurIPS 2017. [[Paper](https://arxiv.org/pdf/1706.03762.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/en/plm.md#transformer)]
 2. (ELMo) Deep Contextualized Word Representations. NAACL 2018. [[Paper](https://arxiv.org/pdf/1802.05365.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/en/plm.md#2-elmo)]
@@ -91,6 +60,7 @@ Record the papers I have read so far.
 56. AMBERT: A Pre-trained Language Model with Multi-Grained Tokenization. arXiv 2020. [[Paper](https://arxiv.org/pdf/2008.11869.pdf)]
 57. Improving BERT Fine-Tuning via Self-Ensemble and Self-Distillation. arXiv 2020. [[Paper](https://arxiv.org/pdf/2002.10345.pdf)]
 58. (Bort) Optimal Subarchitecture Extraction For BERT. arXiv 2020. [[Paper](https://arxiv.org/pdf/2010.10499.pdf)]
+59. ConvBERT: Improving BERT with Span-based Dynamic Convolution. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2008.02496.pdf)]
 
 
 ## AutoML & Dynamic Networks
@@ -136,6 +106,7 @@ Record the papers I have read so far.
 40. Resolution Adaptive Networks for Efficient Inference. CVPR 2020. [[Paper](https://arxiv.org/pdf/2003.07326.pdf)]
 41. AutoTrans: Automating Transformer Design via Reinforced Architecture. arXiv 2020. [[Paper](https://arxiv.org/pdf/2009.02070.pdf)]
 42. Tiny Transfer Learning: Towards Memory-Efficient On-Device Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2007.11622.pdf)]
+43. Task-Agnostic and Adaptive-Size BERT Compression. arXiv 2020. [[Paper](https://openreview.net/pdf?id=wZ4yWvQ_g2y)]
 
 
 ##  Self-Supervised Learning
@@ -146,7 +117,39 @@ Record the papers I have read so far.
 5. (BYOL) Bootstrap Your Own Latent A New Approach to Self-Supervised Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2006.07733.pdf)]
 
 
+## Question Answering
+1. (DrQA) Reading Wikipedia to Answer Open-Domain Questions. ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1171.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#drqa-reading-wikipedia-to-answer-open-domain-questions)]
+2. Denoising Distantly Supervised Open-Domain Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1161.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#denoising-distantly-supervised-open-domain-question-answering)]
+3. Ranking Paragraphs for Improving Answer Recall in Open-Domain Question Answering. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1053.pdf)]
+4. Adaptive Document Retrieval for Deep Question Answering. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1055.pdf)]
+5. RankQA: Neural Question Answering with Answer Re-Ranking. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1611.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#rankqa-neural-question-answering-with-answer-re-ranking)]
+6. (GRAFT-Net) Open Domain Question Answering Using Early Fusion of Knowledge Bases and Text. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1455.pdf)]
+7. Improving Question Answering over Incomplete KBs with Knowledge-Aware Reader. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1417.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#improving-question-answering-over-incomplete-kbs-with-knowledge-aware-reader)]
+8. PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text. EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1242.pdf)]
+9. (MUPPET) Multi-Hop Paragraph Retrieval for Open-Domain Question Answering. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1222.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#muppet-multi-hop-paragraph-retrieval-for-open-domain-question-answering)]
+10. (CopyNet) Incorporating Copying Mechanism in Sequence-to-Sequence Learning. ACL 2016. [[Paper](https://www.aclweb.org/anthology/P16-1154.pdf)]
+11. Get To The Point: Summarization with Pointer-Generator Networks. ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1099.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#get-to-the-point-summarization-with-pointer-generator-networks)]
+12. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-questions-in-open-domain-conversational-systems-with-typed-decoders)]
+13. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)]
+14. Answer-focused and Position-aware Neural Question Generation. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)]
+15. Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1480.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#interconnected-question-generation-with-coreference-alignment-and-conversation-flow-modeling)]
+16. Reinforced Dynamic Reasoning for Conversational Question Generation. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1203.pdf)]
+17. (QCN) Question Condensing Networks for Answer Selection in Community Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1162.pdf)]
+18. Joint Multitask Learning for Community Question Answering Using Task-Specific Embeddings. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1452.pdf)]
+19. A State-transition Framework to Answer Complex Questions over Knowledge Base. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1234.pdf)]
+20. (SLQA+) Multi-Granularity Hierarchical Attention Fusion Networks for Reading Comprehension and Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1158.pdf)]
+21. Knowledge-aware Attentive Neural Network for Ranking Question Answer Pairs. SIGIR 2018. [[Paper](https://dl.acm.org/doi/10.1145/3209978.3210081)]
+22. Knowledge as A Bridge: Improving Cross-domain Answer Selection with External Knowledge. COLING 2018. [[Paper](https://www.aclweb.org/anthology/C18-1279.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#knowledge-as-a-bridge-improving-cross-domain-answer-selection-with-external-knowledge)]
+23. Multi-Task Learning with Multi-View Attention for Answer Selection and Knowledge Base Question Answering. AAAI 2019. [[Paper](https://arxiv.org/pdf/1812.02354.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#multi-task-learning-with-multi-view-attention-for-answer-selection-and-knowledge-base-question-answering)]
+24. Joint Learning of Answer Selection and Answer Summary Generation in Community Question Answering. AAAI 2020. [[Paper](https://arxiv.org/pdf/1911.09801.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#joint-learning-of-answer-selection-and-answer-summary-generation-in-community-question-answering)]
+25. Bridging Hierarchical and Sequential Context Modeling for Question-driven Extractive Answer Summarization. SIGIR 2020. [[Paper](https://dl.acm.org/doi/abs/10.1145/3397271.3401208)]
+26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
+27. How to Ask Good Questions? Try to Leverage Paraphrases. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.545.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#how-to-ask-good-questions-try-to-leverage-paraphrases)]
+28. Knowledge Enhanced Latent Relevance Mining for Question Answering. ICASSP 2020. [[Paper](https://ieeexplore.ieee.org/document/9053432)]
+
+
 ## Meta-Learning
 1. Automated Relational Meta-learning. ICLR 2020. [[Paper](https://arxiv.org/pdf/2001.00745.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/meta_learning.md#automated-relational-meta-learning)]
 2. Multi-source Meta Transfer for Low Resource Multiple-Choice Question Answering. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.654.pdf)]
 3. Meta Fine-Tuning Neural Language Models for Multi-Domain Text Mining. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2003.13003.pdf)]
+4. Pre-training Text Representations as Meta Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.05568.pdf)]
