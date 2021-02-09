@@ -61,6 +61,10 @@ Record the papers I have read so far.
 57. Improving BERT Fine-Tuning via Self-Ensemble and Self-Distillation. arXiv 2020. [[Paper](https://arxiv.org/pdf/2002.10345.pdf)]
 58. (Bort) Optimal Subarchitecture Extraction For BERT. arXiv 2020. [[Paper](https://arxiv.org/pdf/2010.10499.pdf)]
 59. ConvBERT: Improving BERT with Span-based Dynamic Convolution. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2008.02496.pdf)]
+60. Learning to Augment for Data-Scarce Domain BERT Knowledge Distillation. AAAI 2021. [[Paper](https://www.researchgate.net/publication/348647851_Learning_to_Augment_for_Data-Scarce_Domain_BERT_Knowledge_Distillation)]
+61. BERT-EMD: Many-to-Many Layer Mapping for BERT Compression with Earth Mover’s Distance. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2010.06133.pdf)]
+62. LRC-BERT: Latent-representation Contrastive Knowledge Distillation for Natural Language Understanding. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.07335.pdf)]
+63. EdgeBERT: Optimizing On-Chip Inference for Multi-Task NLP. arXiv 2020. [[Paper](https://arxiv.org/pdf/2011.14203.pdf)]
 
 
 ## AutoML & Dynamic Networks
@@ -107,14 +111,8 @@ Record the papers I have read so far.
 41. AutoTrans: Automating Transformer Design via Reinforced Architecture. arXiv 2020. [[Paper](https://arxiv.org/pdf/2009.02070.pdf)]
 42. Tiny Transfer Learning: Towards Memory-Efficient On-Device Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2007.11622.pdf)]
 43. Task-Agnostic and Adaptive-Size BERT Compression. arXiv 2020. [[Paper](https://openreview.net/pdf?id=wZ4yWvQ_g2y)]
-
-
-##  Self-Supervised Learning
-1. (MoCo) Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020. [[Paper](https://arxiv.org/pdf/1911.05722.pdf)]
-2. (SimCLR) A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020. [[Paper](https://arxiv.org/pdf/2002.05709.pdf)]
-3. (MoCo v2) Improved Baselines with Momentum Contrastive Learning. Facebook Tech Report 2020. [[Paper](https://arxiv.org/pdf/2003.04297.pdf)]
-4. (SimCLR v2) Big Self-Supervised Models are Strong Semi-Supervised Learners. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2006.10029.pdf)]
-5. (BYOL) Bootstrap Your Own Latent A New Approach to Self-Supervised Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2006.07733.pdf)]
+44. Interactive Feature Generation via Learning Adjacency Tensor of Feature Graph. arXiv 2020. [[Paper](https://arxiv.org/pdf/2007.14573.pdf)]
+45. Loss Function Discovery for Object Detection via Convergence-Simulation Driven Search. ICLR 2021. [[Paper](https://openreview.net/pdf?id=5jzlpHvvRk)]
 
 
 ## Question Answering
@@ -153,3 +151,14 @@ Record the papers I have read so far.
 2. Multi-source Meta Transfer for Low Resource Multiple-Choice Question Answering. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.654.pdf)]
 3. Meta Fine-Tuning Neural Language Models for Multi-Domain Text Mining. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2003.13003.pdf)]
 4. Pre-training Text Representations as Meta Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.05568.pdf)]
+5. Hierarchically Structured Meta-learning. ICML 2019. [[Paper](https://arxiv.org/pdf/1905.05301.pdf)]
+6. Online Structured Meta-learning. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2010.11545.pdf)]
+
+
+##  Contrastive Learning
+1. (MoCo) Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020. [[Paper](https://arxiv.org/pdf/1911.05722.pdf)]
+2. (SimCLR) A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020. [[Paper](https://arxiv.org/pdf/2002.05709.pdf)]
+3. (MoCo v2) Improved Baselines with Momentum Contrastive Learning. Facebook Tech Report 2020. [[Paper](https://arxiv.org/pdf/2003.04297.pdf)]
+4. (SimCLR v2) Big Self-Supervised Models are Strong Semi-Supervised Learners. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2006.10029.pdf)]
+5. (BYOL) Bootstrap Your Own Latent A New Approach to Self-Supervised Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2006.07733.pdf)]
+6. Supervised Contrastive Learning for Pre-trained Language Model Fine-tuning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2011.01403.pdf)]
