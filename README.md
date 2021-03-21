@@ -1,7 +1,7 @@
 # Paper List
 Record the papers I have read so far.
 
-## Pretrained Language Models & Transformers
+## Pretrained Language Models
 1. (Transformer) Attention Is All You Need. NeurIPS 2017. [[Paper](https://arxiv.org/pdf/1706.03762.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/en/plm.md#transformer)]
 2. (ELMo) Deep Contextualized Word Representations. NAACL 2018. [[Paper](https://arxiv.org/pdf/1802.05365.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/en/plm.md#2-elmo)]
 3. (GPT) Improving Language Understanding by Generative Pre-Training. OpenAI Tech Report 2018. [[Paper](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/en/plm.md#3-gpt)]
@@ -65,9 +65,13 @@ Record the papers I have read so far.
 61. BERT-EMD: Many-to-Many Layer Mapping for BERT Compression with Earth Mover’s Distance. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2010.06133.pdf)]
 62. LRC-BERT: Latent-representation Contrastive Knowledge Distillation for Natural Language Understanding. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.07335.pdf)]
 63. EdgeBERT: Optimizing On-Chip Inference for Multi-Task NLP. arXiv 2020. [[Paper](https://arxiv.org/pdf/2011.14203.pdf)]
+64. Blockwise Self-Attention for Long Document Understanding. EMNLP Findings 2020. [[Paper](https://arxiv.org/pdf/1911.02972.pdf)]
+65. Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.07436.pdf)]
+66. Prefix-Tuning: Optimizing Continuous Prompts for Generation. arXiv 2021. [[Paper](https://arxiv.org/pdf/2101.00190.pdf)]
+67. Sample Efficient Text Summarization Using a Single Pre-Trained Transformer. arXiv 2019. [[Paper](https://arxiv.org/pdf/1905.08836.pdf)]
 
 
-## AutoML & Dynamic Networks
+## AutoML
 1. AutoML: A Survey of the State-of-the-Art. arXiv 2019. [[Paper](https://arxiv.org/pdf/1908.00709.pdf)]
 2. (ENAS) Efficient Neural Architecture Search via Parameter Sharing. ICML 2018. [[Paper](https://arxiv.org/pdf/1802.03268.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/en/automl.md#enas)]
 3. (NASNet) Learning Transferable Architectures for Scalable Image Recognition. CVPR 2018. [[Paper](https://arxiv.org/pdf/1707.07012.pdf)]
@@ -113,6 +117,7 @@ Record the papers I have read so far.
 43. Task-Agnostic and Adaptive-Size BERT Compression. arXiv 2020. [[Paper](https://openreview.net/pdf?id=wZ4yWvQ_g2y)]
 44. Interactive Feature Generation via Learning Adjacency Tensor of Feature Graph. arXiv 2020. [[Paper](https://arxiv.org/pdf/2007.14573.pdf)]
 45. Loss Function Discovery for Object Detection via Convergence-Simulation Driven Search. ICLR 2021. [[Paper](https://openreview.net/pdf?id=5jzlpHvvRk)]
+46. Improving Keyword Spotting and Language Identification via Neural Architecture Search at Scale. Interspeech 2019. [[Paper](https://pdfs.semanticscholar.org/1bca/d4cdfbc01fbb60a815660d034e561843d67a.pdf)]
 
 
 ## Question Answering
@@ -144,6 +149,12 @@ Record the papers I have read so far.
 26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
 27. How to Ask Good Questions? Try to Leverage Paraphrases. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.545.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#how-to-ask-good-questions-try-to-leverage-paraphrases)]
 28. Knowledge Enhanced Latent Relevance Mining for Question Answering. ICASSP 2020. [[Paper](https://ieeexplore.ieee.org/document/9053432)]
+29. ProphetNet: Predicting Future N-gram for Sequence-to-Sequence Pre-training. EMNLP 2020 Findings. [[Paper](https://arxiv.org/pdf/2001.04063.pdf)]
+30. Multi-Fact Correction in Abstractive Text Summarization. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2010.02443.pdf)]
+31. SummaRuNNer: A Recurrent Neural Network Based Sequence Model for Extractive Summarization of Documents. AAAI 2017. [[Paper](https://arxiv.org/pdf/1611.04230.pdf)]
+32. HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization. ACL 2019. [[Paper](https://arxiv.org/pdf/1905.06566.pdf)]
+33. Generative Text Summary Based on Enhanced Semantic Attention and Gain-Benefit Gate. IEEE Access 2020. [[Paper](https://ieeexplore.ieee.org/document/9091541)]
+34. Improving Transformer with Sequential Context Representations for Abstractive Text Summarization. NLPCC 2019. [[Paper](https://link.springer.com/chapter/10.1007/978-3-030-32233-5_40)]
 
 
 ## Meta-Learning
