@@ -26,7 +26,7 @@ Record the papers I have read so far.
 22. PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization. ICML 2020. [[Paper](https://arxiv.org/pdf/1912.08777.pdf)]
 23. ViLBERT: Pretraining Task-Agnostic Visiolinguistic Representations for Vision-and-Language Tasks. NeurIPS 2019. [[Paper](https://arxiv.org/pdf/1908.02265.pdf)]
 24. DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter. NeurIPS Workshop 2019. [[Paper](https://arxiv.org/pdf/1910.01108.pdf)]  
-25. TinyBERT: Distilling BERT for Natural Language Understanding. EMNLP 2020. [[Paper](https://arxiv.org/pdf/1909.10351.pdf)]  
+25. TinyBERT: Distilling BERT for Natural Language Understanding. Findings of EMNLP 2020. [[Paper](https://arxiv.org/pdf/1909.10351.pdf)]  
 26. ALBERT: A Lite BERT for Self-Supervised Learning of Language Representations. ICLR 2020. [[Paper](https://arxiv.org/pdf/1909.11942.pdf)]
 27. (BERT-PKD) Patient Knowledge Distillation for BERT Model Compression. EMNLP 2019. [[Paper](https://arxiv.org/pdf/1908.09355.pdf)]
 28. Lite Transformer with Long-Short Range Attention. ICLR 2020. [[Paper](https://openreview.net/pdf?id=ByeMPlHKPH)]
@@ -65,10 +65,13 @@ Record the papers I have read so far.
 61. BERT-EMD: Many-to-Many Layer Mapping for BERT Compression with Earth Mover’s Distance. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2010.06133.pdf)]
 62. LRC-BERT: Latent-representation Contrastive Knowledge Distillation for Natural Language Understanding. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.07335.pdf)]
 63. EdgeBERT: Optimizing On-Chip Inference for Multi-Task NLP. arXiv 2020. [[Paper](https://arxiv.org/pdf/2011.14203.pdf)]
-64. Blockwise Self-Attention for Long Document Understanding. EMNLP Findings 2020. [[Paper](https://arxiv.org/pdf/1911.02972.pdf)]
+64. Blockwise Self-Attention for Long Document Understanding. Findings of EMNLP 2020. [[Paper](https://arxiv.org/pdf/1911.02972.pdf)]
 65. Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.07436.pdf)]
 66. Prefix-Tuning: Optimizing Continuous Prompts for Generation. arXiv 2021. [[Paper](https://arxiv.org/pdf/2101.00190.pdf)]
 67. Sample Efficient Text Summarization Using a Single Pre-Trained Transformer. arXiv 2019. [[Paper](https://arxiv.org/pdf/1905.08836.pdf)]
+68. Efficient Adaptation of Pretrained Transformers for Abstractive Summarization. arXiv 2019. [[Paper](https://arxiv.org/pdf/1906.00138.pdf)]
+69. Text Summarization with Pretrained Encoders. arXiv 2019. [[Paper](https://arxiv.org/pdf/1908.08345.pdf)]
+70. Pre-trained Summarization Distillation. arXiv 2020. [[Paper](https://arxiv.org/pdf/2010.13002.pdf)]
 
 
 ## AutoML
@@ -149,7 +152,7 @@ Record the papers I have read so far.
 26. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
 27. How to Ask Good Questions? Try to Leverage Paraphrases. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.545.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#how-to-ask-good-questions-try-to-leverage-paraphrases)]
 28. Knowledge Enhanced Latent Relevance Mining for Question Answering. ICASSP 2020. [[Paper](https://ieeexplore.ieee.org/document/9053432)]
-29. ProphetNet: Predicting Future N-gram for Sequence-to-Sequence Pre-training. EMNLP 2020 Findings. [[Paper](https://arxiv.org/pdf/2001.04063.pdf)]
+29. ProphetNet: Predicting Future N-gram for Sequence-to-Sequence Pre-training. Findings of EMNLP 2020. [[Paper](https://arxiv.org/pdf/2001.04063.pdf)]
 30. Multi-Fact Correction in Abstractive Text Summarization. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2010.02443.pdf)]
 31. SummaRuNNer: A Recurrent Neural Network Based Sequence Model for Extractive Summarization of Documents. AAAI 2017. [[Paper](https://arxiv.org/pdf/1611.04230.pdf)]
 32. HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization. ACL 2019. [[Paper](https://arxiv.org/pdf/1905.06566.pdf)]
@@ -164,6 +167,7 @@ Record the papers I have read so far.
 4. Pre-training Text Representations as Meta Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.05568.pdf)]
 5. Hierarchically Structured Meta-learning. ICML 2019. [[Paper](https://arxiv.org/pdf/1905.05301.pdf)]
 6. Online Structured Meta-learning. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2010.11545.pdf)]
+7. Meta-KD: A Meta Knowledge Distillation Framework for Language Model Compression across Domains. arXiv 2021. [[Paper](https://arxiv.org/pdf/2012.01266.pdf)]
 
 
 ##  Contrastive Learning
