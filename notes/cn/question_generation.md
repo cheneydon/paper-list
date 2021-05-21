@@ -1,4 +1,4 @@
-# Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks (EMNLP 2018)
+## Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks (EMNLP 2018)
 
 ![](./images/question_generation/zhao2018paragraph-level_framework.png)
 
@@ -9,7 +9,7 @@
 
 ---
 
-# Answer-focused and Position-aware Neural Question Generation (EMNLP 2018)
+## Answer-focused and Position-aware Neural Question Generation (EMNLP 2018)
 
 ![](./images/question_generation/sun2018answer-focused_framework.png)
 
@@ -22,7 +22,7 @@
 
 ---
 
-# Improving Question Generation With to the Point Context (EMNLP 2019)
+## Improving Question Generation With to the Point Context (EMNLP 2019)
 
 ![](./images/question_generation/li2019improving_framework.png)
 
@@ -39,7 +39,7 @@
 
 ---
 
-# Let's Ask Again: Refine Network for Automatic Question Generation (EMNLP 2019)
+## Let's Ask Again: Refine Network for Automatic Question Generation (EMNLP 2019)
 
 ![](./images/question_generation/nema2019lets_framework.png)
 
@@ -50,7 +50,7 @@
 
 ---
 
-# Multi-Task Learning with Language Modeling for Question Generation (EMNLP 2019 short)
+## Multi-Task Learning with Language Modeling for Question Generation (EMNLP 2019 short)
 
 ![](./images/question_generation/zhou2019multi-task_framework.png)
 
@@ -59,7 +59,7 @@
 
 ---
 
-# Question-type Driven Question Generation (EMNLP 2019 short)
+## Question-type Driven Question Generation (EMNLP 2019 short)
 
 ![](./images/question_generation/zhou2019question-type_framework.png)
 
@@ -71,7 +71,7 @@
 
 ---
 
-# A Multi-Agent Communication Framework for Question-Worthy Phrase Extraction and Question Generation (AAAI 2019)
+## A Multi-Agent Communication Framework for Question-Worthy Phrase Extraction and Question Generation (AAAI 2019)
 
 ![](./images/question_generation/wang2019a-multi-agent_framework.png)
 
@@ -86,7 +86,7 @@
 
 ---
 
-# Improving Neural Question Generation using Answer Separation (AAAI2019)
+## Improving Neural Question Generation using Answer Separation (AAAI2019)
 
 ![](./images/question_generation/kim2019improving_framework.png)
 
@@ -100,7 +100,7 @@
 
 ---
 
-# PathQG: Neural Question Generation from Facts (EMNLP 2020)
+## PathQG: Neural Question Generation from Facts (EMNLP 2020)
 
 ![](./images/question_generation/wang2020pathqg_framework.png)
 
@@ -117,7 +117,7 @@
 
 ---
 
-# Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring (AAAI 2020)
+## Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring (AAAI 2020)
 
 ![](./images/question_generation/ma2020improving_framework.png)
 
@@ -137,7 +137,7 @@
 
 ---
 
-# Capturing Greater Context for Question Generation (AAAI 2020)
+## Capturing Greater Context for Question Generation (AAAI 2020)
 
 ![](./images/question_generation/tuan2020capturing_framework.png)
 
@@ -148,7 +148,7 @@
 
 ---
 
-# EQG-RACE: Examination-Type Question Generation (AAAI 2021)
+## EQG-RACE: Examination-Type Question Generation (AAAI 2021)
 
 ![](./images/question_generation/jia2021eqg-race_framework.png)
 
@@ -169,7 +169,7 @@
 
 ---
 
-# Entity Guided Question Generation with Contextual Structure and Sequence Information Capturing (AAAI 2021)
+## Entity Guided Question Generation with Contextual Structure and Sequence Information Capturing (AAAI 2021)
 
 ![](./images/question_generation/huang2021entity_framework.png)
 
