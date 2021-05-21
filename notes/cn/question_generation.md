@@ -1,6 +1,4 @@
-# 2018
-
-## Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks (EMNLP 2018)
+# Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks (EMNLP 2018)
 
 ![](./images/question_generation/zhao2018paragraph-level_framework.png)
 
@@ -9,7 +7,9 @@
 (2) 提出一个maxout pointer方法，把原始pointer network里每个词的得分为重复词attention score总和改为最大值，限制输出句子词重复的现象。
 
 
-## Answer-focused and Position-aware Neural Question Generation (EMNLP 2018)
+---
+
+# Answer-focused and Position-aware Neural Question Generation (EMNLP 2018)
 
 ![](./images/question_generation/sun2018answer-focused_framework.png)
 
@@ -22,9 +22,7 @@
 
 ---
 
-# 2019
-
-## Improving Question Generation With to the Point Context (EMNLP 2019)
+# Improving Question Generation With to the Point Context (EMNLP 2019)
 
 ![](./images/question_generation/li2019improving_framework.png)
 
@@ -39,7 +37,9 @@
 (3) 通过pointing method (各词attention score之和) 先计算sentence和relation中各词的预测概率$P_S(w), P_M(w)$，之后通过sigmoid和线性变换计算两个gate $g_t^v, g_t^c$，据此将3个预测分布线性相加，即：$P(w) = (1 - g_t^v) P_V(w) + g_t^v g_t^c P_S(w) + g_t^v (1-g_t^c) P_M(w)$。
 
 
-## Let's Ask Again: Refine Network for Automatic Question Generation (EMNLP 2019)
+---
+
+# Let's Ask Again: Refine Network for Automatic Question Generation (EMNLP 2019)
 
 ![](./images/question_generation/nema2019lets_framework.png)
 
@@ -48,15 +48,18 @@
 (2) 先用preliminary decoder生成完整的问题；之后用refinement decoder生成更精细化的问题。在第二个decoder中用到了两个attention，A2是将当前decoder state与encoder输出的各个词特征进行attend操作，A3是将decoder state与第一个decoder预测的各个问题词特征进行attend操作，这两个attention模块的输出特征用于预测下一个问题词。
 
 
-## Multi-Task Learning with Language Modeling for Question Generation (EMNLP 2019 short)
+---
+
+# Multi-Task Learning with Language Modeling for Question Generation (EMNLP 2019 short)
 
 ![](./images/question_generation/zhou2019multi-task_framework.png)
 
 (1) 额外引入一个language modeling预测任务，先将句子用BiLSTM编码，用前向特征(->)预测下一个词，用后向特征(<-)预测上一个词；之后将前向后向特征合并得到的各词特征作为一个低层特征 (LM hidden states)，和其他特征组合送入另一个高层BiLSTM模型中得到预测结果；最终预测损失和LM预测损失联合优化。
 
 
+---
 
-## Question-type Driven Question Generation (EMNLP 2019 short)
+# Question-type Driven Question Generation (EMNLP 2019 short)
 
 ![](./images/question_generation/zhou2019question-type_framework.png)
 
@@ -66,7 +69,7 @@
 
 
 
-
+---
 
 # A Multi-Agent Communication Framework for Question-Worthy Phrase Extraction and Question Generation (AAAI 2019)
 
@@ -81,8 +84,9 @@
 具体地，对于每个送入Message Passing的问题，先用Match-LSTM提取特征，其中问题特征是premise，做self-attention之后的特征与作为hypothesis的input sentence的BiLSTM特征 (即Local Extraction Agent输出) 进行拼接，送入BiLSTM编码，再用一个含2个timestep的LSTM解码，分别生成top-1的phrase起始和终止位置。该位置对应的BIO tagging送入Genration Agent生成对应的问题。
 
 
+---
 
-## Improving Neural Question Generation using Answer Separation (AAAI2019)
+# Improving Neural Question Generation using Answer Separation (AAAI2019)
 
 ![](./images/question_generation/kim2019improving_framework.png)
 
@@ -96,9 +100,7 @@
 
 ---
 
-# 2020
-
-## PathQG: Neural Question Generation from Facts (EMNLP 2020)
+# PathQG: Neural Question Generation from Facts (EMNLP 2020)
 
 ![](./images/question_generation/wang2020pathqg_framework.png)
 
@@ -113,7 +115,9 @@
 (5) 为了保证query representation learner的效果，作者添加了一个contribution weight loss $\mathcal{L}_3$以最大化每个contribution weight。模型总体损失为以上3个loss的加权和。
 
 
-## Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring (AAAI 2020)
+---
+
+# Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring (AAAI 2020)
 
 ![](./images/question_generation/ma2020improving_framework.png)
 
@@ -131,7 +135,9 @@
 以上两个损失$\mathcal{L}_1, \mathcal{L}_2$和问题生成损失联合进行训练。
 
 
-## Capturing Greater Context for Question Generation (AAAI 2020)
+---
+
+# Capturing Greater Context for Question Generation (AAAI 2020)
 
 ![](./images/question_generation/tuan2020capturing_framework.png)
 
@@ -142,9 +148,7 @@
 
 ---
 
-# 2021
-
-## EQG-RACE: Examination-Type Question Generation (AAAI 2021)
+# EQG-RACE: Examination-Type Question Generation (AAAI 2021)
 
 ![](./images/question_generation/jia2021eqg-race_framework.png)
 
@@ -163,7 +167,9 @@
 (5) 作者将答案用另一个BiLSTM显式编码并与passage编码特征融合 (fusion)，即将每个passage词特征与答案特征、以及二者相乘和相加的特征拼接送入线性变换层得到answer-aware passage representation；同时，在解码时，decoder initial state为answer的编码特征以生成与答案更相关的疑问词。
 
 
-## Entity Guided Question Generation with Contextual Structure and Sequence Information Capturing (AAAI 2021)
+---
+
+# Entity Guided Question Generation with Contextual Structure and Sequence Information Capturing (AAAI 2021)
 
 ![](./images/question_generation/huang2021entity_framework.png)
 
