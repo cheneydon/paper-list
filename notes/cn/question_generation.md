@@ -90,7 +90,7 @@
 
 ![](./images/question_generation/kim2019improving_framework.png)
 
-(1) 为了防止生成的问题中带有答案内容，作者将passage中的答案用$<a>$ mask住后用BiLSTM编码，答案也用另一个BiLSTM编码；
+(1) 为了防止生成的问题中带有答案内容，作者将passage中的答案用\<a\> mask住后用BiLSTM编码，答案也用另一个BiLSTM编码；
 
 (2) decoder的initial state为答案最后一词的特征。在解码的每个step，作者引入一个keyword-net从答案中提取关键信息，其中keyword-net包含多层，每层中用前一层的输出向量$o_t^{l-1}$和答案的所有hidden state $h^a$计算matching score。之后normalized matching score和答案hidden state进行weighted sun得到当前层的输出向量$o_t^{l}$。keyword-net的初始层向量$o_t^0$为前一个timestep的decoder hidden state $s_{t-1}$与passage特征$h^p$进行attention后的context vector $c_t$。最后，$s_{t-1}, c_t, o_t^L$和前一个timestep的预测词$y_{t-1}$送入解码LSTM中得到当前timestep的hidden state $s_t$；
 
@@ -123,7 +123,7 @@
 
 (1) 对于decoder initial state，作者提出一种Answer-aware Gated Fusion方法，将输入句子最后一词和答案部分第一个词的encoder特征$h_m, h_a$进行拼接，分别送入两个线性网络并计算Sigmoid值，得到二者的gate value并将二者加权求和，得到answer-aware sentence vector $z$；
 
-(2) 对于一个相同的句子，可能会有多种答案，相应也会有多种参考问题。但基准模型在这种情况下通常只会生成一般性的问题。因此，作者额外引入了一个sentence-level semantic matching任务。对于两个三元组：$<sentence, answer1, question1>, <sentence, answer2, question2>$，先得到其anwer-aware sentence vector $z, z^{\prime}$和问题最后一词的解码特征$s_n, s_n^{\prime}$。之后作者将其分别以answer-question的形式拼接并送入classifier，预测该answer和question是否匹配。其中$[z, s_n]$为正样本，$[z, s_n^{\prime}], [z^{\prime}, s_n]$为负样本，该损失记为$\mathcal{L}_1$。具体如下图所示：
+(2) 对于一个相同的句子，可能会有多种答案，相应也会有多种参考问题。但基准模型在这种情况下通常只会生成一般性的问题。因此，作者额外引入了一个sentence-level semantic matching任务。对于两个三元组：\<sentence, answer1, question1\>, \<sentence, answer2, question2\>，先得到其anwer-aware sentence vector $z, z^{\prime}$和问题最后一词的解码特征$s_n, s_n^{\prime}$。之后作者将其分别以answer-question的形式拼接并送入classifier，预测该answer和question是否匹配。其中$[z, s_n]$为正样本，$[z, s_n^{\prime}], [z^{\prime}, s_n]$为负样本，该损失记为$\mathcal{L}_1$。具体如下图所示：
 
 ![](./images/question_generation/ma2020improving_semantic_matching.png)
 
