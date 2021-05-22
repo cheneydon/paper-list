@@ -75,13 +75,13 @@
 
 ![](./images/question_generation/wang2019a-multi-agent_framework.png)
 
-(1) Local Extraction Agent先用BiLSTM将input sentence编码，之后用含2个timestep的LSTM解码，分别预测question-worthy phrase的起始和结束位置，各选取top-M个结果，起始位置和离它最近的结束位置相匹配来提取phrase；
+(1) local extraction agent先用BiLSTM将input sentence编码，之后用含2个timestep的LSTM解码，分别预测question-worthy phrase的起始和结束位置，各选取top-M个结果，起始位置和离它最近的结束位置相匹配来提取phrase；
 
-(2) 之后进入Generation Agent，输入为input sentence和BIO tagging (指示单词是否在question-worthy phrase内)，通过BiLSTM编码后用LSTM解码，生成与question-worthy pharse相对应的M个问题；
+(2) 之后进入generation agent，输入为input sentence和BIO tagging (指示单词是否在question-worthy phrase内)，通过BiLSTM编码后用LSTM解码，生成与question-worthy pharse相对应的M个问题；
 
-(3) 接下来进入Massage Passing，将每个生成的问题首先送入MP Extraction Agent进行phrase extraction任务，之后送入另一个Generation Agent生成问题，该问题也可以继续送入MP Extraction Agent进行更精细的phrase extraction，如此迭代。文中作者只设定1次迭代。
+(3) 接下来进入massage passing，将每个生成的问题首先送入MP extraction agent进行phrase extraction任务，之后送入另一个generation agent生成问题，该问题也可以继续送入MP extraction agent进行更精细的phrase extraction，如此迭代。文中作者只设定1次迭代。
 
-具体地，对于每个送入Message Passing的问题，先用Match-LSTM提取特征，其中问题特征是premise，做self-attention之后的特征与作为hypothesis的input sentence的BiLSTM特征 (即Local Extraction Agent输出) 进行拼接，送入BiLSTM编码，再用一个含2个timestep的LSTM解码，分别生成top-1的phrase起始和终止位置。该位置对应的BIO tagging送入Genration Agent生成对应的问题。
+具体地，对于每个送入message passing的问题，先用Match-LSTM提取特征，其中问题特征是premise，做self-attention之后的特征与作为hypothesis的input sentence的BiLSTM特征 (即local extraction agent输出) 进行拼接，送入BiLSTM编码，再用一个含2个timestep的LSTM解码，分别生成top-1的phrase起始和终止位置。该位置对应的BIO tagging送入genration agent生成对应的问题。
 
 
 ---
@@ -90,12 +90,26 @@
 
 ![](./images/question_generation/kim2019improving_framework.png)
 
-(1) 为了防止生成的问题中带有答案内容，作者将passage中的答案用\<a\> mask住后用BiLSTM编码，答案也用另一个BiLSTM编码；
+(1) 为了防止生成的问题中带有答案内容，作者将passage中的答案用"\<a\>"进行mask后用BiLSTM编码，答案也用另一个BiLSTM编码；
 
 (2) decoder的initial state为答案最后一词的特征。在解码的每个step，作者引入一个keyword-net从答案中提取关键信息，其中keyword-net包含多层，每层中用前一层的输出向量$o_t^{l-1}$和答案的所有hidden state $h^a$计算matching score。之后normalized matching score和答案hidden state进行weighted sun得到当前层的输出向量$o_t^{l}$。keyword-net的初始层向量$o_t^0$为前一个timestep的decoder hidden state $s_{t-1}$与passage特征$h^p$进行attention后的context vector $c_t$。最后，$s_{t-1}, c_t, o_t^L$和前一个timestep的预测词$y_{t-1}$送入解码LSTM中得到当前timestep的hidden state $s_t$；
 
 (3) 在进行单词预测时，由于传统的seq2seq模型倾向于记忆sentence pattern而非反映word meaning，作者采用了一种retrieval的方式，即从所有单词的分布式表示 (distributed representation) 中进行查询 (query)。具体地，先将$s_t, c_t$拼接后的线性变换特征$q_i$与所有单词表示$e_k$做内积得到relevance score，之后该normalized score即为各个词的生成概率。
 
+
+---
+
+## Weak Supervision Enhanced Generative Network for Question Generation (IJCAI 2019)
+
+![](./images/question_generation/wang2019weak_framework.png)
+
+(1) 作者提出一个relation guider来捕捉passage和answer之间的关系。首先对其进行预训练 (pre-train)。其输入为支持段落 (supporting passage)、答案和干扰段落 (deceptive passage)。预训练采用的数据集为MS MARCO，其每个question-answer pair都包含10个来自搜索引擎的passage，一些passage对回答当前问题不是必要的则定为deceptive passage (正样本)，而那些可以提供支撑事实 (supporting fact)的passage则定为supporting passage (负样本)；
+
+(2) 为了加速训练，作者采用gated CNN和self-attention，各自堆叠M和N层，同时输入也加入了用sin和cos函数表示的position embedding。二者的输出相加并线性变换后送入bidirectional attention block，其对正负passage-answer pair分别做attention。具体地，先计算passage和answer特征$\tilde{\mathbf{p}}, \tilde{\mathbf{a}}$的similarity matrix $\mathbf{S}_{ij} = \mathbf{W_S}^{\top} [\tilde{\mathbf{p}}_i; \tilde{\mathbf{a}}_j; \tilde{\mathbf{p}}_i \odot \tilde{\mathbf{a}}_j]$并得到passage和answer的attention vector：$\hat{\mathbf{p}}_i = \sum_j \mathbf{S}_{ij} \cdot \tilde{\mathbf{a}}_j$和$\hat{\mathbf{a}}_j = \sum_i \mathbf{S}_{ij} \cdot \tilde{\mathbf{p}}_i$；之后即可得到answer-related passage feature和passage-related answer feature：$\bar{\mathbf{p}}_i = [\tilde{\mathbf{p}}_i; \hat{\mathbf{p}}_i; \tilde{\mathbf{p}}_i \odot \hat{\mathbf{a}}_j]$和$\bar{\mathbf{a}}_j = [\tilde{\mathbf{a}}_j; \hat{\mathbf{a}}_j; \tilde{\mathbf{a}}_j \odot \hat{\mathbf{p}}_i]$；
+
+(3) 计算passage和answer之间的相关得分 (relevant score)：$s_{(p,a)} = Sigmoid (\mathbf{W^{(p,a)}} [\bar{\mathbf{p}}; \bar{\mathbf{a}}])$，之后训练损失函数为最大化正passage-answer pair间的relevant score同时最小化负passage-answer pair间的relevant score：$\mathcal{L}_r = \sum_{i,j,k \in \mathcal{R}} max (0, c + s_{(p,a)}^{-} (a_i, p_j) - s_{(p,a)}^{+} (a_i, p_k))$；
+
+(4) relation guider预训练完毕后，进行正式训练。将原始passage-answer pair编码后送入original interaction unit，将relation guider里面的answer-related passage feature与answer编码特征送入transferred interaction unit。其中这两个unit的结构和bidirectional attention block一致，但周围多了一个残差连接。在正式训练时，answer-related encoder的权重保持固定。之后作者将两个unit生成的特征送入另一个contextual encoder编码，并利用一个门控机制将两个特征融合，并进行解码。
 
 
 ---
@@ -117,11 +131,29 @@
 
 ---
 
+## Learning to Generate Questions by Learning What not to Generate (WWW 2019)
+
+![](./images/question_generation/liu2019learning_framework.png)
+
+(1) 作者对passage采用syntactic parsing构建图并用GCN建模，并用Straight-Through Gumbel-Softmax estimator预测每个词是否为关键信息 (clue)。作者事先将passage中与question中重复的词标记为clue word，与question generation联合进行训练。同时，生成的clue indicator作为后续passage encoder输入的一部分；
+
+(2) passage encoder输入特征如下图红框所示：
+
+![](./images/question_generation/liu2019learning_input.png)
+
+同时，作者将低频词的word embedding用\<l\>替换，但其他特征保持不变；
+
+(3) 预测单词时会选择从source passage中copy或从vocabulary中generate。作者观察发现，大部分从passage中copy的词都是低频词，而从vocabulary中generate的词都是高频词。因此，作者将vocabulary词表大小进行了缩小，除与passage中重复的词外只保留top N个最高频的词。
+
+
+
+---
+
 ## Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring (AAAI 2020)
 
 ![](./images/question_generation/ma2020improving_framework.png)
 
-(1) 对于decoder initial state，作者提出一种Answer-aware Gated Fusion方法，将输入句子最后一词和答案部分第一个词的encoder特征$h_m, h_a$进行拼接，分别送入两个线性网络并计算Sigmoid值，得到二者的gate value并将二者加权求和，得到answer-aware sentence vector $z$；
+(1) 对于decoder initial state，作者提出一种answer-aware gated fusion方法，将输入句子最后一词和答案部分第一个词的encoder特征$h_m, h_a$进行拼接，分别送入两个线性网络并计算Sigmoid值，得到二者的gate value并将二者加权求和，得到answer-aware sentence vector $z$；
 
 (2) 对于一个相同的句子，可能会有多种答案，相应也会有多种参考问题。但基准模型在这种情况下通常只会生成一般性的问题。因此，作者额外引入了一个sentence-level semantic matching任务。对于两个三元组：\<sentence, answer1, question1\>, \<sentence, answer2, question2\>，先得到其anwer-aware sentence vector $z, z^{\prime}$和问题最后一词的解码特征$s_n, s_n^{\prime}$。之后作者将其分别以answer-question的形式拼接并送入classifier，预测该answer和question是否匹配。其中$[z, s_n]$为正样本，$[z, s_n^{\prime}], [z^{\prime}, s_n]$为负样本，该损失记为$\mathcal{L}_1$。具体如下图所示：
 
@@ -144,6 +176,35 @@
 (1) 由于提出问题不仅依赖于段落中带答案的句子，还需要其他的句子作为背景，因此作者提出多阶段attention方法关注其他句子中重要的背景信息。在initial stage，段落特征和答案特征做attention并对列维度做max pooling和softmax，与原段落特征做点乘得到contextual representation；在iterative stage，原始段落特征与contextual representation做attention，得到enhanced contextual representation。之后该特征可以重复地与原段落特征做attention；
 
 (2) 为了避免生成问题带有答案，作者采用了answer masking方法，将最终context representation中的答案部分mask住进行解码。
+
+
+---
+
+## Reinforcement Learning Based Graph-to-Sequence Model for Neural Question Generation (ICLR 2020)
+
+![](./images/question_generation/chen2020reinforcement_framework.png)
+
+(1) 作者提出了一个deep alignment network来深度建立passage和answer之间的关系。整体流程如下图所示：
+
+![](./images/question_generation/chen2020reinforcement_alignment.png)
+
+soft-alignment特征可用公式表示为：
+$$
+\tilde{\mathbf{H}}^p = \text{Align} (\mathbf{X}^p, \mathbf{X}^a, \tilde{\mathbf{X}}^p, \tilde{\mathbf{X}}^a) = \text{CAT}(\tilde{\mathbf{X}}^p; \mathbf{H}^p) = \text{CAT}(\tilde{\mathbf{X}}^p; \tilde{\mathbf{X}}^a \boldsymbol {\beta}^{\top}), \\\\
+\boldsymbol{\beta} \propto \text{exp} (\text{ReLU}(\mathbf{W} \mathbf{X}^p)^{\top} \text{ReLU}(\mathbf{W} \mathbf{X}^a)),
+$$
+
+具体地，首先进行word-level alignment。alignment passage embedding可表示为：$\tilde{\mathbf{H}}^p = \text{Align}(\mathbf{G}^p, \mathbf{G}^a, [\mathbf{G}^p; \mathbf{B}^p; \mathbf{L}^p], \mathbf{G}^a)$，其中$\mathbf{G}^p, \mathbf{B}^p, \mathbf{L}^p$是GloVe embedding, BERT embedding, 和语言 (linguistic) 特征 (即case, NER和POS) embedding。之后将其送入BiLSTM得到contextualized passage embedding $\bar{\mathbf{H}}^p$。同理，contextualized answer embedding $\bar{\mathbf{H}}^a$由其GloVe embedding和BERT embedding拼接后送入另一个BiLSTM得到；
+
+接下来进行contextual-level alignment。最终的passage embedding matrix计算过程如下：先计算$\text{Align} ([\mathbf{G}^p; \mathbf{B}^p; \bar{\mathbf{H}}^p], [\mathbf{G}^a; \mathbf{B}^a; \bar{\mathbf{H}}^a], \bar{\mathbf{H}}^p, \bar{\mathbf{H}}^a)$，之后将该特征送入另一个BiLSTM得到最终特征；
+
+(2) 作者对passage建立一个有向图表示其结构信息，尝试了2种方式。第一种是syntax-based static graph，先建立每个句子的dependency parse tree，之后将相邻句子边缘节点相连；第二种是semantics-aware dynamic graph，先通过self-attention计算邻接矩阵：$\mathbf{A} = \text{ReLU}(\mathbf{U} \tilde{\mathbf{H}}^p)^{\top} \text{ReLU}(\mathbf{U} \tilde{\mathbf{H}}^p)$，之后通过kNN只保留每个节点周围N个得分最高的邻居 (包括自己)，得到稀疏邻接矩阵$\bar{\mathbf{A}}$，最后incoming和outgoing方向的邻接矩阵再进行归一化：$\mathbf{A}^{\dashv}, \mathbf{A}^{\vdash} = \text{softmax} ({\bar{\mathbf{A}}, \bar{\mathbf{A}}}^{\top})$；
+
+(3) 在图传播时，对于syntax-based static graph，用MEAN分别对incoming和outgoing方向的相邻节点聚合；对于semantics-aware dynamic graph，分别通过归一化的邻接矩阵进行加权求和。之后采用一个门控机制将两个方向的特征进行融合，门控系数由原始两方向特征与二者点乘、差值拼接后进行线性变换再通过sigmoid计算得到。
+
+最后，将该层各节点融合特征与原始特征送入一个GRU得到其下一层的特征。最后一层特征再经过线性变换和max pooling得到graph-level embedding，作为decoder的initial state；
+
+(4) 作者还采用了强化学习提高效果，reward是BLEU-4的值。训练时分为两阶段，第一阶段只优化常规的cross-entropy loss，第二阶段联合优化强化学习损失和cross-entropy loss。
 
 
 ---
@@ -180,5 +241,4 @@
 ![](./images/question_generation/huang2021entity_question_type.png)
 
 之后将question type和answer用separator $|$ 拼接起来送入AT encoder中编码，并将question type的特征作为decoder的initial state。
-
 
