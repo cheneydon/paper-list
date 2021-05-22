@@ -190,7 +190,7 @@
 
 soft-alignment特征可用公式表示为：
 $$
-\tilde{\mathbf{H}}^p = \text{Align} (\mathbf{X}^p, \mathbf{X}^a, \tilde{\mathbf{X}}^p, \tilde{\mathbf{X}}^a) = \text{CAT}(\tilde{\mathbf{X}}^p; \mathbf{H}^p) = \text{CAT}(\tilde{\mathbf{X}}^p; \tilde{\mathbf{X}}^a \boldsymbol {\beta}^{\top}), \\
+\tilde{\mathbf{H}}^p = \text{Align} (\mathbf{X}^p, \mathbf{X}^a, \tilde{\mathbf{X}}^p, \tilde{\mathbf{X}}^a) = \text{CAT}(\tilde{\mathbf{X}}^p; \mathbf{H}^p) = \text{CAT}(\tilde{\mathbf{X}}^p; \tilde{\mathbf{X}}^a \boldsymbol {\beta}^{\top}), \\\\
 \boldsymbol{\beta} \propto \text{exp} (\text{ReLU}(\mathbf{W} \mathbf{X}^p)^{\top} \text{ReLU}(\mathbf{W} \mathbf{X}^a)),
 $$
 
