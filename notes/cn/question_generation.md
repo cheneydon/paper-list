@@ -90,7 +90,7 @@
 
 ![](./images/question_generation/kim2019improving_framework.png)
 
-(1) 为了防止生成的问题中带有答案内容，作者将passage中的答案用"\<a\>"进行mask后用BiLSTM编码，答案也用另一个BiLSTM编码；
+(1) 为了防止生成的问题中带有答案内容，作者将passage中的答案用\<a\>进行mask后用BiLSTM编码，答案也用另一个BiLSTM编码；
 
 (2) decoder的initial state为答案最后一词的特征。在解码的每个step，作者引入一个keyword-net从答案中提取关键信息，其中keyword-net包含多层，每层中用前一层的输出向量$o_t^{l-1}$和答案的所有hidden state $h^a$计算matching score。之后normalized matching score和答案hidden state进行weighted sun得到当前层的输出向量$o_t^{l}$。keyword-net的初始层向量$o_t^0$为前一个timestep的decoder hidden state $s_{t-1}$与passage特征$h^p$进行attention后的context vector $c_t$。最后，$s_{t-1}, c_t, o_t^L$和前一个timestep的预测词$y_{t-1}$送入解码LSTM中得到当前timestep的hidden state $s_t$；
 
