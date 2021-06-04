@@ -72,32 +72,10 @@ Record the papers I have read so far.
 1. Efficient Adaptation of Pretrained Transformers for Abstractive Summarization. arXiv 2019. [[Paper](https://arxiv.org/pdf/1906.00138.pdf)]
 1. Text Summarization with Pretrained Encoders. EMNLP 2019. [[Paper](https://arxiv.org/pdf/1908.08345.pdf)]
 1. Pre-trained Summarization Distillation. arXiv 2020. [[Paper](https://arxiv.org/pdf/2010.13002.pdf)]
-
-
-
-## Question Generation
-1. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-questions-in-open-domain-conversational-systems-with-typed-decoders)]
-1. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#paragraph-level-neural-question-generation-with-maxout-pointer-and-gated-self-attention-networks-emnlp-2018)]
-1. Answer-focused and Position-aware Neural Question Generation. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#answer-focused-and-position-aware-neural-question-generation-emnlp-2018)]
-1. Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1480.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#interconnected-question-generation-with-coreference-alignment-and-conversation-flow-modeling)]
-1. Reinforced Dynamic Reasoning for Conversational Question Generation. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1203.pdf)]
-1. Improving Question Generation With to the Point Context. EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1317.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#improving-question-generation-with-to-the-point-context-emnlp-2019)]
-1. Let's Ask Again: Refine Network for Automatic Question Generation. EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1326.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#lets-ask-again-refine-network-for-automatic-question-generation-emnlp-2019)]
-1. Multi-Task Learning with Language Modeling for Question Generation. EMNLP 2019 short. [[Paper](https://www.aclweb.org/anthology/D19-1337.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#lets-ask-again-refine-network-for-automatic-question-generation-emnlp-2019)]
-1. Question-type Driven Question Generation. EMNLP 2019 short. [[Paper](https://www.aclweb.org/anthology/D19-1622.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#question-type-driven-question-generation-emnlp-2019-short)]
-1. A Multi-Agent Communication Framework for Question-Worthy Phrase Extraction and Question Generation. AAAI 2019. [[Paper](https://ojs.aaai.org//index.php/AAAI/article/view/4700)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#a-multi-agent-communication-framework-for-question-worthy-phrase-extraction-and-question-generation-aaai-2019)]
-1. Improving Neural Question Generation using Answer Separation. AAAI 2019. [[Paper](https://arxiv.org/pdf/1809.02393.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#improving-neural-question-generation-using-answer-separation-aaai2019)]
-1. Weak Supervision Enhanced Generative Network for Question Generation. IJCAI 2019. [[Paper](https://arxiv.org/pdf/1907.00607.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#weak-supervision-enhanced-generative-network-for-question-generation-ijcai-2019)]
-1. Learning to Generate Questions by Learning
-What not to Generate. WWW 2019. [[Paper](https://arxiv.org/pdf/1902.10418.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#learning-to-generate-questions-by-learning-what-not-to-generate-www-2019)]
-1. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
-1. How to Ask Good Questions? Try to Leverage Paraphrases. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.545.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#how-to-ask-good-questions-try-to-leverage-paraphrases)]
-1. PathQG: Neural Question Generation from Facts. EMNLP 2020. [[Paper](https://www.aclweb.org/anthology/2020.emnlp-main.729.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#pathqg-neural-question-generation-from-facts-emnlp-2020)]
-1. Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring. AAAI 2020. [[Paper](https://arxiv.org/pdf/1912.00879.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#improving-question-generation-with-sentence-level-semantic-matching-and-answer-position-inferring-aaai-2020)]
-1. Capturing Greater Context for Question Generation. AAAI 2020. [[Paper](https://arxiv.org/pdf/1910.10274.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#capturing-greater-context-for-question-generation-aaai-2020)]
-1. Reinforcement Learning Based Graph-to-Sequence Model for Neural Question Generation. ICLR 2020. [[Paper](https://arxiv.org/pdf/1908.04942.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#reinforcement-learning-based-graph-to-sequence-model-for-neural-question-generation-iclr-2020)]
-1. EQG-RACE: Examination-Type Question Generation. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.06106.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#eqg-race-examination-type-question-generation-aaai-2021)]
-1. Entity Guided Question Generation with Contextual Structure and Sequence Information Capturing. AAAI 2021. [[Paper](https://www.aaai.org/AAAI21Papers/AAAI-6672.HuangQ.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#entity-guided-question-generation-with-contextual-structure-and-sequence-information-capturing-aaai-2021)]
+1. Multi-source Meta Transfer for Low Resource Multiple-Choice Question Answering. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.654.pdf)]
+1. Meta Fine-Tuning Neural Language Models for Multi-Domain Text Mining. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2003.13003.pdf)]
+1. Pre-training Text Representations as Meta Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.05568.pdf)]
+1. Meta-KD: A Meta Knowledge Distillation Framework for Language Model Compression across Domains. arXiv 2021. [[Paper](https://arxiv.org/pdf/2012.01266.pdf)]
 
 
 
@@ -127,18 +105,30 @@ What not to Generate. WWW 2019. [[Paper](https://arxiv.org/pdf/1902.10418.pdf)] 
 1. ProphetNet: Predicting Future N-gram for Sequence-to-Sequence Pre-training. Findings of EMNLP 2020. [[Paper](https://arxiv.org/pdf/2001.04063.pdf)]
 1. Multi-Fact Correction in Abstractive Text Summarization. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2010.02443.pdf)]
 1. HIBERT: Document Level Pre-training of Hierarchical Bidirectional Transformers for Document Summarization. ACL 2019. [[Paper](https://arxiv.org/pdf/1905.06566.pdf)]
-
-
-
-## Meta-Learning
-1. Automated Relational Meta-learning. ICLR 2020. [[Paper](https://arxiv.org/pdf/2001.00745.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/meta_learning.md#automated-relational-meta-learning)]
-1. Multi-source Meta Transfer for Low Resource Multiple-Choice Question Answering. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.654.pdf)]
-1. Meta Fine-Tuning Neural Language Models for Multi-Domain Text Mining. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2003.13003.pdf)]
-1. Pre-training Text Representations as Meta Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.05568.pdf)]
-1. Hierarchically Structured Meta-learning. ICML 2019. [[Paper](https://arxiv.org/pdf/1905.05301.pdf)]
-1. Online Structured Meta-learning. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2010.11545.pdf)]
-1. Meta-KD: A Meta Knowledge Distillation Framework for Language Model Compression across Domains. arXiv 2021. [[Paper](https://arxiv.org/pdf/2012.01266.pdf)]
-
+1. Learning to Ask Questions in Open-domain Conversational Systems with Typed Decoders. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1204.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-questions-in-open-domain-conversational-systems-with-typed-decoders)]
+1. Paragraph-level Neural Question Generation with Maxout Pointer and Gated Self-attention Networks. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1424.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#paragraph-level-neural-question-generation-with-maxout-pointer-and-gated-self-attention-networks-emnlp-2018)]
+1. Answer-focused and Position-aware Neural Question Generation. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1427.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#answer-focused-and-position-aware-neural-question-generation-emnlp-2018)]
+1. Interconnected Question Generation with Coreference Alignment and Conversation Flow Modeling. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1480.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#interconnected-question-generation-with-coreference-alignment-and-conversation-flow-modeling)]
+1. Reinforced Dynamic Reasoning for Conversational Question Generation. ACL 2019. [[Paper](https://www.aclweb.org/anthology/P19-1203.pdf)]
+1. Improving Question Generation With to the Point Context. EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1317.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#improving-question-generation-with-to-the-point-context-emnlp-2019)]
+1. Let's Ask Again: Refine Network for Automatic Question Generation. EMNLP 2019. [[Paper](https://www.aclweb.org/anthology/D19-1326.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#lets-ask-again-refine-network-for-automatic-question-generation-emnlp-2019)]
+1. Multi-Task Learning with Language Modeling for Question Generation. EMNLP 2019 short. [[Paper](https://www.aclweb.org/anthology/D19-1337.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#lets-ask-again-refine-network-for-automatic-question-generation-emnlp-2019)]
+1. Question-type Driven Question Generation. EMNLP 2019 short. [[Paper](https://www.aclweb.org/anthology/D19-1622.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#question-type-driven-question-generation-emnlp-2019-short)]
+1. A Multi-Agent Communication Framework for Question-Worthy Phrase Extraction and Question Generation. AAAI 2019. [[Paper](https://ojs.aaai.org//index.php/AAAI/article/view/4700)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#a-multi-agent-communication-framework-for-question-worthy-phrase-extraction-and-question-generation-aaai-2019)]
+1. Improving Neural Question Generation using Answer Separation. AAAI 2019. [[Paper](https://arxiv.org/pdf/1809.02393.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#improving-neural-question-generation-using-answer-separation-aaai2019)]
+1. Weak Supervision Enhanced Generative Network for Question Generation. IJCAI 2019. [[Paper](https://arxiv.org/pdf/1907.00607.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#weak-supervision-enhanced-generative-network-for-question-generation-ijcai-2019)]
+1. Learning to Generate Questions by Learning What not to Generate. WWW 2019. [[Paper](https://arxiv.org/pdf/1902.10418.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#learning-to-generate-questions-by-learning-what-not-to-generate-www-2019)]
+1. Learning to Ask More: Semi-Autoregressive Sequential Question Generation under Dual-Graph Interaction. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.21.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#learning-to-ask-more-semi-autoregressive-sequential-question-generation-under-dual-graph-interaction)]
+1. How to Ask Good Questions? Try to Leverage Paraphrases. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.545.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#how-to-ask-good-questions-try-to-leverage-paraphrases)]
+1. PathQG: Neural Question Generation from Facts. EMNLP 2020. [[Paper](https://www.aclweb.org/anthology/2020.emnlp-main.729.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#pathqg-neural-question-generation-from-facts-emnlp-2020)]
+1. Improving Question Generation with Sentence-level Semantic Matching and Answer Position Inferring. AAAI 2020. [[Paper](https://arxiv.org/pdf/1912.00879.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#improving-question-generation-with-sentence-level-semantic-matching-and-answer-position-inferring-aaai-2020)]
+1. Capturing Greater Context for Question Generation. AAAI 2020. [[Paper](https://arxiv.org/pdf/1910.10274.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#capturing-greater-context-for-question-generation-aaai-2020)]
+1. Reinforcement Learning Based Graph-to-Sequence Model for Neural Question Generation. ICLR 2020. [[Paper](https://arxiv.org/pdf/1908.04942.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#reinforcement-learning-based-graph-to-sequence-model-for-neural-question-generation-iclr-2020)]
+1. EQG-RACE: Examination-Type Question Generation. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.06106.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#eqg-race-examination-type-question-generation-aaai-2021)]
+1. Entity Guided Question Generation with Contextual Structure and Sequence Information Capturing. AAAI 2021. [[Paper](https://www.aaai.org/AAAI21Papers/AAAI-6672.HuangQ.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/question_generation.md#entity-guided-question-generation-with-contextual-structure-and-sequence-information-capturing-aaai-2021)]
+1. Attentive User-Engaged Adversarial Neural Network for Community Question Answering. AAAI 2020. [[Paper](https://ojs.aaai.org/index.php/AAAI/article/view/6472)]
+1. QA-GNN: Reasoning with Language Models and Knowledge Graphs for Question Answering. arXiv 2021. [[Paper](https://arxiv.org/pdf/2104.06378.pdf)]
+1. Generating Questions for Knowledge Bases via Incorporating Diversified Contexts and Answer-Aware Loss. EMNLP 2019. [[Paper](https://arxiv.org/pdf/1910.13108.pdf)]
 
 
 ## AutoML
@@ -187,3 +177,6 @@ What not to Generate. WWW 2019. [[Paper](https://arxiv.org/pdf/1902.10418.pdf)] 
 1. Task-Agnostic and Adaptive-Size BERT Compression. arXiv 2020. [[Paper](https://openreview.net/pdf?id=wZ4yWvQ_g2y)]
 1. Interactive Feature Generation via Learning Adjacency Tensor of Feature Graph. arXiv 2020. [[Paper](https://arxiv.org/pdf/2007.14573.pdf)]
 1. Loss Function Discovery for Object Detection via Convergence-Simulation Driven Search. ICLR 2021. [[Paper](https://openreview.net/pdf?id=5jzlpHvvRk)]
+1. Hierarchically Structured Meta-learning. ICML 2019. [[Paper](https://arxiv.org/pdf/1905.05301.pdf)]
+1. Automated Relational Meta-learning. ICLR 2020. [[Paper](https://arxiv.org/pdf/2001.00745.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/meta_learning.md#automated-relational-meta-learning)]
+1. Online Structured Meta-learning. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2010.11545.pdf)]

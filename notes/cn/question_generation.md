@@ -126,7 +126,7 @@
 
 (4) 作者还引入了一个posterior query learner提高模型效果，其结构和原始query representation learner类似，不同的是额外引入了目标问题文本，其编码方式和input text相同。每个query path成员的BiLSTM特征与问题BiLSTM进行attention操作后得到$q_i$，和$h_i^s, c_i$拼接后计算contribution weight。之后，最小化原始和posteror的query representation分布的KL loss，该loss记为$\mathcal{L}_2$；
 
-(5) 为了保证query representation learner的效果，作者添加了一个contribution weight loss $\mathcal{L}_3$以最大化每个contribution weight。模型总体损失为以上3个loss的加权和。
+(5) 为了保证query representation learner的效果，作者添加了一个contribution weight loss $\mathcal{L}_3$以最大化每个出现在当前question中的fact对应的contribution weight。模型总体损失为以上3个loss的加权和。
 
 
 ---
