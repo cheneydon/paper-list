@@ -67,7 +67,6 @@ Record the papers I have read so far.
 1. EdgeBERT: Optimizing On-Chip Inference for Multi-Task NLP. arXiv 2020. [[Paper](https://arxiv.org/pdf/2011.14203.pdf)]
 1. Blockwise Self-Attention for Long Document Understanding. Findings of EMNLP 2020. [[Paper](https://arxiv.org/pdf/1911.02972.pdf)]
 1. Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting. AAAI 2021. [[Paper](https://arxiv.org/pdf/2012.07436.pdf)]
-1. Prefix-Tuning: Optimizing Continuous Prompts for Generation. arXiv 2021. [[Paper](https://arxiv.org/pdf/2101.00190.pdf)]
 1. Sample Efficient Text Summarization Using a Single Pre-Trained Transformer. arXiv 2019. [[Paper](https://arxiv.org/pdf/1905.08836.pdf)]
 1. Efficient Adaptation of Pretrained Transformers for Abstractive Summarization. arXiv 2019. [[Paper](https://arxiv.org/pdf/1906.00138.pdf)]
 1. Text Summarization with Pretrained Encoders. EMNLP 2019. [[Paper](https://arxiv.org/pdf/1908.08345.pdf)]
@@ -75,11 +74,24 @@ Record the papers I have read so far.
 1. Multi-source Meta Transfer for Low Resource Multiple-Choice Question Answering. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.654.pdf)]
 1. Meta Fine-Tuning Neural Language Models for Multi-Domain Text Mining. EMNLP 2020. [[Paper](https://arxiv.org/pdf/2003.13003.pdf)]
 1. Pre-training Text Representations as Meta Learning. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.05568.pdf)]
-1. Meta-KD: A Meta Knowledge Distillation Framework for Language Model Compression across Domains. arXiv 2021. [[Paper](https://arxiv.org/pdf/2012.01266.pdf)]
+1. Meta-KD: A Meta Knowledge Distillation Framework for Language Model Compression across Domains. ACL 2021. [[Paper](https://arxiv.org/pdf/2012.01266.pdf)]
+1. Prefix-Tuning: Optimizing Continuous Prompts for Generation. arXiv 2021. [[Paper](https://arxiv.org/pdf/2101.00190.pdf)]
+1. AutoPrompt: Eliciting Knowledge from Language Models with Automatically Generated Prompts. EMNLP 2020. [[Paper](https://www.aclweb.org/anthology/2020.emnlp-main.346.pdf)]
+1. (P-tuning) GPT Understands, Too. arXiv 2021. [[Paper](https://arxiv.org/pdf/2103.10385.pdf)]
+1. (Adapter) Parameter-Efficient Transfer Learning for NLP. ICML 2019. [[Paper](https://arxiv.org/pdf/1902.00751.pdf)]
+1. (T5) Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer. JMLR 2020. [[Paper](https://arxiv.org/pdf/1910.10683.pdf)]
+1. (GPT-3) Language Models are Few-Shot Learners. NeurIPS 2020. [[Paper](https://arxiv.org/pdf/2005.14165.pdf)]
+1. (LPAQA) How Can We Know What Language Models Know?. TACL 2020. [[Paper](https://arxiv.org/pdf/1911.12543.pdf)]
+1. (PET) Exploiting Cloze-Questions for Few-Shot Text Classification and Natural Language Inference. EACL 2021. [[Paper](https://arxiv.org/pdf/2001.07676.pdf)]
+1. (PET) It’s Not Just Size That Matters: Small Language Models Are Also Few-Shot Learners. NAACL 2021. [[Paper](https://arxiv.org/pdf/2009.07118.pdf)]
+1. (ADAPET) Improving and Simplifying Pattern Exploiting Training. arXiv 2021. [[Paper](https://arxiv.org/pdf/2103.11955.pdf)]
+1. The Power of Scale for Parameter-Efﬁcient Prompt Tuning. arXiv 2021. [[Paper](https://arxiv.org/pdf/2104.08691.pdf)]
+1. Factual Probing Is \[MASK\]: Learning vs. Learning to Recall. NAACL 2021. [[Paper](https://arxiv.org/pdf/2104.05240.pdf)]
+1. AdaPrompt: Adaptive Prompt-based Finetuning for Relation Extraction. arXiv 2021. [[Paper](https://arxiv.org/pdf/2104.07650.pdf)]
+1. PTR: Prompt Tuning with Rules for Text Classification. arXiv 2021. [[Paper](https://arxiv.org/pdf/2105.11259.pdf)]
 
 
-
-## Question Answering
+## Question Answering & Related
 1. (DrQA) Reading Wikipedia to Answer Open-Domain Questions. ACL 2017. [[Paper](https://www.aclweb.org/anthology/P17-1171.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#drqa-reading-wikipedia-to-answer-open-domain-questions)]
 1. Denoising Distantly Supervised Open-Domain Question Answering. ACL 2018. [[Paper](https://www.aclweb.org/anthology/P18-1161.pdf)] [[Note](https://github.com/cheneydon/paper-list/blob/main/notes/cn/qa.md#denoising-distantly-supervised-open-domain-question-answering)]
 1. Ranking Paragraphs for Improving Answer Recall in Open-Domain Question Answering. EMNLP 2018. [[Paper](https://www.aclweb.org/anthology/D18-1053.pdf)]
@@ -129,6 +141,18 @@ Record the papers I have read so far.
 1. Attentive User-Engaged Adversarial Neural Network for Community Question Answering. AAAI 2020. [[Paper](https://ojs.aaai.org/index.php/AAAI/article/view/6472)]
 1. QA-GNN: Reasoning with Language Models and Knowledge Graphs for Question Answering. arXiv 2021. [[Paper](https://arxiv.org/pdf/2104.06378.pdf)]
 1. Generating Questions for Knowledge Bases via Incorporating Diversified Contexts and Answer-Aware Loss. EMNLP 2019. [[Paper](https://arxiv.org/pdf/1910.13108.pdf)]
+1. Difficulty-controllable Multi-hop Question Generation From Knowledge Graphs. ISWC 2019. [[Paper](https://users.monash.edu.au/~yli/assets/pdf/mhqg.pdf)]
+1. Toward Subgraph Guided Knowledge Graph Question Generation with Graph Neural Networks. arXiv 2020. [[Paper](https://arxiv.org/pdf/2004.06015.pdf)]
+1. Knowledge-enriched, Type-constrained and Grammar-guided Question Generation over Knowledge Bases. COLING 2020. [[Paper](https://arxiv.org/pdf/2010.03157.pdf)]
+1. Semantic Graphs for Generating Deep Questions. ACL 2020. [[Paper](https://www.aclweb.org/anthology/2020.acl-main.135.pdf)]
+1. Answer-driven Deep Question Generation based on Reinforcement Learning. COLING 2020. [[Paper](https://www.aclweb.org/anthology/2020.coling-main.452.pdf)]
+1. (TransE) Translating Embeddings for Modeling Multi-relational Data. NeurIPS 2013. [[Paper](https://papers.nips.cc/paper/2013/file/1cecc7a77928ca8133fa24680a88d2f9-Paper.pdf)]
+1. (TransH) Knowledge Graph Embedding by Translating on Hyperplanes. AAAI 2014. [[Paper](https://www.aaai.org/ocs/index.php/AAAI/AAAI14/paper/view/8531/8546)]
+1. Contextualized Knowledge-aware Attentive Neural Network: Enhancing Answer Selection with Knowledge. TOIS 2021. [[Paper](https://arxiv.org/pdf/2104.05216.pdf)]
+1. Review-based Question Generation with Adaptive Instance Transfer and Augmentation. ACL 2020. [[Paper](https://aclanthology.org/2020.acl-main.26.pdf)]
+1. A Unified Generative Framework for Various NER Subtasks. arXiv 2021. [[Paper](https://arxiv.org/pdf/2106.01223.pdf)]
+1. Reinforced Multi-task Approach for Multi-hop Question Generation. COLING 2020. [[Paper](https://arxiv.org/pdf/2004.02143.pdf)]
+1. Enhancing Question Generation with Commonsense Knowledge. CCL 2021. [[Paper](https://arxiv.org/pdf/2106.10454.pdf)]
 
 
 ## AutoML
